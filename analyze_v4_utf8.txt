@@ -1,0 +1,22 @@
+﻿Analyzing zindeV.2.0...                                         
+
+warning - Unused import: '../usecases/user/calculate_macros.dart' - lib\domain\services\makro_service.dart:4:8 - unused_import
+warning - Unused import: 'package:get_it/get_it.dart' - lib\domain\services\makro_service.dart:5:8 - unused_import
+warning - Unused import: '../repositories/meal_plan_repository.dart' - lib\domain\services\meal_plan_service.dart:5:8 - unused_import
+warning - Unused import: '../repositories/meal_repository.dart' - lib\domain\services\meal_plan_service.dart:6:8 - unused_import
+warning - Unused import: '../repositories/user_repository.dart' - lib\domain\services\meal_plan_service.dart:7:8 - unused_import
+warning - Unused import: '../../domain/services/ai_foto_analiz_servisi.dart' - lib\presentation\pages\camera_test_page.dart:7:8 - unused_import
+warning - The value of the local variable 'mockCameraBytes' isn't used - lib\presentation\pages\camera_test_page.dart:30:13 - unused_local_variable
+warning - The value of the field '_isFABExtended' isn't used - lib\presentation\pages\home_page_yeni.dart:56:8 - unused_field
+   info - Don't invoke 'print' in production code - lib\presentation\pages\macro_calculator_page.dart:83:7 - avoid_print
+  error - Undefined name 'AppLogger' - lib\presentation\pages\profil_page.dart:115:5 - undefined_identifier
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:155:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:167:9 - avoid_print
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:615:23 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:637:39 - use_build_context_synchronously
+warning - Dead code - lib\presentation\pages\profil_page.dart:639:38 - dead_code
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:640:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:648:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:658:39 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:659:46 - use_build_context_synchronously
+

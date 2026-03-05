@@ -1,0 +1,12 @@
+﻿Analyzing zindeV.2.0...                                         
+
+warning - Unused import: 'dart:typed_data' - lib\presentation\pages\camera_test_page.dart:5:8 - unused_import
+warning - The value of the field '_isFABExtended' isn't used - lib\presentation\pages\home_page_yeni.dart:56:8 - unused_field
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:616:23 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:638:39 - use_build_context_synchronously
+warning - Dead code - lib\presentation\pages\profil_page.dart:640:38 - dead_code
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:641:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:649:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:659:39 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:660:46 - use_build_context_synchronously
+

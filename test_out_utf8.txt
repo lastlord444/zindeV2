@@ -1,0 +1,189 @@
+﻿00:00 +0: loading D:/zindeV.2.0/test/smoke_test.dart
+flutter : Error: Couldn
+'t resolve the package 
+'zindeai' in 'package:z
+indeai/domain/entities/
+gunluk_plan.dart'.
+At line:1 char:1
++ flutter test test/smo
+ke_test.dart > test_out
+.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecified
+: (Err    or: Couldn't.
+..luk_pla    n.dart'.:S
+tring) [], R    emoteEx
+ception
+    + FullyQualifiedErr
+orI    d : NativeComman
+dError
+ 
+Error: Couldn't resolve
+ the package 'zindeai' 
+in 'package:zindeai/dom
+ain/entities/makro_hede
+fleri.dart'.
+Error: Couldn't resolve
+ the package 'zindeai' 
+in 'package:zindeai/dom
+ain/entities/yemek.dart
+'.
+Error: Couldn't resolve
+ the package 'zindeai' 
+in 'package:zindeai/dom
+ain/usecases/meal_plann
+ing/generate_daily_plan
+.dart'.
+test/smoke_test.dart:3:
+8: Error: Not found: 'p
+ackage:zindeai/domain/e
+ntities/gunluk_plan.dar
+t'
+import 'package:zindeai
+/domain/entities/gunluk
+_plan.dart';
+       ^
+test/smoke_test.dart:4:
+8: Error: Not found: 'p
+ackage:zindeai/domain/e
+ntities/makro_hedefleri
+.dart'
+import 'package:zindeai
+/domain/entities/makro_
+hedefleri.dart';
+       ^
+test/smoke_test.dart:5:
+8: Error: Not found: 'p
+ackage:zindeai/domain/e
+ntities/yemek.dart'
+import 'package:zindeai
+/domain/entities/yemek.
+dart';
+       ^
+test/smoke_test.dart:6:
+8: Error: Not found: 'p
+ackage:zindeai/domain/u
+secases/meal_planning/g
+enerate_daily_plan.dart
+'
+import 'package:zindeai
+/domain/usecases/meal_p
+lanning/generate_daily_
+plan.dart';
+       ^
+test/smoke_test.dart:13
+:10: Error: 'Yemek' isn
+'t a type.
+    List<Yemek> generat
+eMealPool() {
+         ^^^^^
+test/smoke_test.dart:14
+:18: Error: 'Yemek' isn
+'t a type.
+      final List<Yemek>
+ pool = [];
+                 ^^^^^
+test/smoke_test.dart:17
+:18: Error: 'OgunTipi' 
+isn't a type.
+      for (final OgunTi
+pi ogun in OgunTipi.val
+ues) {
+                 ^^^^^^
+^^
+test/smoke_test.dart:17
+:35: Error: Undefined n
+ame 'OgunTipi'.
+      for (final OgunTi
+pi ogun in OgunTipi.val
+ues) {
+                       
+           ^^^^^^^^
+test/smoke_test.dart:18
+:21: Error: Undefined n
+ame 'OgunTipi'.
+        if (ogun == Ogu
+nTipi.cheatMeal) contin
+ue;
+                    ^^^
+^^^^^
+test/smoke_test.dart:37
+:21: Error: Undefined n
+ame 'Zorluk'.
+            zorluk: Zor
+luk.kolay,
+                    ^^^
+^^^
+test/smoke_test.dart:27
+:20: Error: Method not 
+found: 'Yemek'.
+          pool.add(Yeme
+k(
+                   ^^^^
+^
+test/smoke_test.dart:49
+:25: Error: Method not 
+found: 'GenerateDailyPl
+an'.
+      final generator =
+ GenerateDailyPlan();
+                       
+ ^^^^^^^^^^^^^^^^^
+test/smoke_test.dart:58
+:25: Error: Method not 
+found: 'MakroHedefleri'
+.
+        final targets =
+ MakroHedefleri(
+                       
+ ^^^^^^^^^^^^^^
+00:00 +0 -1: loading D:/zindeV.2.0/test/smoke_test.dart [E]
+  Failed to load "D:/zindeV.2.0/test/smoke_test.dart":
+  Compilation failed for testPath=D:/zindeV.2.0/test/smoke_test.dart: Error: Couldn't resolve the package 'zindeai' in 'package:zindeai/domain/entities/gunluk_plan.dart'.
+  Error: Couldn't resolve the package 'zindeai' in 'package:zindeai/domain/entities/makro_hedefleri.dart'.
+  Error: Couldn't resolve the package 'zindeai' in 'package:zindeai/domain/entities/yemek.dart'.
+  Error: Couldn't resolve the package 'zindeai' in 'package:zindeai/domain/usecases/meal_planning/generate_daily_plan.dart'.
+  test/smoke_test.dart:3:8: Error: Not found: 'package:zindeai/domain/entities/gunluk_plan.dart'
+  import 'package:zindeai/domain/entities/gunluk_plan.dart';
+         ^
+  test/smoke_test.dart:4:8: Error: Not found: 'package:zindeai/domain/entities/makro_hedefleri.dart'
+  import 'package:zindeai/domain/entities/makro_hedefleri.dart';
+         ^
+  test/smoke_test.dart:5:8: Error: Not found: 'package:zindeai/domain/entities/yemek.dart'
+  import 'package:zindeai/domain/entities/yemek.dart';
+         ^
+  test/smoke_test.dart:6:8: Error: Not found: 'package:zindeai/domain/usecases/meal_planning/generate_daily_plan.dart'
+  import 'package:zindeai/domain/usecases/meal_planning/generate_daily_plan.dart';
+         ^
+  test/smoke_test.dart:13:10: Error: 'Yemek' isn't a type.
+      List<Yemek> generateMealPool() {
+           ^^^^^
+  test/smoke_test.dart:14:18: Error: 'Yemek' isn't a type.
+        final List<Yemek> pool = [];
+                   ^^^^^
+  test/smoke_test.dart:17:18: Error: 'OgunTipi' isn't a type.
+        for (final OgunTipi ogun in OgunTipi.values) {
+                   ^^^^^^^^
+  test/smoke_test.dart:17:35: Error: Undefined name 'OgunTipi'.
+        for (final OgunTipi ogun in OgunTipi.values) {
+                                    ^^^^^^^^
+  test/smoke_test.dart:18:21: Error: Undefined name 'OgunTipi'.
+          if (ogun == OgunTipi.cheatMeal) continue;
+                      ^^^^^^^^
+  test/smoke_test.dart:37:21: Error: Undefined name 'Zorluk'.
+              zorluk: Zorluk.kolay,
+                      ^^^^^^
+  test/smoke_test.dart:27:20: Error: Method not found: 'Yemek'.
+            pool.add(Yemek(
+                     ^^^^^
+  test/smoke_test.dart:49:25: Error: Method not found: 'GenerateDailyPlan'.
+        final generator = GenerateDailyPlan();
+                          ^^^^^^^^^^^^^^^^^
+  test/smoke_test.dart:58:25: Error: Method not found: 'MakroHedefleri'.
+          final targets = MakroHedefleri(
+                          ^^^^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.

@@ -1,0 +1,5 @@
+﻿ERROR|COMPILE_TIME_ERROR|UNDEFINED_GETTER|D:\\zindeV.2.0\\lib\\presentation\\pages\\home_page_yeni.dart|349|51|17|The getter 'tamamlananogunler' isn't defined for the type 'AlternativeIngredientsLoaded'.
+ERROR|COMPILE_TIME_ERROR|UNDEFINED_GETTER|D:\\zindeV.2.0\\lib\\presentation\\pages\\home_page_yeni.dart|352|51|17|The getter 'tamamlananogunler' isn't defined for the type 'AlternativeIngredientsLoaded'.
+ERROR|COMPILE_TIME_ERROR|UNDEFINED_GETTER|D:\\zindeV.2.0\\lib\\presentation\\pages\\home_page_yeni.dart|355|51|17|The getter 'tamamlananogunler' isn't defined for the type 'AlternativeIngredientsLoaded'.
+ERROR|COMPILE_TIME_ERROR|UNDEFINED_GETTER|D:\\zindeV.2.0\\lib\\presentation\\pages\\home_page_yeni.dart|358|51|17|The getter 'tamamlananogunler' isn't defined for the type 'AlternativeIngredientsLoaded'.
+WARNING|STATIC_WARNING|UNUSED_FIELD|D:\\zindeV.2.0\\lib\\presentation\\pages\\home_page_yeni.dart|56|8|14|The value of the field '_isFABExtended' isn't used.

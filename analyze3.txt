@@ -1,0 +1,536 @@
+﻿Analyzing zindeV.2.0...                                         
+
+   info - The constant name 'tabloKullanic─▒Profili' isn't a lowerCamelCase identifier - lib\core\config\supabase_config.dart:20:23 - constant_identifier_names
+  error - Illegal character '305' - lib\core\config\supabase_config.dart:20:36 - illegal_character
+warning - Unused import: 'package:shared_preferences/shared_preferences.dart' - lib\core\di\injection_container.dart:6:8 - unused_import
+   info - The variable name 'baglant─▒VarMi' isn't a lowerCamelCase identifier - lib\core\network\network_info.dart:9:20 - non_constant_identifier_names
+  error - Illegal character '305' - lib\core\network\network_info.dart:9:27 - illegal_character
+   info - The variable name 'baglant─▒VarMi' isn't a lowerCamelCase identifier - lib\core\network\network_info.dart:20:20 - non_constant_identifier_names
+  error - Illegal character '305' - lib\core\network\network_info.dart:20:27 - illegal_character
+  error - A value of type 'Object' can't be returned from the function 'baglant─▒VarMi' because it has a return type of 'Future<bool>' - lib\core\network\network_info.dart:23:12 - return_of_invalid_type
+warning - Unused import: 'dart:convert' - lib\core\services\pollinations_ai_service.dart:4:8 - unused_import
+warning - The value of the field '_audioBaseUrl' isn't used - lib\core\services\pollinations_ai_service.dart:24:23 - unused_field
+warning - Unused import: 'dart:convert' - lib\data\datasources\remote\supabase_meal_datasource.dart:3:8 - unused_import
+  error - Illegal character '305' - lib\data\datasources\remote\supabase_user_datasource.dart:18:45 - illegal_character
+  error - Illegal character '305' - lib\data\datasources\remote\supabase_user_datasource.dart:35:45 - illegal_character
+  error - Illegal character '305' - lib\data\datasources\remote\supabase_user_datasource.dart:53:45 - illegal_character
+warning - The value of the field '_local' isn't used - lib\data\local\hive_service.dart:15:32 - unused_field
+   info - The variable name 't├╝m' isn't a lowerCamelCase identifier - lib\data\repositories\analytics_repository_impl.dart:73:11 - non_constant_identifier_names
+  error - Illegal character '252' - lib\data\repositories\analytics_repository_impl.dart:73:12 - illegal_character
+  error - Illegal character '252' - lib\data\repositories\analytics_repository_impl.dart:77:46 - illegal_character
+  error - Illegal character '252' - lib\data\repositories\analytics_repository_impl.dart:79:19 - illegal_character
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\meal_plan_repository_impl.dart:137:36 - prefer_const_constructors
+   info - The local variable '_parseYemek' starts with an underscore - lib\data\repositories\meal_plan_repository_impl.dart:179:12 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_parseMakro' starts with an underscore - lib\data\repositories\meal_plan_repository_impl.dart:185:20 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_parseTamamlanan' starts with an underscore - lib\data\repositories\meal_plan_repository_impl.dart:190:23 - no_leading_underscores_for_local_identifiers
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:94:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:100:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:101:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:102:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:105:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:111:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:112:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:113:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:116:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:122:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:123:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:124:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:139:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:145:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:146:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:147:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:150:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:156:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:157:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:172:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:178:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:179:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:180:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:195:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:201:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:202:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:203:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:206:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:212:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:213:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:214:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:217:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:223:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:224:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:225:15 - prefer_const_constructors
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\alisveris_listesi.dart:93:30 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\haftalik_rapor.dart:129:13 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\haftalik_rapor.dart:129:37 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\haftalik_rapor.dart:287:55 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\antrenman_plani.dart:99:38 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\antrenman_plani.dart:99:62 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\antrenman_plani.dart:179:33 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\egzersiz.dart:181:34 - unnecessary_brace_in_string_interps
+warning - The value of the field '_dio' isn't used - lib\domain\services\ai_foto_analiz_servisi.dart:8:13 - unused_field
+warning - Unused import: 'package:dartz/dartz.dart' - lib\domain\services\haftalik_rapor_servisi.dart:4:8 - unused_import
+warning - Unused import: '../repositories/user_repository.dart' - lib\domain\services\makro_service.dart:4:8 - unused_import
+warning - The value of the field '_calculateMacros' isn't used - lib\domain\services\makro_service.dart:9:25 - unused_field
+warning - The value of the field '_planRepo' isn't used - lib\domain\services\meal_plan_service.dart:13:28 - unused_field
+warning - The value of the field '_mealRepo' isn't used - lib\domain\services\meal_plan_service.dart:14:24 - unused_field
+warning - The value of the field '_userRepo' isn't used - lib\domain\services\meal_plan_service.dart:15:24 - unused_field
+warning - The value of the field '_calculateMacros' isn't used - lib\domain\services\meal_plan_service.dart:16:25 - unused_field
+warning - Unused import: '../entities/nutrition/yemek_onay_sistemi.dart' - lib\domain\services\yemek_onay_servisi.dart:5:8 - unused_import
+  error - The method 'ogunDurumGuncelle' isn't defined for the type 'MealPlanRepository' - lib\domain\services\yemek_onay_servisi.dart:14:21 - undefined_method
+   info - The local variable '_enYakinYemekSec' starts with an underscore - lib\domain\usecases\meal_planning\generate_daily_plan.dart:109:12 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_sapmaSkoru' starts with an underscore - lib\domain\usecases\meal_planning\generate_daily_plan.dart:123:14 - no_leading_underscores_for_local_identifiers
+  error - The name 'HomePageYeni' isn't a class - lib\main.dart:46:21 - creation_with_non_type
+warning - Unused import: '../../../core/utils/logger.dart' - lib\presentation\bloc\analytics\analytics_bloc.dart:4:8 - unused_import
+   info - The private field _userId could be 'final' - lib\presentation\bloc\analytics\analytics_bloc.dart:14:11 - prefer_final_fields
+  error - Illegal character '305' - lib\presentation\bloc\analytics\analytics_bloc.dart:36:32 - illegal_character
+   info - The variable name '_buHaftan─▒nBasi' isn't a lowerCamelCase identifier - lib\presentation\bloc\analytics\analytics_bloc.dart:64:12 - non_constant_identifier_names
+  error - Illegal character '305' - lib\presentation\bloc\analytics\analytics_bloc.dart:64:21 - illegal_character
+warning - The value of the field '_aktifKategori' isn't used - lib\presentation\bloc\chatbot\chatbot_bloc.dart:14:14 - unused_field
+warning - Unused import: '../../../domain/entities/nutrition/yemek.dart' - lib\presentation\bloc\home\home_bloc.dart:5:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\presentation\bloc\home\home_bloc.dart:70:10 - prefer_const_constructors
+warning - Unused import: '../../../core/config/nutrition_constraints.dart' - lib\presentation\bloc\profil\profil_bloc.dart:4:8 - unused_import
+   info - The private field _userId could be 'final' - lib\presentation\bloc\workout\workout_bloc.dart:12:11 - prefer_final_fields
+warning - Unused import: '../../../domain/entities/nutrition/yemek.dart' - lib\presentation\bloc\workout\workout_event.dart:5:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\ai_chatbot_page.dart:12:9 - use_super_parameters
+  error - The method 'kullaniciGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\ai_chatbot_page.dart:37:40 - undefined_method
+  error - The named parameter 'error' isn't defined - lib\presentation\pages\ai_chatbot_page.dart:43:61 - undefined_named_parameter
+  error - Instance member 'getResponse' can't be accessed using static access - lib\presentation\pages\ai_chatbot_page.dart:111:54 - static_access_to_instance_member
+  error - The named parameter 'message' is required, but there's no corresponding argument - lib\presentation\pages\ai_chatbot_page.dart:111:54 - missing_required_argument
+  error - The named parameter 'userMessage' isn't defined - lib\presentation\pages\ai_chatbot_page.dart:112:9 - undefined_named_parameter
+  error - The named parameter 'conversationHistory' isn't defined - lib\presentation\pages\ai_chatbot_page.dart:114:9 - undefined_named_parameter
+  error - The named parameter 'userProfile' isn't defined - lib\presentation\pages\ai_chatbot_page.dart:115:9 - undefined_named_parameter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:238:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:239:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:244:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:253:67 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:295:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:298:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:394:39 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\ai_chatbot_page.dart:522:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:553:41 - deprecated_member_use
+  error - The method 'kullaniciGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\alisveris_listesi_page.dart:46:43 - undefined_method
+  error - The method 'haftalikAlisverisListesiOlustur' isn't defined for the type 'HaftalikAlisverisServisi' - lib\presentation\pages\alisveris_listesi_page.dart:56:42 - undefined_method
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alisveris_listesi_page.dart:300:21 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alisveris_listesi_page.dart:302:40 - deprecated_member_use
+warning - The value of the local variable 'toplamMaliyet' isn't used - lib\presentation\pages\alisveris_listesi_page.dart:378:11 - unused_local_variable
+warning - Unused import: '../../domain/entities/alternatif_besin_legacy.dart' - lib\presentation\pages\alternatif_besin_demo_page.dart:6:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\alternatif_besin_demo_page.dart:11:9 - use_super_parameters
+  error - A value of type 'Future<List<AlternatifBesin>>' can't be assigned to a variable of type 'List<AlternatifBesinLegacy>' - lib\presentation\pages\alternatif_besin_demo_page.dart:54:24 - invalid_assignment
+  error - Instance member 'otomatikAlternatifUret' can't be accessed using static access - lib\presentation\pages\alternatif_besin_demo_page.dart:54:47 - static_access_to_instance_member
+  error - The named parameter 'ogunTipi' is required, but there's no corresponding argument - lib\presentation\pages\alternatif_besin_demo_page.dart:54:47 - missing_required_argument
+  error - The named parameter 'yemekId' is required, but there's no corresponding argument - lib\presentation\pages\alternatif_besin_demo_page.dart:54:47 - missing_required_argument
+  error - The named parameter 'besinAdi' isn't defined - lib\presentation\pages\alternatif_besin_demo_page.dart:55:9 - undefined_named_parameter
+  error - The named parameter 'miktar' isn't defined - lib\presentation\pages\alternatif_besin_demo_page.dart:56:9 - undefined_named_parameter
+  error - The named parameter 'birim' isn't defined - lib\presentation\pages\alternatif_besin_demo_page.dart:57:9 - undefined_named_parameter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alternatif_besin_demo_page.dart:183:41 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\alternatif_besin_demo_page.dart:234:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alternatif_besin_demo_page.dart:306:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alternatif_besin_demo_page.dart:352:43 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\presentation\pages\alternatif_besin_demo_page.dart:375:71 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alternatif_besin_demo_page.dart:394:43 - deprecated_member_use
+  error - The getter 'miktar' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:418:39 - undefined_getter
+  error - The getter 'ad' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:418:99 - undefined_getter
+  error - The getter 'neden' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:426:44 - undefined_getter
+  error - The getter 'kalori' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:440:41 - undefined_getter
+  error - The getter 'protein' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:444:41 - undefined_getter
+  error - The getter 'karbonhidrat' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:448:41 - undefined_getter
+  error - The getter 'yag' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:452:41 - undefined_getter
+  error - The getter 'miktar' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:479:27 - undefined_getter
+  error - The getter 'ad' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:479:87 - undefined_getter
+  error - The getter 'neden' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:487:24 - undefined_getter
+  error - The getter 'kalori' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:498:44 - undefined_getter
+  error - The getter 'protein' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:501:36 - undefined_getter
+  error - The getter 'karbonhidrat' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:502:44 - undefined_getter
+  error - The getter 'yag' isn't defined for the type 'AlternatifBesinLegacy' - lib\presentation\pages\alternatif_besin_demo_page.dart:505:36 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alternatif_besin_demo_page.dart:517:22 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\analytics_page.dart:13:9 - use_super_parameters
+  error - The named parameter 'analyticsRepo' is required, but there's no corresponding argument - lib\presentation\pages\analytics_page.dart:18:28 - missing_required_argument
+  error - The named parameter 'planRepo' is required, but there's no corresponding argument - lib\presentation\pages\analytics_page.dart:18:28 - missing_required_argument
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:18:49 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\analytics_page.dart:25:9 - use_super_parameters
+  error - The name 'AnalyticsLoading' isn't defined, so it can't be used in an 'is' expression - lib\presentation\pages\analytics_page.dart:34:26 - type_test_with_undefined_name
+  error - The name 'AnalyticsError' isn't defined, so it can't be used in an 'is' expression - lib\presentation\pages\analytics_page.dart:50:26 - type_test_with_undefined_name
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:98:49 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:119:37 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:144:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:153:57 - prefer_const_constructors
+  error - The getter 'data' isn't defined for the type 'WeeklyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:172:37 - undefined_getter
+  error - The getter 'data' isn't defined for the type 'WeeklyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:176:41 - undefined_getter
+  error - The getter 'data' isn't defined for the type 'WeeklyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:180:41 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:199:37 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:224:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:233:57 - prefer_const_constructors
+  error - The getter 'data' isn't defined for the type 'MonthlyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:252:37 - undefined_getter
+  error - The getter 'data' isn't defined for the type 'MonthlyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:256:41 - undefined_getter
+  error - The getter 'data' isn't defined for the type 'MonthlyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:260:41 - undefined_getter
+  error - The getter 'ortalamaKalori' isn't defined for the type 'WeeklyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:301:22 - undefined_getter
+  error - The getter 'ortalamaProtein' isn't defined for the type 'WeeklyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:310:22 - undefined_getter
+  error - The getter 'data' isn't defined for the type 'MonthlyAnalyticsLoaded' - lib\presentation\pages\analytics_page.dart:321:53 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:360:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:372:27 - deprecated_member_use
+  error - Undefined class 'IlerlemeTrendi' - lib\presentation\pages\analytics_page.dart:400:26 - undefined_class
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:408:33 - deprecated_member_use
+  error - Undefined class 'TrendYonu' - lib\presentation\pages\analytics_page.dart:464:41 - undefined_class
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:510:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:579:25 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:611:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:643:42 - deprecated_member_use
+  error - Undefined class 'MacroValues' - lib\presentation\pages\analytics_page.dart:664:3 - undefined_class
+  error - The name 'MacroValues' isn't a type, so it can't be used as a type argument - lib\presentation\pages\analytics_page.dart:664:54 - non_type_as_type_argument
+  error - The method 'MacroValues' isn't defined for the type 'AnalyticsPageContent' - lib\presentation\pages\analytics_page.dart:666:14 - undefined_method
+  error - The property 'kalori' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\pages\analytics_page.dart:675:92 - unchecked_use_of_nullable_value
+  error - The property 'protein' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\pages\analytics_page.dart:676:93 - unchecked_use_of_nullable_value
+  error - The property 'karbonhidrat' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\pages\analytics_page.dart:677:90 - unchecked_use_of_nullable_value
+  error - The property 'yag' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\pages\analytics_page.dart:678:89 - unchecked_use_of_nullable_value
+  error - The method 'MacroValues' isn't defined for the type 'AnalyticsPageContent' - lib\presentation\pages\analytics_page.dart:680:12 - undefined_method
+warning - Unused import: '../../domain/entities/antrenman.dart' - lib\presentation\pages\antrenman_page.dart:7:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\antrenman_page.dart:13:9 - use_super_parameters
+  error - The method 'AntrenmanBloc' isn't defined for the type 'AntrenmanPage' - lib\presentation\pages\antrenman_page.dart:18:28 - undefined_method
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:20:14 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\antrenman_page.dart:27:9 - use_super_parameters
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:34:28 - non_type_as_type_argument
+  error - The name 'AntrenmanState' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:34:43 - non_type_as_type_argument
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:71:11 - prefer_const_constructors
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:87:28 - non_type_as_type_argument
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:87:49 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:107:37 - deprecated_member_use
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:129:36 - non_type_as_type_argument
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:129:57 - prefer_const_constructors
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:146:38 - non_type_as_type_argument
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:146:59 - prefer_const_constructors
+   info - The type of the right operand ('Zorluk') isn't a subtype or a supertype of the left operand ('String?') - lib\presentation\pages\antrenman_page.dart:153:56 - unrelated_type_equality_checks
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:155:40 - non_type_as_type_argument
+  error - The argument type 'Zorluk' can't be assigned to the parameter type 'String'.  - lib\presentation\pages\antrenman_page.dart:155:76 - argument_type_not_assignable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:228:33 - deprecated_member_use
+  error - The getter 'kasGruplariOzet' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:255:33 - undefined_getter
+  error - The getter 'ad' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:265:37 - undefined_getter
+  error - The getter 'zorluk' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:290:31 - undefined_getter
+  error - The getter 'zorluk' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:291:31 - undefined_getter
+  error - The getter 'toplamSureDakika' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:297:34 - undefined_getter
+  error - The getter 'toplamKalori' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:303:34 - undefined_getter
+  error - The getter 'egzersizSayisi' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:309:34 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:327:22 - deprecated_member_use
+  error - The getter 'ad' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:382:29 - undefined_getter
+  error - The getter 'ozet' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:398:29 - undefined_getter
+  error - The getter 'egzersizler' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:415:36 - undefined_getter
+  error - The getter 'egzersizler' isn't defined for the type 'AntrenmanProgrami' - lib\presentation\pages\antrenman_page.dart:417:44 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:430:41 - deprecated_member_use
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:439:32 - non_type_as_type_argument
+  error - The getter 'program' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:549:23 - undefined_getter
+  error - The getter 'ilerlemYuzdesi' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:562:30 - undefined_getter
+  error - The getter 'program' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:566:68 - undefined_getter
+  error - The getter 'kalanEgzersiz' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:570:30 - undefined_getter
+  error - The getter 'ilerlemYuzdesi' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:576:30 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:577:47 - deprecated_member_use
+  error - The getter 'program' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:589:30 - undefined_getter
+  error - The getter 'program' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:591:38 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:611:37 - deprecated_member_use
+  error - The getter 'ilerlemYuzdesi' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:618:30 - undefined_getter
+  error - The getter 'ilerlemYuzdesi' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:632:21 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:662:33 - deprecated_member_use
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:740:29 - non_type_as_type_argument
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:767:28 - non_type_as_type_argument
+  error - The named parameter 'programAdi' is required, but there's no corresponding argument - lib\presentation\pages\antrenman_page.dart:768:21 - missing_required_argument
+  error - The named parameter 'programId' is required, but there's no corresponding argument - lib\presentation\pages\antrenman_page.dart:768:21 - missing_required_argument
+  error - The named parameter 'sureDakika' is required, but there's no corresponding argument - lib\presentation\pages\antrenman_page.dart:768:21 - missing_required_argument
+  error - The named parameter 'gercekSure' isn't defined - lib\presentation\pages\antrenman_page.dart:769:23 - undefined_named_parameter
+  error - The getter 'gecenSure' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:769:41 - undefined_getter
+  error - The named parameter 'gercekKalori' isn't defined - lib\presentation\pages\antrenman_page.dart:770:23 - undefined_named_parameter
+  error - The getter 'program' isn't defined for the type 'AntrenmanActive' - lib\presentation\pages\antrenman_page.dart:770:43 - undefined_getter
+  error - The named parameter 'rating' isn't defined - lib\presentation\pages\antrenman_page.dart:771:23 - undefined_named_parameter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:793:37 - deprecated_member_use
+  error - The name 'AntrenmanBloc' isn't a type, so it can't be used as a type argument - lib\presentation\pages\antrenman_page.dart:804:32 - non_type_as_type_argument
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:804:53 - prefer_const_constructors
+  error - The getter 'antrenmanId' isn't defined for the type 'TamamlananAntrenman' - lib\presentation\pages\antrenman_page.dart:891:33 - undefined_getter
+  error - The getter 'tamamlanmaTarihi' isn't defined for the type 'TamamlananAntrenman' - lib\presentation\pages\antrenman_page.dart:899:46 - undefined_getter
+  error - The getter 'tamamlananSure' isn't defined for the type 'TamamlananAntrenman' - lib\presentation\pages\antrenman_page.dart:915:31 - undefined_getter
+  error - The getter 'yakilanKalori' isn't defined for the type 'TamamlananAntrenman' - lib\presentation\pages\antrenman_page.dart:921:30 - undefined_getter
+  error - The getter 'tamamlananEgzersizler' isn't defined for the type 'TamamlananAntrenman' - lib\presentation\pages\antrenman_page.dart:927:30 - undefined_getter
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\camera_test_page.dart:11:9 - use_super_parameters
+  error - The method 'canliYemekTanima' isn't defined for the type 'AIFotoAnalizServisi' - lib\presentation\pages\camera_test_page.dart:35:38 - undefined_method
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\favori_yemekler_page.dart:12:9 - use_super_parameters
+  error - The method 'favoriYemekleriGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\favori_yemekler_page.dart:34:43 - undefined_method
+  error - The method 'favoridenCikar' isn't defined for the type 'HiveService' - lib\presentation\pages\favori_yemekler_page.dart:62:25 - undefined_method
+  error - The method 'tumFavorileriTemizle' isn't defined for the type 'HiveService' - lib\presentation\pages\favori_yemekler_page.dart:109:45 - undefined_method
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\favori_yemekler_page.dart:127:13 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\favori_yemekler_page.dart:207:38 - deprecated_member_use
+  error - The method 'haftalikRaporOlustur' isn't defined for the type 'HaftalikRaporServisi' - lib\presentation\pages\haftalik_rapor_page.dart:53:48 - undefined_method
+  error - The method 'haftalikUyumRaporu' isn't defined for the type 'YemekOnayServisi' - lib\presentation\pages\haftalik_rapor_page.dart:58:49 - undefined_method
+  error - A value of type 'Map<String, dynamic>?' can't be assigned to a variable of type 'GunlukPlan?' - lib\presentation\pages\haftalik_rapor_page.dart:73:32 - invalid_assignment
+  error - Instance member 'planGetir' can't be accessed using static access - lib\presentation\pages\haftalik_rapor_page.dart:73:50 - static_access_to_instance_member
+  error - The argument type 'DateTime' can't be assigned to the parameter type 'String'.  - lib\presentation\pages\haftalik_rapor_page.dart:73:60 - argument_type_not_assignable
+  error - The method 'yemekOnayVerisiGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\haftalik_rapor_page.dart:74:50 - undefined_method
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\haftalik_rapor_page.dart:310:21 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\haftalik_rapor_page.dart:312:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\haftalik_rapor_page.dart:511:21 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\haftalik_rapor_page.dart:513:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\haftalik_rapor_page.dart:552:25 - deprecated_member_use
+   info - The variable name '_gunKarti_KULLANILMIYOR' isn't a lowerCamelCase identifier - lib\presentation\pages\haftalik_rapor_page.dart:582:10 - non_constant_identifier_names
+warning - The declaration '_gunKarti_KULLANILMIYOR' isn't referenced - lib\presentation\pages\haftalik_rapor_page.dart:582:10 - unused_element
+warning - Unused import: '../../core/utils/app_logger.dart' - lib\presentation\pages\home_page_yeni.dart:3:8 - unused_import
+warning - Unused import: '../../data/repositories/meal_repository_v2.dart' - lib\presentation\pages\home_page_yeni.dart:4:8 - unused_import
+warning - Unused import: '../../domain/usecases/ogun_planlayici.dart' - lib\presentation\pages\home_page_yeni.dart:6:8 - unused_import
+warning - Unused import: '../../domain/services/makro_service.dart' - lib\presentation\pages\home_page_yeni.dart:7:8 - unused_import
+warning - Unused import: '../widgets/shimmer_loading.dart' - lib\presentation\pages\home_page_yeni.dart:20:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\home_page_yeni.dart:32:9 - use_super_parameters
+  error - The named parameter 'calculateMacros' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:41:16 - missing_required_argument
+  error - The named parameter 'getMealAlternatives' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:41:16 - missing_required_argument
+  error - The named parameter 'markMealEaten' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:41:16 - missing_required_argument
+  error - The named parameter 'mealRepo' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:41:16 - missing_required_argument
+  error - The named parameter 'planRepo' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:41:16 - missing_required_argument
+  error - The named parameter 'userRepo' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:41:16 - missing_required_argument
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:41:32 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\home_page_yeni.dart:49:9 - use_super_parameters
+warning - The value of the field '_isFABExtended' isn't used - lib\presentation\pages\home_page_yeni.dart:58:8 - unused_field
+  error - The name 'AlternativeMealsLoaded' isn't defined, so it can't be used in an 'is' expression - lib\presentation\pages\home_page_yeni.dart:120:26 - type_test_with_undefined_name
+  error - 2 positional arguments expected by 'ReplaceMealWith.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:128:27 - not_enough_positional_arguments
+  error - The named parameter 'eskiYemek' isn't defined - lib\presentation\pages\home_page_yeni.dart:128:27 - undefined_named_parameter
+  error - The named parameter 'yeniYemek' isn't defined - lib\presentation\pages\home_page_yeni.dart:129:27 - undefined_named_parameter
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\presentation\pages\home_page_yeni.dart:149:48 - invalid_null_aware_operator
+  error - The getter 'besinAdi' isn't defined for the type 'List<Map<String, dynamic>>' - lib\presentation\pages\home_page_yeni.dart:149:50 - undefined_getter
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\presentation\pages\home_page_yeni.dart:150:46 - invalid_null_aware_operator
+  error - The getter 'miktar' isn't defined for the type 'List<Map<String, dynamic>>' - lib\presentation\pages\home_page_yeni.dart:150:48 - undefined_getter
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\presentation\pages\home_page_yeni.dart:151:45 - invalid_null_aware_operator
+  error - The getter 'birim' isn't defined for the type 'List<Map<String, dynamic>>' - lib\presentation\pages\home_page_yeni.dart:151:47 - undefined_getter
+  error - The getter 'miktar' isn't defined for the type 'Object' - lib\presentation\pages\home_page_yeni.dart:164:44 - undefined_getter
+  error - The getter 'birim' isn't defined for the type 'Object' - lib\presentation\pages\home_page_yeni.dart:164:91 - undefined_getter
+  error - The getter 'ad' isn't defined for the type 'Object' - lib\presentation\pages\home_page_yeni.dart:164:118 - undefined_getter
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\pages\home_page_yeni.dart:166:19 - use_build_context_synchronously
+  error - The named parameter 'alternatif' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:167:25 - missing_required_argument
+  error - The named parameter 'ogunId' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:167:25 - missing_required_argument
+  error - The named parameter 'yemek' isn't defined - lib\presentation\pages\home_page_yeni.dart:168:27 - undefined_named_parameter
+  error - The named parameter 'malzemeIndex' isn't defined - lib\presentation\pages\home_page_yeni.dart:169:27 - undefined_named_parameter
+  error - The named parameter 'yeniMalzemeMetni' isn't defined - lib\presentation\pages\home_page_yeni.dart:170:27 - undefined_named_parameter
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\pages\home_page_yeni.dart:175:19 - use_build_context_synchronously
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:195:54 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:257:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:399:55 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:431:43 - prefer_const_constructors
+warning - The value of the local variable 'index' isn't used - lib\presentation\pages\home_page_yeni.dart:445:35 - unused_local_variable
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\presentation\pages\home_page_yeni.dart:450:33 - invalid_null_aware_operator
+  error - The method 'yemekDurumu' isn't defined for the type 'Map' - lib\presentation\pages\home_page_yeni.dart:450:35 - undefined_method
+  error - 1 positional argument expected by 'MarkMealAsEaten.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:476:53 - not_enough_positional_arguments
+  error - The named parameter 'yemekId' isn't defined - lib\presentation\pages\home_page_yeni.dart:476:53 - undefined_named_parameter
+  error - 1 positional argument expected by 'ResetMealStatus.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:488:58 - not_enough_positional_arguments
+  error - The named parameter 'yemekId' isn't defined - lib\presentation\pages\home_page_yeni.dart:488:58 - undefined_named_parameter
+  error - 1 positional argument expected by 'GenerateAlternativeMeals.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:494:41 - not_enough_positional_arguments
+  error - The named parameter 'mevcutYemek' isn't defined - lib\presentation\pages\home_page_yeni.dart:494:41 - undefined_named_parameter
+  error - The named parameter 'besinAdi' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:503:39 - missing_required_argument
+  error - The named parameter 'birim' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:503:39 - missing_required_argument
+  error - The named parameter 'miktar' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:503:39 - missing_required_argument
+  error - The named parameter 'ogunId' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:503:39 - missing_required_argument
+  error - The named parameter 'yemek' isn't defined - lib\presentation\pages\home_page_yeni.dart:504:41 - undefined_named_parameter
+  error - The named parameter 'malzemeMetni' isn't defined - lib\presentation\pages\home_page_yeni.dart:505:41 - undefined_named_parameter
+  error - The named parameter 'malzemeIndex' isn't defined - lib\presentation\pages\home_page_yeni.dart:506:41 - undefined_named_parameter
+warning - The operand can't be 'null', so the condition is always 'true' - lib\presentation\pages\home_page_yeni.dart:541:46 - unnecessary_null_comparison
+warning - The '!' will have no effect because the receiver can't be null - lib\presentation\pages\home_page_yeni.dart:560:56 - unnecessary_non_null_assertion
+warning - The operand can't be 'null', so the condition is always 'true' - lib\presentation\pages\home_page_yeni.dart:583:45 - unnecessary_null_comparison
+warning - The '!' will have no effect because the receiver can't be null - lib\presentation\pages\home_page_yeni.dart:587:46 - unnecessary_non_null_assertion
+warning - The operand can't be 'null', so the condition is always 'true' - lib\presentation\pages\home_page_yeni.dart:597:48 - unnecessary_null_comparison
+warning - The '!' will have no effect because the receiver can't be null - lib\presentation\pages\home_page_yeni.dart:599:51 - unnecessary_non_null_assertion
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:639:54 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:675:36 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:784:39 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:826:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:858:45 - prefer_const_constructors
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\presentation\pages\home_page_yeni.dart:877:35 - invalid_null_aware_operator
+  error - The method 'yemekDurumu' isn't defined for the type 'Map' - lib\presentation\pages\home_page_yeni.dart:877:37 - undefined_method
+  error - 1 positional argument expected by 'MarkMealAsEaten.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:905:57 - not_enough_positional_arguments
+  error - The named parameter 'yemekId' isn't defined - lib\presentation\pages\home_page_yeni.dart:905:57 - undefined_named_parameter
+  error - 1 positional argument expected by 'SkipMeal.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:935:57 - not_enough_positional_arguments
+  error - The named parameter 'yemekId' isn't defined - lib\presentation\pages\home_page_yeni.dart:935:57 - undefined_named_parameter
+  error - 1 positional argument expected by 'ConfirmMealEaten.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:968:57 - not_enough_positional_arguments
+  error - The named parameter 'yemekId' isn't defined - lib\presentation\pages\home_page_yeni.dart:968:57 - undefined_named_parameter
+  error - 1 positional argument expected by 'ResetMealStatus.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:983:57 - not_enough_positional_arguments
+  error - The named parameter 'yemekId' isn't defined - lib\presentation\pages\home_page_yeni.dart:983:57 - undefined_named_parameter
+  error - 1 positional argument expected by 'GenerateAlternativeMeals.new', but 0 found - lib\presentation\pages\home_page_yeni.dart:989:45 - not_enough_positional_arguments
+  error - The named parameter 'mevcutYemek' isn't defined - lib\presentation\pages\home_page_yeni.dart:989:45 - undefined_named_parameter
+  error - The named parameter 'besinAdi' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:998:43 - missing_required_argument
+  error - The named parameter 'birim' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:998:43 - missing_required_argument
+  error - The named parameter 'miktar' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:998:43 - missing_required_argument
+  error - The named parameter 'ogunId' is required, but there's no corresponding argument - lib\presentation\pages\home_page_yeni.dart:998:43 - missing_required_argument
+  error - The named parameter 'yemek' isn't defined - lib\presentation\pages\home_page_yeni.dart:999:45 - undefined_named_parameter
+  error - The named parameter 'malzemeMetni' isn't defined - lib\presentation\pages\home_page_yeni.dart:1000:45 - undefined_named_parameter
+  error - The named parameter 'malzemeIndex' isn't defined - lib\presentation\pages\home_page_yeni.dart:1001:45 - undefined_named_parameter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:1036:52 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\macro_calculator_page.dart:12:9 - use_super_parameters
+   info - The private field _manuelAlerjiler could be 'final' - lib\presentation\pages\macro_calculator_page.dart:30:16 - prefer_final_fields
+  error - The method 'tamHesaplama' isn't defined for the type 'MakroService' - lib\presentation\pages\macro_calculator_page.dart:79:29 - undefined_method
+   info - Don't invoke 'print' in production code - lib\presentation\pages\macro_calculator_page.dart:83:7 - avoid_print
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\macro_calculator_page.dart:276:19 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:353:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:420:33 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\macro_calculator_page.dart:477:7 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:506:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:508:41 - deprecated_member_use
+warning - Unused import: '../../data/repositories/meal_repository_v2.dart' - lib\presentation\pages\maintenance_page.dart:4:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\maintenance_page.dart:10:9 - use_super_parameters
+  error - The method 'yemekSayisi' isn't defined for the type 'HiveService' - lib\presentation\pages\maintenance_page.dart:44:45 - undefined_method
+  error - The method 'kategoriSayilari' isn't defined for the type 'HiveService' - lib\presentation\pages\maintenance_page.dart:45:50 - undefined_method
+  error - The named parameter 'error' isn't defined - lib\presentation\pages\maintenance_page.dart:52:47 - undefined_named_parameter
+  error - The method 'tumYemekleriGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\maintenance_page.dart:59:42 - undefined_method
+  error - The named parameter 'error' isn't defined - lib\presentation\pages\maintenance_page.dart:100:46 - undefined_named_parameter
+warning - The value of the local variable 'confirm' isn't used - lib\presentation\pages\maintenance_page.dart:118:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\maintenance_page.dart:237:32 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\presentation\pages\maintenance_page.dart:359:16 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\maintenance_page.dart:422:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\maintenance_page.dart:468:33 - deprecated_member_use
+  error - The method 'tumYemekleriGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\maintenance_page.dart:642:45 - undefined_method
+  error - The named parameter 'error' isn't defined - lib\presentation\pages\maintenance_page.dart:761:11 - undefined_named_parameter
+  error - The named parameter 'stackTrace' isn't defined - lib\presentation\pages\maintenance_page.dart:761:21 - undefined_named_parameter
+  error - The named parameter 'error' isn't defined - lib\presentation\pages\maintenance_page.dart:825:11 - undefined_named_parameter
+  error - The named parameter 'stackTrace' isn't defined - lib\presentation\pages\maintenance_page.dart:825:21 - undefined_named_parameter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\maintenance_page.dart:885:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\maintenance_page.dart:941:33 - deprecated_member_use
+warning - Unused import: '../widgets/animated_meal_card.dart' - lib\presentation\pages\meal_detail_page.dart:3:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\meal_detail_page.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\meal_detail_page.dart:46:39 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\meal_detail_page.dart:65:32 - prefer_const_constructors
+  error - Target of URI doesn't exist: '../../data/models/meal.dart' - lib\presentation\pages\meal_list_page.dart:3:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../../presentation/providers/meal_provider.dart' - lib\presentation\pages\meal_list_page.dart:4:8 - uri_does_not_exist
+  error - Undefined class 'MealCategory' - lib\presentation\pages\meal_list_page.dart:12:9 - undefined_class
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\meal_list_page.dart:14:9 - use_super_parameters
+  error - Undefined class 'MealCategory' - lib\presentation\pages\meal_list_page.dart:25:3 - undefined_class
+  error - Undefined class 'GoalTag' - lib\presentation\pages\meal_list_page.dart:26:3 - undefined_class
+  error - The body might complete normally, causing 'null' to be returned, but the return type, 'String', is a potentially non-nullable type - lib\presentation\pages\meal_list_page.dart:34:10 - body_might_complete_normally
+  error - Undefined class 'MealCategory' - lib\presentation\pages\meal_list_page.dart:34:27 - undefined_class
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:36:12 - undefined_identifier
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:38:12 - undefined_identifier
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:40:12 - undefined_identifier
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:42:12 - undefined_identifier
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:44:12 - undefined_identifier
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:46:12 - undefined_identifier
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:48:12 - undefined_identifier
+  error - The body might complete normally, causing 'null' to be returned, but the return type, 'String', is a potentially non-nullable type - lib\presentation\pages\meal_list_page.dart:53:10 - body_might_complete_normally
+  error - Undefined class 'GoalTag' - lib\presentation\pages\meal_list_page.dart:53:23 - undefined_class
+  error - Undefined name 'GoalTag' - lib\presentation\pages\meal_list_page.dart:55:12 - undefined_identifier
+  error - Undefined name 'GoalTag' - lib\presentation\pages\meal_list_page.dart:57:12 - undefined_identifier
+  error - Undefined name 'GoalTag' - lib\presentation\pages\meal_list_page.dart:59:12 - undefined_identifier
+  error - The name 'MealProvider' isn't a type, so it can't be used as a type argument - lib\presentation\pages\meal_list_page.dart:66:40 - non_type_as_type_argument
+  error - The name 'MealCategory' isn't a type, so it can't be used as a type argument - lib\presentation\pages\meal_list_page.dart:149:54 - non_type_as_type_argument
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\meal_list_page.dart:150:25 - deprecated_member_use
+  error - Undefined name 'MealCategory' - lib\presentation\pages\meal_list_page.dart:164:30 - undefined_identifier
+  error - The name 'GoalTag' isn't a type, so it can't be used as a type argument - lib\presentation\pages\meal_list_page.dart:178:54 - non_type_as_type_argument
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\meal_list_page.dart:179:25 - deprecated_member_use
+  error - Undefined name 'GoalTag' - lib\presentation\pages\meal_list_page.dart:193:30 - undefined_identifier
+  error - Undefined class 'Meal' - lib\presentation\pages\meal_list_page.dart:301:47 - undefined_class
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\meal_list_page.dart:401:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\meal_list_page.dart:403:41 - deprecated_member_use
+  error - Undefined class 'GoalTag' - lib\presentation\pages\meal_list_page.dart:423:26 - undefined_class
+  error - Undefined name 'GoalTag' - lib\presentation\pages\meal_list_page.dart:426:12 - undefined_identifier
+  error - Undefined name 'GoalTag' - lib\presentation\pages\meal_list_page.dart:429:12 - undefined_identifier
+  error - Undefined name 'GoalTag' - lib\presentation\pages\meal_list_page.dart:432:12 - undefined_identifier
+  error - The non-nullable local variable 'color' must be assigned before it can be used - lib\presentation\pages\meal_list_page.dart:440:16 - not_assigned_potentially_non_nullable_local_variable
+  error - Undefined class 'Meal' - lib\presentation\pages\meal_list_page.dart:454:47 - undefined_class
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\meal_list_page.dart:630:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\meal_list_page.dart:632:41 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\profil_page.dart:13:9 - use_super_parameters
+  error - The method 'kullaniciGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\profil_page.dart:65:41 - undefined_method
+  error - The method 'calculateTargets' isn't defined for the type 'MealPlanService' - lib\presentation\pages\profil_page.dart:107:34 - undefined_method
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:113:5 - avoid_print
+  error - The method 'kullaniciKaydet' isn't defined for the type 'HiveService' - lib\presentation\pages\profil_page.dart:148:23 - undefined_method
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:151:5 - avoid_print
+  error - The method 'kullaniciGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\profil_page.dart:152:41 - undefined_method
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:154:7 - avoid_print
+  error - The method 'kullaniciKaydet' isn't defined for the type 'HiveService' - lib\presentation\pages\profil_page.dart:157:25 - undefined_method
+  error - The method 'kullaniciGetir' isn't defined for the type 'HiveService' - lib\presentation\pages\profil_page.dart:158:46 - undefined_method
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:160:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:173:5 - avoid_print
+  error - The method 'tumPlanlariSil' isn't defined for the type 'HiveService' - lib\presentation\pages\profil_page.dart:182:27 - undefined_method
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:183:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:185:9 - avoid_print
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\pages\profil_page.dart:188:28 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:524:43 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:640:23 - use_build_context_synchronously
+   info - Use 'const' for final variables initialized to a constant value - lib\presentation\pages\profil_page.dart:659:23 - prefer_const_declarations
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:662:39 - use_build_context_synchronously
+warning - Dead code - lib\presentation\pages\profil_page.dart:664:38 - dead_code
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:665:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:673:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:683:39 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:684:46 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:732:33 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\profil_page.dart:789:7 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:818:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:820:41 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\alt_navigasyon_bar.dart:14:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alt_navigasyon_bar.dart:27:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alt_navigasyon_bar.dart:84:40 - deprecated_member_use
+  error - The name 'AlternatifBesinLegacy' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:12:14 - non_type_as_type_argument
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:16:9 - use_super_parameters
+  error - The name 'AlternatifBesinLegacy' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:26:17 - non_type_as_type_argument
+  error - The name 'AlternatifBesinLegacy' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:31:19 - non_type_as_type_argument
+  error - The name 'AlternatifBesinLegacy' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:35:33 - non_type_as_type_argument
+  error - Undefined class 'AlternatifBesinLegacy' - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:234:29 - undefined_class
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:243:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:367:22 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:15:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:87:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:262:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:340:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:424:22 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\animated_meal_card.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\animated_meal_card.dart:105:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\animated_meal_card.dart:255:9 - use_super_parameters
+warning - The value of the field '_isPressed' isn't used - lib\presentation\widgets\animated_meal_card.dart:273:8 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\animated_meal_card.dart:333:47 - deprecated_member_use
+warning - Unused import: 'animated_meal_card.dart' - lib\presentation\widgets\detayli_ogun_card.dart:5:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\detayli_ogun_card.dart:18:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\detayli_ogun_card.dart:54:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\detayli_ogun_card.dart:67:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\detayli_ogun_card.dart:79:50 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\empty_state_widget.dart:14:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\empty_state_widget.dart:315:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\empty_state_widget.dart:385:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\empty_state_widget.dart:396:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\empty_state_widget.dart:471:43 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\haftalik_takvim.dart:7:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\haftalik_takvim.dart:27:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\kompakt_makro_ozet.dart:17:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:52:37 - deprecated_member_use
+  error - The argument type 'Object' can't be assigned to the parameter type 'bool'.  - lib\presentation\widgets\kompakt_makro_ozet.dart:67:29 - argument_type_not_assignable
+  error - The argument type 'Object' can't be assigned to the parameter type 'bool'.  - lib\presentation\widgets\kompakt_makro_ozet.dart:77:30 - argument_type_not_assignable
+  error - The argument type 'Object' can't be assigned to the parameter type 'bool'.  - lib\presentation\widgets\kompakt_makro_ozet.dart:97:30 - argument_type_not_assignable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:169:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:279:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:341:55 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\makro_chart.dart:4:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\makro_chart.dart:21:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\makro_progress_card.dart:17:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:70:25 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:113:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:165:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:167:50 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\widgets\makro_progress_card.dart:172:13 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:190:29 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\widgets\makro_progress_card.dart:197:13 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\ogun_card.dart:15:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\ogun_card.dart:46:56 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:90:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\shimmer_loading.dart:101:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:154:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\shimmer_loading.dart:166:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:259:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:291:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\tarih_secici.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\tarih_secici.dart:31:33 - deprecated_member_use
+  error - The name 'MyApp' isn't a class - test\widget_test.dart:16:35 - creation_with_non_type
+
+flutter : 515 issues fo
+und. (ran in 4.5s)
+At line:1 char:1
++ flutter analyze 2>&1 
+| Out-File "analyze3.tx
+t" -Encoding utf8; $con
+te ...
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (515 issues fo   
+ und. (ran in 4.5s)    
+:String) [], Remot    e
+Exception
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 

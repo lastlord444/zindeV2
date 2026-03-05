@@ -1,0 +1,232 @@
+﻿Analyzing zindeV.2.0...                                         
+
+warning - Unused import: 'package:shared_preferences/shared_preferences.dart' - lib\core\di\injection_container.dart:6:8 - unused_import
+warning - Unused import: 'dart:convert' - lib\core\services\pollinations_ai_service.dart:4:8 - unused_import
+warning - The value of the field '_audioBaseUrl' isn't used - lib\core\services\pollinations_ai_service.dart:24:23 - unused_field
+warning - Unused import: 'dart:convert' - lib\data\datasources\remote\supabase_meal_datasource.dart:3:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\meal_plan_repository_impl.dart:137:36 - prefer_const_constructors
+   info - The local variable '_parseYemek' starts with an underscore - lib\data\repositories\meal_plan_repository_impl.dart:179:12 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_parseMakro' starts with an underscore - lib\data\repositories\meal_plan_repository_impl.dart:185:20 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_parseTamamlanan' starts with an underscore - lib\data\repositories\meal_plan_repository_impl.dart:190:23 - no_leading_underscores_for_local_identifiers
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:94:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:100:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:101:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:102:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:105:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:111:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:112:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:113:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:116:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:122:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:123:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:124:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:139:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:145:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:146:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:147:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:150:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:156:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:157:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:172:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:178:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:179:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:180:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:195:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:201:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:202:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:203:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:206:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:212:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:213:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:214:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:217:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:223:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:224:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\data\repositories\workout_repository_impl.dart:225:15 - prefer_const_constructors
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\alisveris_listesi.dart:93:30 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\haftalik_rapor.dart:129:13 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\haftalik_rapor.dart:129:37 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\analytics\haftalik_rapor.dart:287:55 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\antrenman_plani.dart:132:38 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\antrenman_plani.dart:132:62 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\antrenman_plani.dart:212:33 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\domain\entities\workout\egzersiz.dart:181:34 - unnecessary_brace_in_string_interps
+warning - The value of the field '_dio' isn't used - lib\domain\services\ai_foto_analiz_servisi.dart:8:13 - unused_field
+warning - Unused import: 'package:dartz/dartz.dart' - lib\domain\services\haftalik_rapor_servisi.dart:4:8 - unused_import
+warning - Unused import: '../repositories/user_repository.dart' - lib\domain\services\makro_service.dart:4:8 - unused_import
+warning - The value of the field '_calculateMacros' isn't used - lib\domain\services\makro_service.dart:9:25 - unused_field
+warning - The value of the field '_planRepo' isn't used - lib\domain\services\meal_plan_service.dart:15:28 - unused_field
+warning - The value of the field '_mealRepo' isn't used - lib\domain\services\meal_plan_service.dart:16:24 - unused_field
+warning - The value of the field '_userRepo' isn't used - lib\domain\services\meal_plan_service.dart:17:24 - unused_field
+warning - The value of the field '_calculateMacros' isn't used - lib\domain\services\meal_plan_service.dart:18:25 - unused_field
+warning - Unused import: '../entities/nutrition/yemek_onay_sistemi.dart' - lib\domain\services\yemek_onay_servisi.dart:5:8 - unused_import
+   info - The local variable '_enYakinYemekSec' starts with an underscore - lib\domain\usecases\meal_planning\generate_daily_plan.dart:109:12 - no_leading_underscores_for_local_identifiers
+   info - The local variable '_sapmaSkoru' starts with an underscore - lib\domain\usecases\meal_planning\generate_daily_plan.dart:123:14 - no_leading_underscores_for_local_identifiers
+warning - Unused import: '../../../core/utils/logger.dart' - lib\presentation\bloc\analytics\analytics_bloc.dart:4:8 - unused_import
+   info - The private field _userId could be 'final' - lib\presentation\bloc\analytics\analytics_bloc.dart:14:11 - prefer_final_fields
+warning - The value of the field '_aktifKategori' isn't used - lib\presentation\bloc\chatbot\chatbot_bloc.dart:14:14 - unused_field
+warning - Unused import: '../../../domain/entities/nutrition/yemek.dart' - lib\presentation\bloc\home\home_bloc.dart:5:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\presentation\bloc\home\home_bloc.dart:72:10 - prefer_const_constructors
+warning - Unused import: '../../../core/config/nutrition_constraints.dart' - lib\presentation\bloc\profil\profil_bloc.dart:4:8 - unused_import
+   info - The private field _userId could be 'final' - lib\presentation\bloc\workout\workout_bloc.dart:12:11 - prefer_final_fields
+warning - Unused import: '../../../domain/entities/nutrition/yemek.dart' - lib\presentation\bloc\workout\workout_event.dart:5:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\ai_chatbot_page.dart:13:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:242:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:243:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:248:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:257:67 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:299:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:302:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:398:39 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\ai_chatbot_page.dart:526:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\ai_chatbot_page.dart:557:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alisveris_listesi_page.dart:304:21 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\alisveris_listesi_page.dart:306:40 - deprecated_member_use
+warning - The value of the local variable 'toplamMaliyet' isn't used - lib\presentation\pages\alisveris_listesi_page.dart:382:11 - unused_local_variable
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\analytics_page.dart:32:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\analytics_page.dart:47:9 - use_super_parameters
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:120:49 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:141:37 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:166:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:175:57 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:221:37 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:246:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\analytics_page.dart:255:57 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:383:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:395:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:431:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:480:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:549:25 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:581:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\analytics_page.dart:613:42 - deprecated_member_use
+warning - Unused import: '../../data/datasources/antrenman_local_data_source.dart' - lib\presentation\pages\antrenman_page.dart:8:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\antrenman_page.dart:15:9 - use_super_parameters
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:22:14 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\antrenman_page.dart:29:9 - use_super_parameters
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\antrenman_page.dart:73:11 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:109:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:230:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:329:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:432:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:581:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:615:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:666:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\antrenman_page.dart:804:37 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\camera_test_page.dart:11:9 - use_super_parameters
+warning - The value of the field '_aiServisi' isn't used - lib\presentation\pages\camera_test_page.dart:18:29 - unused_field
+warning - The value of the local variable 'mockCameraBytes' isn't used - lib\presentation\pages\camera_test_page.dart:31:13 - unused_local_variable
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\favori_yemekler_page.dart:11:9 - use_super_parameters
+warning - Unused import: '../../core/utils/app_logger.dart' - lib\presentation\pages\home_page_yeni.dart:3:8 - unused_import
+warning - Unused import: '../../data/repositories/meal_repository_v2.dart' - lib\presentation\pages\home_page_yeni.dart:4:8 - unused_import
+warning - Unused import: '../../domain/usecases/ogun_planlayici.dart' - lib\presentation\pages\home_page_yeni.dart:6:8 - unused_import
+warning - Unused import: '../../domain/services/makro_service.dart' - lib\presentation\pages\home_page_yeni.dart:7:8 - unused_import
+warning - Unused import: '../widgets/shimmer_loading.dart' - lib\presentation\pages\home_page_yeni.dart:22:8 - unused_import
+warning - Duplicate import - lib\presentation\pages\home_page_yeni.dart:31:8 - duplicate_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\home_page_yeni.dart:34:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\home_page_yeni.dart:51:9 - use_super_parameters
+warning - The value of the field '_isFABExtended' isn't used - lib\presentation\pages\home_page_yeni.dart:60:8 - unused_field
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\pages\home_page_yeni.dart:168:19 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\pages\home_page_yeni.dart:177:19 - use_build_context_synchronously
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:197:54 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:259:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:401:55 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:433:43 - prefer_const_constructors
+warning - The value of the local variable 'index' isn't used - lib\presentation\pages\home_page_yeni.dart:447:35 - unused_local_variable
+warning - The operand can't be 'null', so the condition is always 'true' - lib\presentation\pages\home_page_yeni.dart:539:46 - unnecessary_null_comparison
+warning - The '!' will have no effect because the receiver can't be null - lib\presentation\pages\home_page_yeni.dart:558:56 - unnecessary_non_null_assertion
+warning - The operand can't be 'null', so the condition is always 'true' - lib\presentation\pages\home_page_yeni.dart:581:45 - unnecessary_null_comparison
+warning - The '!' will have no effect because the receiver can't be null - lib\presentation\pages\home_page_yeni.dart:585:46 - unnecessary_non_null_assertion
+warning - The operand can't be 'null', so the condition is always 'true' - lib\presentation\pages\home_page_yeni.dart:595:48 - unnecessary_null_comparison
+warning - The '!' will have no effect because the receiver can't be null - lib\presentation\pages\home_page_yeni.dart:597:51 - unnecessary_non_null_assertion
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:637:54 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:673:36 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:782:39 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:824:57 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:856:45 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\home_page_yeni.dart:1031:52 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\macro_calculator_page.dart:12:9 - use_super_parameters
+   info - The private field _manuelAlerjiler could be 'final' - lib\presentation\pages\macro_calculator_page.dart:30:16 - prefer_final_fields
+   info - Don't invoke 'print' in production code - lib\presentation\pages\macro_calculator_page.dart:83:7 - avoid_print
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\macro_calculator_page.dart:276:19 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:353:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:420:33 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\macro_calculator_page.dart:477:7 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:506:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\macro_calculator_page.dart:508:41 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\maintenance_page.dart:14:9 - use_super_parameters
+warning - Unused import: '../widgets/animated_meal_card.dart' - lib\presentation\pages\meal_detail_page.dart:3:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\meal_detail_page.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\meal_detail_page.dart:46:39 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\pages\meal_detail_page.dart:65:32 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\pages\profil_page.dart:13:9 - use_super_parameters
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:115:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:155:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\presentation\pages\profil_page.dart:167:9 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:499:43 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:615:23 - use_build_context_synchronously
+   info - Use 'const' for final variables initialized to a constant value - lib\presentation\pages\profil_page.dart:634:23 - prefer_const_declarations
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:637:39 - use_build_context_synchronously
+warning - Dead code - lib\presentation\pages\profil_page.dart:639:38 - dead_code
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:640:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:648:48 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:658:39 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\presentation\pages\profil_page.dart:659:46 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:707:33 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\profil_page.dart:764:7 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:793:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\profil_page.dart:795:41 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\alt_navigasyon_bar.dart:14:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alt_navigasyon_bar.dart:27:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alt_navigasyon_bar.dart:84:40 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:16:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:243:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_besin_bottom_sheet.dart:367:22 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:15:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:87:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:262:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:340:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\alternatif_yemek_bottom_sheet.dart:424:22 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\animated_meal_card.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\animated_meal_card.dart:105:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\animated_meal_card.dart:255:9 - use_super_parameters
+warning - The value of the field '_isPressed' isn't used - lib\presentation\widgets\animated_meal_card.dart:273:8 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\animated_meal_card.dart:333:47 - deprecated_member_use
+warning - Unused import: 'animated_meal_card.dart' - lib\presentation\widgets\detayli_ogun_card.dart:5:8 - unused_import
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\detayli_ogun_card.dart:18:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\detayli_ogun_card.dart:54:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\detayli_ogun_card.dart:67:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\detayli_ogun_card.dart:79:50 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\empty_state_widget.dart:14:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\empty_state_widget.dart:315:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\empty_state_widget.dart:385:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\empty_state_widget.dart:396:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\empty_state_widget.dart:471:43 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\haftalik_takvim.dart:7:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\haftalik_takvim.dart:27:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\kompakt_makro_ozet.dart:17:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:52:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:169:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:279:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\kompakt_makro_ozet.dart:341:55 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\makro_chart.dart:4:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\makro_chart.dart:21:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\makro_progress_card.dart:17:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:70:25 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:113:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:165:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:167:50 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\widgets\makro_progress_card.dart:172:13 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\makro_progress_card.dart:190:29 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\widgets\makro_progress_card.dart:197:13 - prefer_const_constructors
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\ogun_card.dart:15:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\ogun_card.dart:46:56 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:11:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:90:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\shimmer_loading.dart:101:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:154:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\shimmer_loading.dart:166:33 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:259:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\shimmer_loading.dart:291:9 - use_super_parameters
+   info - Parameter 'key' could be a super parameter - lib\presentation\widgets\tarih_secici.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\tarih_secici.dart:31:33 - deprecated_member_use
+

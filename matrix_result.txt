@@ -1,0 +1,81 @@
+Yemekler Supabase'den çekiliyor...
+Toplam ${meals.length} yemek çekildi.
+
+=== HEDEF MAKROLAR ===
+Kalori: 2800 kcal
+Protein: 160.0 g
+Karbonhidrat: 350.0 g
+Yağ: 84.0 g
+======================
+
+
+✅ OLUŞTURULAN PLAN BAŞARILI!
+
+[${entry.key}]
+Ad: ${ogun.ad}
+Makrolar: ${ogun.kalori.toStringAsFixed(1)} kcal | P: ${ogun.protein.toStringAsFixed(1)}g | C: ${ogun.karbonhidrat.toStringAsFixed(1)}g | Y: ${ogun.yag.toStringAsFixed(1)}g
+Malzemeler:
+  - $m
+  - $m
+  - $m
+
+[${entry.key}]
+Ad: ${ogun.ad}
+Makrolar: ${ogun.kalori.toStringAsFixed(1)} kcal | P: ${ogun.protein.toStringAsFixed(1)}g | C: ${ogun.karbonhidrat.toStringAsFixed(1)}g | Y: ${ogun.yag.toStringAsFixed(1)}g
+Malzemeler:
+  - $m
+  - $m
+  - $m
+  - $m
+  - $m
+
+[${entry.key}]
+Ad: ${ogun.ad}
+Makrolar: ${ogun.kalori.toStringAsFixed(1)} kcal | P: ${ogun.protein.toStringAsFixed(1)}g | C: ${ogun.karbonhidrat.toStringAsFixed(1)}g | Y: ${ogun.yag.toStringAsFixed(1)}g
+Malzemeler:
+  - $m
+  - $m
+
+[${entry.key}]
+Ad: ${ogun.ad}
+Makrolar: ${ogun.kalori.toStringAsFixed(1)} kcal | P: ${ogun.protein.toStringAsFixed(1)}g | C: ${ogun.karbonhidrat.toStringAsFixed(1)}g | Y: ${ogun.yag.toStringAsFixed(1)}g
+Malzemeler:
+  - $m
+  - $m
+  - $m
+  - $m
+  - $m
+  - $m
+  - $m
+
+[${entry.key}]
+Ad: ${ogun.ad}
+Makrolar: ${ogun.kalori.toStringAsFixed(1)} kcal | P: ${ogun.protein.toStringAsFixed(1)}g | C: ${ogun.karbonhidrat.toStringAsFixed(1)}g | Y: ${ogun.yag.toStringAsFixed(1)}g
+Malzemeler:
+  - $m
+  - $m
+  - $m
+  - $m
+  - $m
+  - $m
+  - $m
+
+[${entry.key}]
+Ad: ${ogun.ad}
+Makrolar: ${ogun.kalori.toStringAsFixed(1)} kcal | P: ${ogun.protein.toStringAsFixed(1)}g | C: ${ogun.karbonhidrat.toStringAsFixed(1)}g | Y: ${ogun.yag.toStringAsFixed(1)}g
+Malzemeler:
+  - $m
+  - $m
+  - $m
+
+=== FINAL TEST SONUCU (TOTAL MAKROLAR) ===
+Kalori: ${plan.toplamKalori.toStringAsFixed(1)} kcal
+Protein: ${plan.toplamProtein.toStringAsFixed(1)} g
+Karbonhidrat: ${plan.toplamKarbonhidrat.toStringAsFixed(1)} g
+Yağ: ${plan.toplamYag.toStringAsFixed(1)} g
+
+SAPIŞ MİKTARLARI (TOLERANS):
+Kalori Fark: ${kaloriFark.toStringAsFixed(2)}
+Protein Fark: ${proteinFark.toStringAsFixed(2)}
+Karb Fark: ${karbFark.toStringAsFixed(2)}
+Yağ Fark: ${yagFark.toStringAsFixed(2)}
