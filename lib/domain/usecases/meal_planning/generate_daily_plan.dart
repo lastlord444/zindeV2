@@ -45,32 +45,29 @@ class GenerateDailyPlan {
         return const Left(PlanHatasi('Kısıtlamalarınıza uygun yemek bulunamadı.'));
       }
 
-      // Haftalık tekrar limiti (max 2)
-      final haftalikFiltre = uygunYemekler.where((y) {
-        final count = haftalikKullanilanYemekler[y.id] ?? 0;
-        return count < 2;
-      }).toList();
+      // Base ID çıkartma fonksiyonu: Varyasyon takılarını uçurup ana yemeği bulur
+      String getBaseId(String idStr) {
+        var base = idStr;
+        if (base.contains('_v7_')) base = base.split('_v7_').first;
+        if (base.startsWith('v2_') && base.split('_').length >= 3) {
+          final p = base.split('_');
+          if (p.last.length >= 3) return base.substring(0, base.length - 2);
+        }
+        return base;
+      }
 
-      final filtrelenmis = haftalikFiltre.isEmpty ? uygunYemekler : haftalikFiltre;
+      final baseKullanimlari = <String, int>{};
+      haftalikKullanilanYemekler.forEach((id, count) {
+        final bId = getBaseId(id);
+        baseKullanimlari[bId] = (baseKullanimlari[bId] ?? 0) + count;
+      });
 
       final dagilim = NutritionConstraints.ogunDagilimGetir(hedef);
       final gerekenOgunler = dagilim.keys.where((k) => (dagilim[k] ?? 0) > 0).toList();
 
-      // Her öğün tipi için yemek havuzunu ayır
-      final yemeklerByOgun = <String, List<Yemek>>{};
-      for (final ogunAdi in gerekenOgunler) {
-        yemeklerByOgun[ogunAdi] = filtrelenmis
-            .where((y) => y.ogun == _mapOgunTipi(ogunAdi))
-            .toList();
-        if (yemeklerByOgun[ogunAdi]!.isEmpty) {
-          yemeklerByOgun[ogunAdi] = filtrelenmis;
-        }
-      }
-
       final uretilenOgunler = <String, Yemek>{};
       double toplamKalori = 0, toplamProtein = 0, toplamKarb = 0, toplamYag = 0;
 
-      // Kalan bütçe - her öğünden sonra güncellenir
       double kalanKalori = hedefler.gunlukKalori;
       double kalanProtein = hedefler.gunlukProtein;
       double kalanKarb = hedefler.gunlukKarbonhidrat;
@@ -81,36 +78,32 @@ class GenerateDailyPlan {
         final yuzde = dagilim[ogunAdi]!;
         final sonOgun = idx == gerekenOgunler.length - 1;
 
-        // Bu öğünün kalori bütçesi
-        double oKalori;
-        double oProtein;
-        double oKarb;
-        double oYag;
-
-        if (sonOgun) {
-          // Son öğün: kalan bütçeyi tamamen kullan (telafi)
-          oKalori = kalanKalori;
-          oProtein = kalanProtein;
-          oKarb = kalanKarb;
-          oYag = kalanYag;
-        } else {
-          oKalori = hedefler.gunlukKalori * yuzde;
-          oProtein = hedefler.gunlukProtein * yuzde;
-          oKarb = hedefler.gunlukKarbonhidrat * yuzde;
-          oYag = hedefler.gunlukYag * yuzde;
-        }
+        double oKalori = sonOgun ? kalanKalori : (hedefler.gunlukKalori * yuzde);
+        double oProtein = sonOgun ? kalanProtein : (hedefler.gunlukProtein * yuzde);
+        double oKarb = sonOgun ? kalanKarb : (hedefler.gunlukKarbonhidrat * yuzde);
+        double oYag = sonOgun ? kalanYag : (hedefler.gunlukYag * yuzde);
 
         if (oKalori <= 30) continue;
 
-        final adayYemekler = yemeklerByOgun[ogunAdi]!;
-        if (adayYemekler.isEmpty) continue;
+        // Anlık geçerli liste: haftalıkta 0 kez kullanılanlar (Çeşitliliği garantilemek)
+        var adayYemekler = uygunYemekler.where((y) => 
+            y.ogun == _mapOgunTipi(ogunAdi) && 
+            (baseKullanimlari[getBaseId(y.id)] ?? 0) == 0
+        ).toList();
 
-        // En iyi yemeği bul: kalori oranı en yakın olan
+        // Eğer tükendiyse haftalıkta 1 kez veya hepsi (Tolerans esnetme)
+        if (adayYemekler.isEmpty) {
+          adayYemekler = uygunYemekler.where((y) => y.ogun == _mapOgunTipi(ogunAdi)).toList();
+        }
+        if (adayYemekler.isEmpty) {
+          adayYemekler = uygunYemekler;
+        }
+
         Yemek? enIyiYemek;
         double enIyiSkor = double.infinity;
 
-        // 50 rastgele aday dene, en iyi skoru olanı seç
-        final denemeSayisi = min(50, adayYemekler.length);
+        // Çeşitlilik için çok daha fazla random aday dene (100)
+        final denemeSayisi = min(100, adayYemekler.length);
         final karisik = List<Yemek>.from(adayYemekler)..shuffle(_random);
 
         for (int i = 0; i < denemeSayisi; i++) {
@@ -118,10 +111,8 @@ class GenerateDailyPlan {
           if (aday.kalori <= 0) continue;
 
           final ratio = oKalori / aday.kalori;
-          // Oran çok küçük veya çok büyükse atla
           if (ratio < 0.3 || ratio > 4.0) continue;
 
-          // Makrolar ne kadar yakın olur?
           final tahminiP = aday.protein * ratio;
           final tahminiK = aday.karbonhidrat * ratio;
           final tahminiY = aday.yag * ratio;
@@ -130,7 +121,6 @@ class GenerateDailyPlan {
           final kFark = (tahminiK - oKarb).abs();
           final yFark = (tahminiY - oYag).abs();
 
-          // Ağırlıklı skor (Protein en önemli)
           final skor = pFark * 2.0 + kFark * 1.0 + yFark * 1.5;
 
           if (skor < enIyiSkor) {
@@ -139,8 +129,10 @@ class GenerateDailyPlan {
           }
         }
 
-        // Hiç uygun yemek bulunamazsa rastgele seç
         enIyiYemek ??= adayYemekler[_random.nextInt(adayYemekler.length)];
+
+        // Seçilen yemeği gün içinde tekrar kullanmamak için listeye kaydet
+        baseKullanimlari[getBaseId(enIyiYemek.id)] = (baseKullanimlari[getBaseId(enIyiYemek.id)] ?? 0) + 1;
 
         // Ölçekleme oranı
         final ratio = enIyiYemek.kalori > 0 ? oKalori / enIyiYemek.kalori : 1.0;
