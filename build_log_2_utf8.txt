@@ -1,0 +1,425 @@
+﻿Launching lib\main.dart on Chrome in debug mode...
+Waiting for connection from debug service on Chrome...          
+flutter : lib/main.dart
+:16:12: Error: Method n
+ot found: 'initDependen
+cies'.
+At line:1 char:1
++ flutter run -d chrome
+ > build_log_2.txt 2>&1
+; cat build_log_2.txt |
+ S ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (lib/main.dart   
+ :1...tDependencies    
+'.:String) [], Rem    o
+teException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  await di.initDependen
+cies();
+           ^^^^^^^^^^^^
+^^^^
+lib/main.dart:29:29: Er
+ror: Method not found: 
+'sl'.
+          create: (_) =
+> di.sl<HomeBloc>()..ad
+d(const LoadHomePage())
+,
+                       
+     ^^
+lib/main.dart:32:29: Er
+ror: Method not found: 
+'sl'.
+          create: (_) =
+> di.sl<ProfilBloc>(),
+                       
+     ^^
+lib/presentation/pages/
+home_page_yeni.dart:39:
+16: Error: The method '
+sl' isn't defined for t
+he type 'YeniHomePage'.
+ - 'YeniHomePage' is fr
+om 'package:zinde_ai/pr
+esentation/pages/home_p
+age_yeni.dart' ('lib/pr
+esentation/pages/home_p
+age_yeni.dart').
+Try correcting the name
+ to the name of an exis
+ting method, or definin
+g a method named 'sl'.
+        return sl<HomeB
+loc>()..add(const LoadH
+omePage()); //  F5 yap─
+▒nca mevcut plan1 otoma
+tik y´┐¢kle
+               ^^
+lib/presentation/pages/
+home_page_yeni.dart:34:
+12: Error: Inferred typ
+e argument 'dynamic' do
+esn't conform to the bo
+und 'StateStreamableSou
+rce<Object?>' of the ty
+pe variable 'T' on 'Blo
+cProvider'.
+ - 'StateStreamableSour
+ce' is from 'package:bl
+oc/src/bloc.dart' ('/C:
+/Users/musab/AppData/Lo
+cal/Pub/Cache/hosted/pu
+b.dev/bloc-8.1.4/lib/sr
+c/bloc.dart').
+ - 'Object' is from 'da
+rt:core'.
+Try specifying type arg
+uments explicitly so th
+at they conform to the 
+bounds.
+    return BlocProvider
+(
+           ^
+/C:/Users/musab/AppData
+/Local/Pub/Cache/hosted
+/pub.dev/flutter_bloc-8
+.1.6/lib/src/bloc_provi
+der.dart:34:20: Context
+: This is the type vari
+able whose bound isn't 
+conformed to.
+class BlocProvider<T ex
+tends StateStreamableSo
+urce<Object?>>
+                   ^
+lib/presentation/pages/
+profil_page.dart:24:39:
+ Error: Method not foun
+d: 'sl'.
+  final UserRepository 
+_userRepo = di.sl<UserR
+epository>();
+                       
+               ^^
+lib/presentation/pages/
+profil_page.dart:25:47:
+ Error: Method not foun
+d: 'sl'.
+  final UpdateUserProfi
+le _updateProfile = di.
+sl<UpdateUserProfile>()
+;
+                       
+                       
+^^
+lib/presentation/pages/
+ai_chatbot_page.dart:20
+:39: Error: Method not 
+found: 'sl'.
+  final UserRepository 
+_userRepo = di.sl<UserR
+epository>();
+                       
+               ^^
+lib/presentation/pages/
+alisveris_listesi_page.
+dart:33:39: Error: Meth
+od not found: 'sl'.
+  final UserRepository 
+_userRepo = di.sl<UserR
+epository>();
+                       
+               ^^
+Unhandled exception:
+Unsupported operation: 
+Unsupported invalid typ
+e InvalidType(<invalid>
+) (InvalidType). Encoun
+tered while compiling f
+ile:///D:/zindeV.2.0/li
+b/main.dart, which cont
+ains the type: Function
+Type(<invalid> Function
+(BuildContext)).
+#0      LibraryCompiler
+._typeCompilationError 
+(package:dev_compiler/s
+rc/kernel/compiler_new.
+dart:4480)
+#1      LibraryCompiler
+._emitType (package:dev
+_compiler/src/kernel/co
+mpiler_new.dart:4445)
+#2      LibraryCompiler
+._emitFunctionTagged (p
+ackage:dev_compiler/src
+/kernel/compiler_new.da
+rt:4292)
+#3      LibraryCompiler
+.visitFunctionExpressio
+n (package:dev_compiler
+/src/kernel/compiler_ne
+w.dart:8894)
+#4      FunctionExpress
+ion.accept (package:ker
+nel/src/ast/expressions
+.dart:4695)
+#5      LibraryCompiler
+._visitExpression (pack
+age:dev_compiler/src/ke
+rnel/compiler_new.dart:
+5147)
+#6      LibraryCompiler
+._emitNamedExpression (
+package:dev_compiler/sr
+c/kernel/compiler_new.d
+art:8063)
+#7      LibraryCompiler
+._emitArgumentGroups (p
+ackage:dev_compiler/src
+/kernel/compiler_new.da
+rt:8053)
+#8      LibraryCompiler
+._emitArgumentList (pac
+kage:dev_compiler/src/k
+ernel/compiler_new.dart
+:8007)
+#9      LibraryCompiler
+.visitConstructorInvoca
+tion (package:dev_compi
+ler/src/kernel/compiler
+_new.dart:8309)
+#10     ConstructorInvo
+cation.accept (package:
+kernel/src/ast/expressi
+ons.dart:2695)
+#11     LibraryCompiler
+._visitExpression (pack
+age:dev_compiler/src/ke
+rnel/compiler_new.dart:
+5147)
+#12     MappedIterable.
+elementAt (dart:_intern
+al/iterable.dart:402)
+#13     ListIterator.mo
+veNext (dart:_internal/
+iterable.dart:371)
+#14     new _GrowableLi
+st._ofEfficientLengthIt
+erable (dart:core-patch
+/growable_array.dart:19
+4)
+#15     new _GrowableLi
+st.of (dart:core-patch/
+growable_array.dart:154
+)
+#16     new List.of (da
+rt:core-patch/array_pat
+ch.dart:39)
+#17     SetBase.toList 
+(dart:collection/set.da
+rt:119)
+#18     LibraryCompiler
+._visitExpressionList (
+package:dev_compiler/sr
+c/kernel/compiler_new.d
+art:5108)
+#19     LibraryCompiler
+.visitListLiteral (pack
+age:dev_compiler/src/ke
+rnel/compiler_new.dart:
+8742)
+#20     ListLiteral.acc
+ept (package:kernel/src
+/ast/expressions.dart:4
+249)
+#21     LibraryCompiler
+._visitExpression (pack
+age:dev_compiler/src/ke
+rnel/compiler_new.dart:
+5147)
+#22     LibraryCompiler
+._emitNamedExpression (
+package:dev_compiler/sr
+c/kernel/compiler_new.d
+art:8063)
+#23     LibraryCompiler
+._emitArgumentGroups (p
+ackage:dev_compiler/src
+/kernel/compiler_new.da
+rt:8053)
+#24     LibraryCompiler
+._emitArgumentList (pac
+kage:dev_compiler/src/k
+ernel/compiler_new.dart
+:8007)
+#25     LibraryCompiler
+.visitConstructorInvoca
+tion (package:dev_compi
+ler/src/kernel/compiler
+_new.dart:8309)
+#26     ConstructorInvo
+cation.accept (package:
+kernel/src/ast/expressi
+ons.dart:2695)
+#27     LibraryCompiler
+._visitExpression (pack
+age:dev_compiler/src/ke
+rnel/compiler_new.dart:
+5147)
+#28     LibraryCompiler
+.visitReturnStatement (
+package:dev_compiler/sr
+c/kernel/compiler_new.d
+art:5902)
+#29     ReturnStatement
+.accept (package:kernel
+/src/ast/statements.dar
+t:1097)
+#30     LibraryCompiler
+._visitStatement (packa
+ge:dev_compiler/src/ker
+nel/compiler_new.dart:5
+044)
+#31     MappedIterable.
+elementAt (dart:_intern
+al/iterable.dart:402)
+#32     ListIterator.mo
+veNext (dart:_internal/
+iterable.dart:371)
+#33     new _GrowableLi
+st._ofEfficientLengthIt
+erable (dart:core-patch
+/growable_array.dart:19
+4)
+#34     new _GrowableLi
+st.of (dart:core-patch/
+growable_array.dart:154
+)
+#35     new List.of (da
+rt:core-patch/array_pat
+ch.dart:39)
+#36     SetBase.toList 
+(dart:collection/set.da
+rt:119)
+#37     LibraryCompiler
+.visitBlock (package:de
+v_compiler/src/kernel/c
+ompiler_new.dart:5257)
+#38     Block.accept (p
+ackage:kernel/src/ast/s
+tatements.dart:106)
+#39     LibraryCompiler
+._visitStatement (packa
+ge:dev_compiler/src/ker
+nel/compiler_new.dart:5
+044)
+#40     LibraryCompiler
+._emitFunctionScopedBod
+y (package:dev_compiler
+/src/kernel/compiler_ne
+w.dart:5081)
+#41     LibraryCompiler
+._emitFunction.<anonymo
+us closure> (package:de
+v_compiler/src/kernel/c
+ompiler_new.dart:4667)
+#42     LibraryCompiler
+._withLetScope (package
+:dev_compiler/src/kerne
+l/compiler_new.dart:366
+1)
+#43     LibraryCompiler
+._withCurrentFunction (
+package:dev_compiler/sr
+c/kernel/compiler_new.d
+art:4841)
+#44     LibraryCompiler
+._emitFunction (package
+:dev_compiler/src/kerne
+l/compiler_new.dart:465
+9)
+#45     LibraryCompiler
+._emitMethodDeclaration
+.<anonymous closure> (p
+ackage:dev_compiler/src
+/kernel/compiler_new.da
+rt:2941)
+#46     LibraryCompiler
+._withMethodDeclaration
+Context (package:dev_co
+mpiler/src/kernel/compi
+ler_new.dart:4866)
+#47     LibraryCompiler
+._emitMethodDeclaration
+ (package:dev_compiler/
+src/kernel/compiler_new
+.dart:2939)
+#48     LibraryCompiler
+._emitClassProperties (
+package:dev_compiler/sr
+c/kernel/compiler_new.d
+art:2880)
+#49     LibraryCompiler
+._emitClassDeclaration 
+(package:dev_compiler/s
+rc/kernel/compiler_new.
+dart:1488)
+#50     LibraryCompiler
+._emitClass (package:de
+v_compiler/src/kernel/c
+ompiler_new.dart:1426)
+#51     List.forEach (d
+art:core-patch/growable
+_array.dart:428)
+#52     LibraryCompiler
+._emitLibrary (package:
+dev_compiler/src/kernel
+/compiler_new.dart:1348
+)
+#53     LibraryCompiler
+.emitLibrary (package:d
+ev_compiler/src/kernel/
+compiler_new.dart:962)
+#54     LibraryBundleCo
+mpiler.emitModule (pack
+age:dev_compiler/src/ke
+rnel/compiler_new.dart:
+165)
+#55     IncrementalJava
+ScriptBundler.compile (
+package:frontend_server
+/src/javascript_bundle.
+dart:324)
+#56     FrontendCompile
+r.writeJavaScriptBundle
+ (package:frontend_serv
+er/frontend_server.dart
+:922)
+<asynchronous suspensio
+n>
+#57     FrontendCompile
+r.compile (package:fron
+tend_server/frontend_se
+rver.dart:728)
+<asynchronous suspensio
+n>
+#58     listenAndCompil
+e.<anonymous closure> (
+package:frontend_server
+/frontend_server.dart:1
+449)
+<asynchronous suspensio
+n>
+The Dart compiler exite
+d unexpectedly.
+Waiting for connection from debug service on Chrome...             15,1s
+Failed to compile appli
+cation.

@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/di/injection_container.dart' as di;
 import 'presentation/bloc/home/home_bloc.dart';
 import 'presentation/bloc/home/home_event.dart';
@@ -11,6 +12,9 @@ import 'presentation/pages/home_page_yeni.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables for Supabase
+  await dotenv.load(fileName: ".env");
 
   // Bağımlılıklar1 başlat (Supabase dahil)
   await di.initDependencies();
