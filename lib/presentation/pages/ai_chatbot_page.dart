@@ -406,7 +406,10 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
                       controller: _messageController,
                       decoration: InputDecoration(
                         hintText: 'Mesajinizi yazin...',
-                        hintStyle: TextStyle(color: Colors.grey.shade400),
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade700,
+                          fontSize: 15,
+                        ),
                         filled: true,
                         fillColor: Colors.grey.shade100,
                         border: OutlineInputBorder(

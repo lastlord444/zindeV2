@@ -17,7 +17,7 @@ enum AICategory {
 /// Pollinations.ai API servisi
 /// Doğru endpoint: https://text.pollinations.ai/{prompt}
 class PollinationsAIService {
-  static const String _chatUrl = 'https://text.pollinations.ai';
+  static const String _chatUrl = 'https://enter.pollinations.ai';
   static const String _metinModeli = 'openai'; // OpenAI uyumlu model
   static const String _ttsSesi = 'nova'; // Türkçe için doğal ses
   static const String _sttModeli = 'scribe'; // 90+ dil, Türkçe dahil
