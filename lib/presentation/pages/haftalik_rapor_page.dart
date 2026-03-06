@@ -8,8 +8,8 @@ import '../widgets/empty_state_widget.dart';
 
 /// x` Haftalık Rapor Sayfas1
 ///
-/// NOT: Bu �zellik Supabase entegrasyonuyla yakında aktif olacak.
-/// Şu an placeholder olarak g�steriliyor.
+/// NOT: Bu ?zellik Supabase entegrasyonuyla yakında aktif olacak.
+/// Şu an placeholder olarak g?steriliyor.
 class HaftalikRaporPage extends StatefulWidget {
   final DateTime? baslangicTarihi;
 

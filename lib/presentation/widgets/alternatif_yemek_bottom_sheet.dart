@@ -3,7 +3,7 @@ import '../../domain/entities/yemek.dart';
 
 // ============================================================================
 // ALTERNAT0F YEMEK BOTTOM SHEET (STATELESS)
-// Kullanıc1 bir yemei beenmezse, HomeBloc'tan gelen alternatif yemekleri g�sterir
+// Kullanıc1 bir yemei beenmezse, HomeBloc'tan gelen alternatif yemekleri g?sterir
 // ============================================================================
 
 class AlternatifYemekBottomSheet extends StatelessWidget {
@@ -35,7 +35,7 @@ class AlternatifYemekBottomSheet extends StatelessWidget {
         mevcutYemek: mevcutYemek,
         alternatifYemekler: alternatifYemekler,
         onYemekSecildi: onYemekSecildi,
-        onClose: onClose, // CALLBACK GE�0R0LD0
+        onClose: onClose, // CALLBACK GE?0R0LD0
       ),
     );
   }
@@ -108,7 +108,7 @@ class AlternatifYemekBottomSheet extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Size başka se�enekler buldum',
+                      'Size başka se?enekler buldum',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.shade600,
@@ -119,7 +119,7 @@ class AlternatifYemekBottomSheet extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  // FIX: Kapatmadan �nce callback'i �aır (BLoC event tetiklenir)
+                  // FIX: Kapatmadan ?nce callback'i ?aır (BLoC event tetiklenir)
                   onClose?.call();
                   Navigator.pop(context);
                 },
@@ -189,7 +189,7 @@ class AlternatifYemekBottomSheet extends StatelessWidget {
               Icon(Icons.auto_awesome, color: Colors.green.shade700, size: 20),
               const SizedBox(width: 8),
               Text(
-                'Alternatif �neriler',
+                'Alternatif ?neriler',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -274,7 +274,7 @@ class AlternatifYemekBottomSheet extends StatelessWidget {
             onYemekSecildi(yemek);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(' ${yemek.ad} se�ildi'),
+                content: Text(' ${yemek.ad} se?ildi'),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
               ),
@@ -408,9 +408,9 @@ class AlternatifYemekBottomSheet extends StatelessWidget {
       children: [
         _buildMakroBadge('🔥', '${yemek.kalori.toStringAsFixed(0)} kcal', Colors.orange),
         const SizedBox(width: 8),
-        _buildMakroBadge('=�', '${yemek.protein.toStringAsFixed(0)}g', Colors.red),
+        _buildMakroBadge('=?', '${yemek.protein.toStringAsFixed(0)}g', Colors.red),
         const SizedBox(width: 8),
-        _buildMakroBadge('x�a', '${yemek.karbonhidrat.toStringAsFixed(0)}g', Colors.amber),
+        _buildMakroBadge('x?a', '${yemek.karbonhidrat.toStringAsFixed(0)}g', Colors.amber),
         const SizedBox(width: 8),
         _buildMakroBadge('🥑', '${yemek.yag.toStringAsFixed(0)}g', Colors.green),
       ],

@@ -14,10 +14,10 @@ class TarihSecici extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // T�rk�e locale kullanmadan basit format
+    // T?rk?e locale kullanmadan basit format
     final months = [
       'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-      'Temmuz', 'Austos', 'Eyl�l', 'Ekim', 'Kasım', 'Aralık'
+      'Temmuz', 'Austos', 'Eyl?l', 'Ekim', 'Kasım', 'Aralık'
     ];
     final tarihStr = '${secilenTarih.day} ${months[secilenTarih.month - 1]} ${secilenTarih.year}';
 
@@ -47,7 +47,7 @@ class TarihSecici extends StatelessWidget {
             ),
           ),
 
-          // Tarih g�sterimi
+          // Tarih g?sterimi
           Expanded(
             child: Text(
               tarihStr,

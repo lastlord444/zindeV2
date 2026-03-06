@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/yemek.dart';
 import '../../domain/entities/yemek_onay_sistemi.dart';
 import '../pages/meal_detail_page.dart';
-// Hero tags i�in
+// Hero tags i?in
 
 class DetayliOgunCard extends StatelessWidget {
   final Yemek yemek;
@@ -32,7 +32,7 @@ class DetayliOgunCard extends StatelessWidget {
     // GestureDetector ile tıklanabilir kart
     return GestureDetector(
       onTap: () {
-        // x�� Meal detail page'e navigate et
+        // x?? Meal detail page'e navigate et
         Navigator.push(
           context,
           MaterialPageRoute(

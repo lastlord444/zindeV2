@@ -28,7 +28,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   @override
   void initState() {
     super.initState();
-    // Kullanıc1 profilini y�kle
+    // Kullanıc1 profilini y?kle
     _loadUserProfile();
     // Ho_ geldin mesaj1 ekle
     _addWelcomeMessage();
@@ -40,9 +40,9 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       setState(() {
         _kullaniciProfili = profil;
       });
-      AppLogger.info('x� Kullanıc1 profili AI chatbot\'a y�klendi: ${profil?.ad} ${profil?.soyad}');
+      AppLogger.info('x? Kullanıc1 profili AI chatbot\'a y?klendi: ${profil?.ad} ${profil?.soyad}');
     } catch (e) {
-      AppLogger.error('�R Kullanıc1 profili y�kleme hatas1', e);
+      AppLogger.error('?R Kullanıc1 profili y?kleme hatas1', e);
     }
   }
 
@@ -68,24 +68,24 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
     switch (category) {
       case AICategory.supplement:
         return 'x9 Merhaba! Ben Dr. Ahmet Yılmaz, 30 yıllık deneyime sahip supplement uzmanıyım.\n\n'
-            'x` Whey protein, creatine, BCAA, vitaminler ve t�m supplement konularında size yardımc1 olabilirim.\n\n'
-            'Bana kilo, boy, ya_ bilgilerinizi ve hedefinizi s�ylerseniz, size �özel supplement program1 hazırlayabilirim!';
+            'x` Whey protein, creatine, BCAA, vitaminler ve t?m supplement konularında size yardımc1 olabilirim.\n\n'
+            'Bana kilo, boy, ya_ bilgilerinizi ve hedefinizi s?ylerseniz, size ?özel supplement program1 hazırlayabilirim!';
       case AICategory.nutrition:
         return 'x9 Merhaba! Ben Uzm. Dyt. Ayşe Demir, 30 yıllık deneyimli diyetisyeniyim.\n\n'
-            'x� Beslenme planlar1, makro hesaplama, T�rk mutfaına uygun diyet �nerileri konularında size yardımc1 olabilirim.\n\n'
-            'Bana kilo, boy, ya_ ve hedefinizi s�ylerseniz, size �özel beslenme plan1 hazırlayabilirim!';
+            'x? Beslenme planlar1, makro hesaplama, T?rk mutfaına uygun diyet ?nerileri konularında size yardımc1 olabilirim.\n\n'
+            'Bana kilo, boy, ya_ ve hedefinizi s?ylerseniz, size ?özel beslenme plan1 hazırlayabilirim!';
       case AICategory.training:
-        return 'x9 Merhaba! Ben Hakan Kaya, 30 yıllık deneyimli fitness antren�r�y�m.\n\n'
-            '=� Antrenman programlar1, kas geli_tirme, ya yakma ve fitness konularında size yardımc1 olabilirim.\n\n'
-            'Bana deneyim seviyenizi, hedefinizi ve ekipman durumunuzu s�ylerseniz, size �özel program hazırlayabilirim!';
+        return 'x9 Merhaba! Ben Hakan Kaya, 30 yıllık deneyimli fitness antren?r?y?m.\n\n'
+            '=? Antrenman programlar1, kas geli_tirme, ya yakma ve fitness konularında size yardımc1 olabilirim.\n\n'
+            'Bana deneyim seviyenizi, hedefinizi ve ekipman durumunuzu s?ylerseniz, size ?özel program hazırlayabilirim!';
       case AICategory.general:
         return 'x9 Merhaba! Ben Dr. Zeynep Aydın, 30 yıllık genel salık uzmanıyım.\n\n'
-            'x�� Salıkl1 ya_am, uyku, stres y�netimi ve genel salık konularında size yardımc1 olabilirim.\n\n'
+            'x?? Salıkl1 ya_am, uyku, stres y?netimi ve genel salık konularında size yardımc1 olabilirim.\n\n'
             'Sorularınız1 bekliyorum!';
       case AICategory.dietician:
         return 'x9 Merhaba! Ben Uzm. Dyt. Elif Kaya, 20 yıllık deneyimli profesyonel diyetisyeniyim.\n\n'
-            'x��️ T�rk mutfaından g�nl�k ve haftalık beslenme planlar1 hazırlıyorum. SADECE yerli yemeklerle (menemen, k�fte, pilav, balık) size �zel planlar oluşturabilirim.\n\n'
-            'Bana kilo, boy, ya_ ve hedefinizi s�ylerseniz, size T�rk mutfaından beslenme plan1 hazırlayabilirim!';
+            'x??️ T?rk mutfaından g?nl?k ve haftalık beslenme planlar1 hazırlıyorum. SADECE yerli yemeklerle (menemen, k?fte, pilav, balık) size ?zel planlar oluşturabilirim.\n\n'
+            'Bana kilo, boy, ya_ ve hedefinizi s?ylerseniz, size T?rk mutfaından beslenme plan1 hazırlayabilirim!';
     }
   }
 
@@ -109,7 +109,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
     _scrollToBottom();
 
     try {
-      // AI'dan yanıt al (profil bilgilerini de ge�ir)
+      // AI'dan yanıt al (profil bilgilerini de ge?ir)
       final aiService = PollinationsAIService();
       final aiResponse = await aiService.mesinYanitiAl(
         kullaniciMesaji: _kullaniciProfili != null 
@@ -135,7 +135,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       AppLogger.error('AI Chat Error: $e');
       setState(() {
         _messages.add(ChatMessage(
-          text: '�R �zg�n�m, bir hata oluştu. L�tfen tekrar dene.',
+          text: '?R ?zg?n?m, bir hata oluştu. L?tfen tekrar dene.',
           isUser: false,
           timestamp: DateTime.now(),
         ));
@@ -145,7 +145,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   }
 
   List<Map<String, String>> _getConversationHistory() {
-    // Son 10 mesaj1 g�nder (performans i�in)
+    // Son 10 mesaj1 g?nder (performans i?in)
     final recentMessages = _messages.length > 10
         ? _messages.sublist(_messages.length - 10)
         : _messages;
@@ -209,7 +209,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
                     const SizedBox(width: 12),
                     Text(
                       PollinationsAIService.categoryDescriptions[category]!
-                          .substring(3), // Emoji'yi �ıkar
+                          .substring(3), // Emoji'yi ?ıkar
                     ),
                   ],
                 ),
@@ -231,7 +231,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       ),
       body: Column(
         children: [
-          // Kullanıc1 profil kart1 (varsa g�ster)
+          // Kullanıc1 profil kart1 (varsa g?ster)
           if (_kullaniciProfili != null)
             Container(
               width: double.infinity,
@@ -483,11 +483,11 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       case AICategory.nutrition:
         return '30 yıllık Diyetisyen';
       case AICategory.training:
-        return '30 yıllık Fitness Antren�r�';
+        return '30 yıllık Fitness Antren?r?';
       case AICategory.general:
         return '30 yıllık Genel Salık Uzman1';
       case AICategory.dietician:
-        return '20 yıllık Profesyonel T�rk Diyetisyeni';
+        return '20 yıllık Profesyonel T?rk Diyetisyeni';
     }
   }
 
@@ -590,9 +590,9 @@ class ChatBubble extends StatelessWidget {
     if (difference.inMinutes < 1) {
       return 'Şimdi';
     } else if (difference.inHours < 1) {
-      return '${difference.inMinutes} dk �nce';
+      return '${difference.inMinutes} dk ?nce';
     } else if (difference.inDays < 1) {
-      return '${difference.inHours} sa �nce';
+      return '${difference.inHours} sa ?nce';
     } else {
       return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
     }

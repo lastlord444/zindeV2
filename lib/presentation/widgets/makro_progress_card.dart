@@ -25,17 +25,17 @@ class MakroProgressCard extends StatelessWidget {
 
   /// Tolerans limiti - TEK KAYNAK
   double get _toleransYuzdesi {
-    // T�m makrolar i�in ayn1 tolerans (TEK KAYNAK)
+    // T?m makrolar i?in ayn1 tolerans (TEK KAYNAK)
     return NutritionConstraints.tolerancePct * 100; // %10
   }
 
-  /// Sapma y�zdesi hesapla (mutlak deer)
+  /// Sapma y?zdesi hesapla (mutlak deer)
   double get sapmaYuzdesi {
-    if (hedef == 0) return mevcut == 0 ? 0 : 100; // Hedef 0 ise �zel durum
+    if (hedef == 0) return mevcut == 0 ? 0 : 100; // Hedef 0 ise ?zel durum
     return ((mevcut - hedef).abs() / hedef) * 100;
   }
 
-  /// Tolerans i�inde mi?
+  /// Tolerans i?inde mi?
   bool get toleranstaMi {
     return sapmaYuzdesi <= _toleransYuzdesi;
   }

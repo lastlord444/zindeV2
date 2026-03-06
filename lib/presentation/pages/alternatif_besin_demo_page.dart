@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 /// Alternatif besin demo sayfas1
-/// TODO: V2 API'sine g�re g�ncellenecek
+/// TODO: V2 API'sine g?re g?ncellenecek
 class AlternatifBesinDemoPage extends StatelessWidget {
   const AlternatifBesinDemoPage({super.key});
 
@@ -13,7 +13,7 @@ class AlternatifBesinDemoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('x� Alternatif Besinler'),
+        title: const Text('x? Alternatif Besinler'),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
       ),
@@ -38,7 +38,7 @@ class AlternatifBesinDemoPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Text(
-                'Bu �zellik V2 API\'si ile g�ncelleniyor.\nYakında eklenecek.',
+                'Bu ?zellik V2 API\'si ile g?ncelleniyor.\nYakında eklenecek.',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),

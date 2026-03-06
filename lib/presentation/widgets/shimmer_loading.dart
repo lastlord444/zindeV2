@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// x�� Shimmer Loading Effect Widget
+/// x?? Shimmer Loading Effect Widget
 /// Professional loading skeleton with animated shimmer
 class ShimmerLoading extends StatefulWidget {
   final Widget child;
@@ -85,7 +85,7 @@ class _SlideGradientTransform extends GradientTransform {
   }
 }
 
-/// x� Makro Kart Skeleton
+/// x? Makro Kart Skeleton
 class MakroCardSkeleton extends StatelessWidget {
   const MakroCardSkeleton({super.key});
 
@@ -149,7 +149,7 @@ class MakroCardSkeleton extends StatelessWidget {
   }
 }
 
-/// x��️ ��n Kart1 Skeleton
+/// x??️ ??n Kart1 Skeleton
 class OgunCardSkeleton extends StatelessWidget {
   const OgunCardSkeleton({super.key});
 
@@ -286,7 +286,7 @@ class TakvimSkeleton extends StatelessWidget {
   }
 }
 
-/// x�� Loading Sayfas1
+/// x?? Loading Sayfas1
 class LoadingPage extends StatelessWidget {
   const LoadingPage({super.key});
 
@@ -301,7 +301,7 @@ class LoadingPage extends StatelessWidget {
         // Makro kart skeleton
         MakroCardSkeleton(),
         SizedBox(height: 24),
-        // ��n kartlar1 skeleton
+        // ??n kartlar1 skeleton
         OgunCardSkeleton(),
         OgunCardSkeleton(),
         OgunCardSkeleton(),

@@ -38,7 +38,7 @@ class OgunCard extends StatelessWidget {
               // Ba_lık satır1
               Row(
                 children: [
-                  // ��n emoji
+                  // ??n emoji
                   Container(
                     width: 48,
                     height: 48,
@@ -55,7 +55,7 @@ class OgunCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
 
-                  // Yemek ad1 ve ��n
+                  // Yemek ad1 ve ??n
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class OgunCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${yemek.zorluk.emoji} ${yemek.zorluk.ad}', //  D�zeltildi: aciklama -> ad
+                              '${yemek.zorluk.emoji} ${yemek.zorluk.ad}', //  D?zeltildi: aciklama -> ad
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[600],
@@ -99,7 +99,7 @@ class OgunCard extends StatelessWidget {
                         color: isFavorite ? Colors.red : null,
                       ),
                       onPressed: onFavoriTap,
-                      tooltip: isFavorite ? 'Favorilerden �ıkar' : 'Favorilere ekle',
+                      tooltip: isFavorite ? 'Favorilerden ?ıkar' : 'Favorilere ekle',
                     ),
 
                   // Alternatif butonu
@@ -107,7 +107,7 @@ class OgunCard extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.swap_horiz),
                       onPressed: onAlternatifTap,
-                      tooltip: 'Alternatif �ner',
+                      tooltip: 'Alternatif ?ner',
                     ),
                 ],
               ),
@@ -151,7 +151,7 @@ class OgunCard extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: 8),
 
-                // Hazırlama s�resi
+                // Hazırlama s?resi
                 Row(
                   children: [
                     const Icon(Icons.timer_outlined, size: 16),
@@ -192,7 +192,7 @@ class OgunCard extends StatelessWidget {
     );
   }
 
-  /// ��n tipine g�re renk
+  /// ??n tipine g?re renk
   Color _getOgunColor(OgunTipi ogun) {
     switch (ogun) {
       case OgunTipi.kahvalti:

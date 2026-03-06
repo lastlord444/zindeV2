@@ -42,7 +42,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
         orijinalBirim: orijinalBirim,
         alternatifler: alternatifler,
         alerjiNedeni: alerjiNedeni,
-        onClose: onClose, // CALLBACK GE�0R0LD0
+        onClose: onClose, // CALLBACK GE?0R0LD0
       ),
     );
   }
@@ -117,7 +117,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
                     // Geri/Kapat butonu
                     IconButton(
                       onPressed: () {
-                        // FIX: Kapatmadan �nce callback'i �aır (BLoC event tetiklenir)
+                        // FIX: Kapatmadan ?nce callback'i ?aır (BLoC event tetiklenir)
                         onClose?.call();
                         Navigator.pop(context);
                       },
@@ -179,7 +179,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // FIX: Alternatif bulunamadıysa mesaj g�ster
+                // FIX: Alternatif bulunamadıysa mesaj g?ster
                 if (alternatifler.isEmpty)
                   Container(
                     padding: const EdgeInsets.all(24),
@@ -207,7 +207,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Bu besin i�in uygun alternatif bulunamad1. L�tfen farkl1 bir besin se�in veya beslenme uzmanınıza danışın.',
+                          'Bu besin i?in uygun alternatif bulunamad1. L?tfen farkl1 bir besin se?in veya beslenme uzmanınıza danışın.',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey.shade600,
@@ -255,7 +255,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  ' ${alternatif.ad} se�ildi (${alternatif.miktar.toStringAsFixed(0)} ${alternatif.birim})',
+                  ' ${alternatif.ad} se?ildi (${alternatif.miktar.toStringAsFixed(0)} ${alternatif.birim})',
                 ),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
@@ -267,7 +267,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // �st kısım
+                // ?st kısım
                 Row(
                   children: [
                     Container(
@@ -325,10 +325,10 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                // Besin deerleri - =% FIX: Row �  Wrap (responsive listeler i�in)
+                // Besin deerleri - =% FIX: Row ?  Wrap (responsive listeler i?in)
                 Wrap(
                   spacing: 8, // Yatay bo_luk
-                  runSpacing: 8, // Dikey bo_luk (alt satır i�in)
+                  runSpacing: 8, // Dikey bo_luk (alt satır i?in)
                   children: [
                     _buildNutrientBadge(
                       '🔥',
@@ -336,12 +336,12 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
                       Colors.orange,
                     ),
                     _buildNutrientBadge(
-                      '=�',
+                      '=?',
                       '${alternatif.protein.toStringAsFixed(1)}g',
                       Colors.red,
                     ),
                     _buildNutrientBadge(
-                      'x�a',
+                      'x?a',
                       '${alternatif.karbonhidrat.toStringAsFixed(1)}g',
                       Colors.amber,
                     ),

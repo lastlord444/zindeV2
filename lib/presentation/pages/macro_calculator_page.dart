@@ -5,7 +5,7 @@ import '../../domain/entities/user/hedef.dart';
 import '../../domain/entities/user/kullanici_profili.dart';
 
 // ============================================================================
-// MAKRO HESAPLAMA EKRANI - D0NAM0K G�NCELLEME + ALERJ0 S0STEM0
+// MAKRO HESAPLAMA EKRANI - D0NAM0K G?NCELLEME + ALERJ0 S0STEM0
 // ============================================================================
 
 class MacroCalculatorPage extends StatefulWidget {
@@ -34,9 +34,9 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
   @override
   void initState() {
     super.initState();
-    _hesapla(); // ⭐ 0lk y�klemede hesapla
+    _hesapla(); // ⭐ 0lk y?klemede hesapla
 
-    // ⭐ D0NAM0K G�NCELLEME: Her dei_iklikte yeniden hesapla
+    // ⭐ D0NAM0K G?NCELLEME: Her dei_iklikte yeniden hesapla
     _yasController.addListener(_hesapla);
     _boyController.addListener(_hesapla);
     _kiloController.addListener(_hesapla);
@@ -59,7 +59,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
     final kilo = double.tryParse(_kiloController.text) ?? 73;
 
     if (yas > 0 && boy > 0 && kilo > 0) {
-      // Ge�ici profil oluştur (hesaplama i�in)
+      // Ge?ici profil oluştur (hesaplama i?in)
       final tempProfil = KullaniciProfili(
         id: 'temp',
         ad: 'Temp',
@@ -103,7 +103,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
     });
   }
 
-  // ⭐ T�M KISITLAMALAR
+  // ⭐ T?M KISITLAMALAR
   List<String> get _tumKisitlamalar {
     final Set<String> kisitlamalar = {};
     kisitlamalar.addAll(_diyetTipi.varsayilanKisitlamalar);
@@ -216,7 +216,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
                 // Otomatik kısıtlamalar
                 if (_diyetTipi.varsayilanKisitlamalar.isNotEmpty) ...[
                   Text(
-                    '=� Otomatik Kısıtlamalar (${_diyetTipi.aciklama}):',
+                    '=? Otomatik Kısıtlamalar (${_diyetTipi.aciklama}):',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -245,7 +245,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
                         controller: _alerjiController,
                         decoration: InputDecoration(
                           labelText: 'Manuel Alerji/Kısıtlama Ekle',
-                          hintText: '�rn: Ceviz, Fındık, Soya',
+                          hintText: '?rn: Ceviz, Fındık, Soya',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -274,7 +274,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
                 if (_manuelAlerjiler.isNotEmpty) ...[
                   const SizedBox(height: 16),
                   const Text(
-                    '�a�️ Manuel Alerjiler:',
+                    '?a?️ Manuel Alerjiler:',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -295,7 +295,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
                   ),
                 ],
 
-                // T�m kısıtlamalar �zeti
+                // T?m kısıtlamalar ?zeti
                 if (_tumKisitlamalar.isNotEmpty) ...[
                   const SizedBox(height: 16),
                   Container(
@@ -339,7 +339,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
 
             const SizedBox(height: 24),
 
-            // SONU�LAR
+            // SONU?LAR
             if (_sonuc != null) ...[
               Container(
                 padding: const EdgeInsets.all(20),
@@ -373,7 +373,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
                     ),
                     const SizedBox(height: 16),
                     _buildMakroCard(
-                      '=% G�nl�k Kalori',
+                      '=% G?nl?k Kalori',
                       '${_sonuc!.gunlukKalori.toStringAsFixed(0)} kcal',
                       Colors.orange,
                     ),
@@ -385,7 +385,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
                     ),
                     const SizedBox(height: 12),
                     _buildMakroCard(
-                      'x�a Karbonhidrat',
+                      'x?a Karbonhidrat',
                       '${_sonuc!.gunlukKarbonhidrat.toStringAsFixed(0)} g',
                       Colors.amber,
                     ),
@@ -472,7 +472,7 @@ class _MacroCalculatorPageState extends State<MacroCalculatorPage> {
     required List<T> items,
     required void Function(T?) onChanged,
   }) {
-    // x� Explicit type casting for items map to avoid generic type issues
+    // x? Explicit type casting for items map to avoid generic type issues
     return DropdownButtonFormField<T>(
       initialValue: value,
       decoration: InputDecoration(

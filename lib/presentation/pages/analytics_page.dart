@@ -1,5 +1,5 @@
 // ============================================================================
-// ANALYTICS SAYFASI - FAZ 10 - D�ZELTILDI
+// ANALYTICS SAYFASI - FAZ 10 - D?ZELTILDI
 // ============================================================================
 
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class AnalyticsPageContent extends StatelessWidget {
                     const CircularProgressIndicator(),
                     const SizedBox(height: 16),
                     Text(
-                      'Y�kleniyor...',
+                      'Y?kleniyor...',
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
                   ],
@@ -127,11 +127,11 @@ class AnalyticsPageContent extends StatelessWidget {
     );
   }
 
-  /// Haftalık analytics i�erii
+  /// Haftalık analytics i?erii
   Widget _buildWeeklyAnalyticsContent(BuildContext context, WeeklyAnalyticsLoaded state) {
     return Column(
       children: [
-        // �st bar
+        // ?st bar
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -160,7 +160,7 @@ class AnalyticsPageContent extends StatelessWidget {
                 children: [
                   _buildTimeFilterChip(
                     context,
-                    '7 G�n',
+                    '7 G?n',
                     isSelected: true,
                     onTap: () {
                       context.read<AnalyticsBloc>().add(const LoadWeeklyAnalytics());
@@ -169,7 +169,7 @@ class AnalyticsPageContent extends StatelessWidget {
                   const SizedBox(width: 8),
                   _buildTimeFilterChip(
                     context,
-                    '30 G�n',
+                    '30 G?n',
                     isSelected: false,
                     onTap: () {
                       context.read<AnalyticsBloc>().add(const LoadMonthlyAnalytics());
@@ -181,12 +181,12 @@ class AnalyticsPageContent extends StatelessWidget {
           ),
         ),
 
-        // 0�erik
+        // 0?erik
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              // �zet kartlar1
+              // ?zet kartlar1
               _buildSummaryCards(state),
               const SizedBox(height: 24),
 
@@ -194,7 +194,7 @@ class AnalyticsPageContent extends StatelessWidget {
               _buildTrendCard(state.data.hedefAnalizi.gelismeTrendi),
               const SizedBox(height: 24),
 
-              // En iyi/en k�t� g�nler
+              // En iyi/en k?t? g?nler
               _buildBestWorstDays(state.planlar),
               const SizedBox(height: 24),
 
@@ -207,11 +207,11 @@ class AnalyticsPageContent extends StatelessWidget {
     );
   }
 
-  /// Aylık analytics i�erii
+  /// Aylık analytics i?erii
   Widget _buildMonthlyAnalyticsContent(BuildContext context, MonthlyAnalyticsLoaded state) {
     return Column(
       children: [
-        // �st bar
+        // ?st bar
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -240,7 +240,7 @@ class AnalyticsPageContent extends StatelessWidget {
                 children: [
                   _buildTimeFilterChip(
                     context,
-                    '7 G�n',
+                    '7 G?n',
                     isSelected: false,
                     onTap: () {
                       context.read<AnalyticsBloc>().add(const LoadWeeklyAnalytics());
@@ -249,7 +249,7 @@ class AnalyticsPageContent extends StatelessWidget {
                   const SizedBox(width: 8),
                   _buildTimeFilterChip(
                     context,
-                    '30 G�n',
+                    '30 G?n',
                     isSelected: true,
                     onTap: () {
                       context.read<AnalyticsBloc>().add(const LoadMonthlyAnalytics());
@@ -261,25 +261,25 @@ class AnalyticsPageContent extends StatelessWidget {
           ),
         ),
 
-        // 0�erik
+        // 0?erik
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              // �zet kartlar1 (aylık)
+              // ?zet kartlar1 (aylık)
               _buildMonthlySummaryCards(state),
               const SizedBox(height: 24),
 
               // Trend bilgisi
-              _buildTrendCard('Veri Yeterli Deil'), // Aylık raporda hen�z hedefAnalizi yok
+              _buildTrendCard('Veri Yeterli Deil'), // Aylık raporda hen?z hedefAnalizi yok
               const SizedBox(height: 24),
 
-              // En iyi/en k�t� g�nler
+              // En iyi/en k?t? g?nler
               _buildBestWorstDays(state.planlar),
               const SizedBox(height: 24),
 
               // Favori yemekler
-              _buildFavoriteMeals({}), // V2'de enCokYenilenYemekler Hen�z implementasyon yok
+              _buildFavoriteMeals({}), // V2'de enCokYenilenYemekler Hen?z implementasyon yok
             ],
           ),
         ),
@@ -313,7 +313,7 @@ class AnalyticsPageContent extends StatelessWidget {
     );
   }
 
-  /// Haftalık �zet kartlar1
+  /// Haftalık ?zet kartlar1
   Widget _buildSummaryCards(WeeklyAnalyticsLoaded state) {
     return Row(
       children: [
@@ -338,7 +338,7 @@ class AnalyticsPageContent extends StatelessWidget {
     );
   }
 
-  /// Aylık �zet kartlar1
+  /// Aylık ?zet kartlar1
   Widget _buildMonthlySummaryCards(MonthlyAnalyticsLoaded state) {
     final gunlukMakrolar = _getGunlukMakrolar(state.planlar);
     final ortalama = _hesaplaOrtalamaMakrolar(gunlukMakrolar);
@@ -366,7 +366,7 @@ class AnalyticsPageContent extends StatelessWidget {
     );
   }
 
-  /// �zet kart1
+  /// ?zet kart1
   Widget _buildSummaryCard(
     String baslik,
     String deger,
@@ -438,7 +438,7 @@ class AnalyticsPageContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'x� 0lerleme Trendi',
+            'x? 0lerleme Trendi',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -457,13 +457,13 @@ class AnalyticsPageContent extends StatelessWidget {
     );
   }
 
-  /// En iyi/en k�t� g�nler
+  /// En iyi/en k?t? g?nler
   Widget _buildBestWorstDays(List<GunlukPlan> planlar) {
     if (planlar.length < 2) {
       return const SizedBox.shrink();
     }
 
-    // En y�ksek ve en d�_�k kalori g�nlerini bul
+    // En y?ksek ve en d?_?k kalori g?nlerini bul
     final sortedPlanlar = List<GunlukPlan>.from(planlar)
       ..sort((a, b) => a.toplamKalori.compareTo(b.toplamKalori));
     
@@ -487,7 +487,7 @@ class AnalyticsPageContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'x�  En 0yi/En K�t� G�nler',
+            'x?  En 0yi/En K?t? G?nler',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -495,17 +495,17 @@ class AnalyticsPageContent extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // En y�ksek kalori
+          // En y?ksek kalori
           _buildDayRow(
-            '=% En Y�ksek Kalori',
+            '=% En Y?ksek Kalori',
             enYuksekPlan,
             Colors.orange,
           ),
           const SizedBox(height: 12),
 
-          // En d�_�k kalori
+          // En d?_?k kalori
           _buildDayRow(
-            'xR� En D�_�k Kalori',
+            'xR? En D?_?k Kalori',
             enDusukPlan,
             Colors.green,
           ),
@@ -514,7 +514,7 @@ class AnalyticsPageContent extends StatelessWidget {
     );
   }
 
-  /// G�n satır1
+  /// G?n satır1
   Widget _buildDayRow(String baslik, GunlukPlan plan, Color renk) {
     final tarih = plan.tarih;
     final kalori = plan.toplamKalori;
@@ -691,7 +691,7 @@ class AnalyticsPageContent extends StatelessWidget {
       'Haziran',
       'Temmuz',
       'Austos',
-      'Eyl�l',
+      'Eyl?l',
       'Ekim',
       'Kasım',
       'Aralık'

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// x�� Animasyonlu ��n Kart1 Wrapper
+/// x?? Animasyonlu ??n Kart1 Wrapper
 /// Slide, fade ve scale animasyonlar1 ile profesyonel giri_ efekti
 class AnimatedMealCard extends StatefulWidget {
   final Widget child;
@@ -91,7 +91,7 @@ class _AnimatedMealCardState extends State<AnimatedMealCard>
   }
 }
 
-/// x�� Progress Ring Widget
+/// x?? Progress Ring Widget
 /// Circular progress ring with gradient and animation
 class ProgressRing extends StatefulWidget {
   final double progress; // 0.0 to 1.0
@@ -243,7 +243,7 @@ class _ProgressRingPainter extends CustomPainter {
   }
 }
 
-/// x�� Floating Action Button with Animation
+/// x?? Floating Action Button with Animation
 class AnimatedFAB extends StatefulWidget {
   final VoidCallback onPressed;
   final IconData icon;
@@ -359,7 +359,7 @@ class _AnimatedFABState extends State<AnimatedFAB>
   }
 }
 
-/// x�� Hero Transition i�in Tag Generator
+/// x?? Hero Transition i?in Tag Generator
 class HeroTags {
   static String mealCard(String yemekId) => 'meal_card_$yemekId';
   static String mealImage(String yemekId) => 'meal_image_$yemekId';

@@ -17,7 +17,7 @@ class _CameraTestPageState extends State<CameraTestPage> {
   Map<String, dynamic>? _sonAnaliz;
   bool _yukleniyor = false;
 
-  /// Mock camera g�r�nt�s� oluştur ve analiz et
+  /// Mock camera g?r?nt?s? oluştur ve analiz et
   Future<void> _mockCameraAnaliziYap() async {
     setState(() {
       _yukleniyor = true;
@@ -25,12 +25,12 @@ class _CameraTestPageState extends State<CameraTestPage> {
     });
 
     try {
-      // Mock kamera byte'lar1 (ger�ek uygulamada camera plugin'den gelecek)
+      // Mock kamera byte'lar1 (ger?ek uygulamada camera plugin'den gelecek)
       
       
-      AppLogger.info('x� Camera Test: Mock analiz ba_latılıyor...');
+      AppLogger.info('x? Camera Test: Mock analiz ba_latılıyor...');
       
-      // TODO: canliYemekTanima metodu hen�z implement edilmedi
+      // TODO: canliYemekTanima metodu hen?z implement edilmedi
       // final sonuc = await _aiServisi.canliYemekTanima(cameraBytes: mockCameraBytes);
       final sonuc = <String, dynamic>{
         'yemek': 'Test Yemei',
@@ -53,7 +53,7 @@ class _CameraTestPageState extends State<CameraTestPage> {
         };
       });
       
-      AppLogger.error('�R Camera Test Hatas1: $e');
+      AppLogger.error('?R Camera Test Hatas1: $e');
     }
   }
 
@@ -61,7 +61,7 @@ class _CameraTestPageState extends State<CameraTestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('x� Camera AI Test'),
+        title: const Text('x? Camera AI Test'),
         backgroundColor: Colors.deepPurple,
       ),
       body: Padding(
@@ -154,13 +154,13 @@ class _CameraTestPageState extends State<CameraTestPage> {
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          'x�� Bu sayfa AI Foto Analiz servisini test eder.\n\n'
-                          'x� Mock kamera verisi ile canl1 yemek tanıma �zelliini test eder.\n\n'
-                          'x� Ger�ek uygulamada:\n'
+                          'x?? Bu sayfa AI Foto Analiz servisini test eder.\n\n'
+                          'x? Mock kamera verisi ile canl1 yemek tanıma ?zelliini test eder.\n\n'
+                          'x? Ger?ek uygulamada:\n'
                           '  ⬢ Camera plugin kullanılır\n'
-                          '  ⬢ Ger�ek zamanl1 g�r�nt� analizi yapılır\n'
-                          '  ⬢ AI sonu�lar1 g�sterilir\n\n'
-                          ' Sistemi test etmek i�in yukarıdaki butona tıklayın.',
+                          '  ⬢ Ger?ek zamanl1 g?r?nt? analizi yapılır\n'
+                          '  ⬢ AI sonu?lar1 g?sterilir\n\n'
+                          ' Sistemi test etmek i?in yukarıdaki butona tıklayın.',
                           style: TextStyle(fontSize: 14, height: 1.5),
                         ),
                       ],
@@ -224,7 +224,7 @@ class _CameraTestPageState extends State<CameraTestPage> {
           _buildInfoRow(
             icon: Icons.check_circle_outline,
             label: 'Tanınd1',
-            value: _sonAnaliz!['tanindi'] == true ? 'Evet ' : 'Hayır �R',
+            value: _sonAnaliz!['tanindi'] == true ? 'Evet ' : 'Hayır ?R',
             color: Colors.green.shade700,
           ),
           const Divider(height: 24),
@@ -239,17 +239,17 @@ class _CameraTestPageState extends State<CameraTestPage> {
             ),
           const SizedBox(height: 12),
           
-          // G�venilirlik
+          // G?venilirlik
           if (_sonAnaliz!.containsKey('guvenlilk'))
             _buildInfoRow(
               icon: Icons.analytics_outlined,
-              label: 'G�venilirlik',
+              label: 'G?venilirlik',
               value: '${(_sonAnaliz!['guvenlilk'] * 100).toStringAsFixed(1)}%',
               color: Colors.blue.shade700,
             ),
           const SizedBox(height: 12),
           
-          // �neri
+          // ?neri
           if (_sonAnaliz!.containsKey('oneri'))
             Container(
               padding: const EdgeInsets.all(12),
@@ -275,7 +275,7 @@ class _CameraTestPageState extends State<CameraTestPage> {
           
           // Raw Data (Debug)
           ExpansionTile(
-            title: const Text('x� Raw Debug Data'),
+            title: const Text('x? Raw Debug Data'),
             children: [
               Container(
                 padding: const EdgeInsets.all(12),

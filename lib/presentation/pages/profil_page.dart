@@ -153,11 +153,11 @@ class _ProfilPageState extends State<ProfilPage> {
     sonuc.fold(
       (hata) {
         // Kaydetme ba_arısız
-        debugPrint('�❌ Profil kaydedilemedi: ${hata.mesaj}');
+        debugPrint('?❌ Profil kaydedilemedi: ${hata.mesaj}');
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('�❌ Profil kaydedilemedi: ${hata.mesaj}'),
+              content: Text('?❌ Profil kaydedilemedi: ${hata.mesaj}'),
               backgroundColor: Colors.red,
               duration: const Duration(seconds: 3),
             ),
@@ -182,7 +182,7 @@ class _ProfilPageState extends State<ProfilPage> {
             ),
           );
 
-          // Profil kaydedilince otomatik olarak beslenme sekmesine ge�
+          // Profil kaydedilince otomatik olarak beslenme sekmesine ge?
           widget.onProfilKaydedildi?.call();
         }
       },
@@ -368,7 +368,7 @@ class _ProfilPageState extends State<ProfilPage> {
 
                 if (_diyetTipi.varsayilanKisitlamalar.isNotEmpty) ...[
                   Text(
-                    '=� Otomatik Kısıtlamalar (${_diyetTipi.aciklama}):',
+                    '=? Otomatik Kısıtlamalar (${_diyetTipi.aciklama}):',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -397,7 +397,7 @@ class _ProfilPageState extends State<ProfilPage> {
                         style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
                         decoration: InputDecoration(
                           labelText: 'Manuel Alerji/Kısıtlama Ekle',
-                          hintText: '�Ö🥜 Örn: Ceviz, Fındık, Soya',
+                          hintText: '?Ö🥜 Örn: Ceviz, Fındık, Soya',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -425,7 +425,7 @@ class _ProfilPageState extends State<ProfilPage> {
                 if (_manuelAlerjiler.isNotEmpty) ...[
                   const SizedBox(height: 16),
                   const Text(
-                    '�⚠️ Manuel Alerjiler:',
+                    '?⚠️ Manuel Alerjiler:',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
@@ -489,7 +489,7 @@ class _ProfilPageState extends State<ProfilPage> {
 
             const SizedBox(height: 24),
 
-            // SONU�LAR
+            // SONU?LAR
             if (_sonuc != null) ...[
               Container(
                 padding: const EdgeInsets.all(20),
@@ -614,7 +614,7 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
                   );
 
                   if (confirm == true && mounted) {
-                    // Progress dialog g�ster
+                    // Progress dialog g?ster
                     showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -631,8 +631,8 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
                     );
 
                     try {
-                      // �a�️ PostgreSQL modunda yemek yenileme özelliği devre dışıı
-                      // Yemek verileri bulutta saklanıyor ve admin panel �zerinden y�netilir
+                      // ?a?️ PostgreSQL modunda yemek yenileme özelliği devre dışıı
+                      // Yemek verileri bulutta saklanıyor ve admin panel ?zerinden y?netilir
                       await Future.delayed(const Duration(seconds: 1));
                       
                       bool success = false; // Devre dı_ı
@@ -643,7 +643,7 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
                         if (success) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text(' Yeni yemekler y�klendi! Şimdi "Plan Oluştur" butonuna basın!'),
+                              content: Text(' Yeni yemekler y?klendi! Şimdi "Plan Oluştur" butonuna basın!'),
                               backgroundColor: Colors.green,
                               duration: Duration(seconds: 4),
                             ),
@@ -651,7 +651,7 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('�R Y�kleme ba_arısız!'),
+                              content: Text('?R Y?kleme ba_arısız!'),
                               backgroundColor: Colors.red,
                             ),
                           );
@@ -662,7 +662,7 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
                         Navigator.pop(context); // Progress dialog kapat
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('�❌ Hata: $e'),
+                            content: Text('?❌ Hata: $e'),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -672,7 +672,7 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
                 },
                 icon: const Icon(Icons.refresh),
                 label: const Text(
-                  'Yemek Veritabanın1 Yenile (120 Ara ��n Ekle)',
+                  'Yemek Veritabanın1 Yenile (120 Ara ??n Ekle)',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,

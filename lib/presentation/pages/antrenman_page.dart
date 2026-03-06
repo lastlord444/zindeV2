@@ -54,7 +54,7 @@ class AntrenmanPageContent extends StatelessWidget {
               return _buildGecmis(context, state);
             }
 
-            return const Center(child: Text('Antrenman programlar1 y�kleniyor...'));
+            return const Center(child: Text('Antrenman programlar1 y?kleniyor...'));
           },
         ),
       ),
@@ -98,7 +98,7 @@ class AntrenmanPageContent extends StatelessWidget {
   Widget _buildProgramList(BuildContext context, AntrenmanProgramlariLoaded state) {
     return Column(
       children: [
-        // �st bar
+        // ?st bar
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -117,7 +117,7 @@ class AntrenmanPageContent extends StatelessWidget {
               Row(
                 children: [
                   const Text(
-                    'x�9️ Antrenman Programlar1',
+                    'x?9️ Antrenman Programlar1',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class AntrenmanPageContent extends StatelessWidget {
                     onPressed: () {
                       context.read<WorkoutBloc>().add(const LoadAntrenmanGecmisi());
                     },
-                    tooltip: 'Ge�mi_',
+                    tooltip: 'Ge?mi_',
                   ),
                 ],
               ),
@@ -141,7 +141,7 @@ class AntrenmanPageContent extends StatelessWidget {
                   children: [
                     _buildFilterChip(
                       context,
-                      'T�m�',
+                      'T?m?',
                       isSelected: state.filtreZorluk == null || state.filtreZorluk!.isEmpty,
                       onTap: () {
                         context.read<WorkoutBloc>().add(const LoadAntrenmanProgramlari());
@@ -168,7 +168,7 @@ class AntrenmanPageContent extends StatelessWidget {
         Expanded(
           child: state.programlar.isEmpty
               ? const Center(
-                  child: Text('Hen�z antrenman program1 yok'),
+                  child: Text('Hen?z antrenman program1 yok'),
                 )
               : ListView.builder(
                   padding: const EdgeInsets.all(16),
@@ -306,7 +306,7 @@ class AntrenmanPageContent extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     _buildInfoBadge(
-                      '=�',
+                      '=?',
                       '${program.egzersizSayisi} egzersiz',
                       Colors.green,
                     ),
@@ -536,7 +536,7 @@ class AntrenmanPageContent extends StatelessWidget {
 
     return Column(
       children: [
-        // �st bilgi
+        // ?st bilgi
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -646,7 +646,7 @@ class AntrenmanPageContent extends StatelessWidget {
     );
   }
 
-  /// Stat s�tunu
+  /// Stat s?tunu
   Widget _buildStatColumn(String label, String value) {
     return Column(
       children: [
@@ -762,9 +762,9 @@ class AntrenmanPageContent extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('x�0 Tebrikler!'),
+        title: const Text('x?0 Tebrikler!'),
         content: const Text(
-          'Antrenman1 tamamladınız! Ger�ekle_tirdiiniz performans1 kaydetmek ister misiniz?',
+          'Antrenman1 tamamladınız! Ger?ekle_tirdiiniz performans1 kaydetmek ister misiniz?',
         ),
         actions: [
           TextButton(
@@ -789,11 +789,11 @@ class AntrenmanPageContent extends StatelessWidget {
     );
   }
 
-  /// Ge�mi_ ekran1
+  /// Ge?mi_ ekran1
   Widget _buildGecmis(BuildContext context, AntrenmanGecmisiLoaded state) {
     return Column(
       children: [
-        // �st bar
+        // ?st bar
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -815,7 +815,7 @@ class AntrenmanPageContent extends StatelessWidget {
                 },
               ),
               const Text(
-                'Antrenman Ge�mi_i',
+                'Antrenman Ge?mi_i',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -841,7 +841,7 @@ class AntrenmanPageContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildStatColumn(
-                'Son 7 G�n',
+                'Son 7 G?n',
                 '${state.son7GunAntrenmanSayisi} antrenman',
               ),
               _buildStatColumn(
@@ -852,10 +852,10 @@ class AntrenmanPageContent extends StatelessWidget {
           ),
         ),
 
-        // Ge�mi_ listesi
+        // Ge?mi_ listesi
         Expanded(
           child: state.gecmis.isEmpty
-              ? const Center(child: Text('Hen�z antrenman ge�mi_i yok'))
+              ? const Center(child: Text('Hen?z antrenman ge?mi_i yok'))
               : ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: state.gecmis.length,
@@ -869,7 +869,7 @@ class AntrenmanPageContent extends StatelessWidget {
     );
   }
 
-  /// Ge�mi_ kart1
+  /// Ge?mi_ kart1
   Widget _buildGecmisCard(TamamlananAntrenman antrenman) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -935,7 +935,7 @@ class AntrenmanPageContent extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               _buildInfoBadge(
-                '=�',
+                '=?',
                 '${antrenman['tamamlanan_egzersizler'] == null ? 0 : (antrenman['tamamlanan_egzersizler'] as List).length} egzersiz',
                 Colors.green,
               ),
@@ -957,7 +957,7 @@ class AntrenmanPageContent extends StatelessWidget {
       'Haziran',
       'Temmuz',
       'Austos',
-      'Eyl�l',
+      'Eyl?l',
       'Ekim',
       'Kasım',
       'Aralık'

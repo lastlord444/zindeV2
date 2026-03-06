@@ -75,7 +75,7 @@ class _AlisverisListesiPageState extends State<AlisverisListesiPage> {
   }
 
   DateTime _haftaBaslangiciHesapla(DateTime tarih) {
-    // Pazartesi ba_lang1� (1 = Pazartesi, 7 = Pazar)
+    // Pazartesi ba_lang1? (1 = Pazartesi, 7 = Pazar)
     final gunFarki = tarih.weekday - 1;
     return DateTime(tarih.year, tarih.month, tarih.day - gunFarki);
   }
@@ -577,7 +577,7 @@ class _AlisverisListesiPageState extends State<AlisverisListesiPage> {
       if (entry.value.isNotEmpty) {
         buffer.writeln('${entry.key}:');
         for (final malzeme in entry.value) {
-          buffer.writeln('�ܐ ${malzeme.ad}');
+          buffer.writeln('?ܐ ${malzeme.ad}');
         }
         buffer.writeln('');
       }

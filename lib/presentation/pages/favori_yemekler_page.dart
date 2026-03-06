@@ -5,8 +5,8 @@ import '../widgets/empty_state_widget.dart';
 
 /// xRx Favori Yemekler Sayfas1
 ///
-/// NOT: Bu �zellik Supabase entegrasyonuyla yakında aktif olacak.
-/// Şu an placeholder olarak g�steriliyor.
+/// NOT: Bu ?zellik Supabase entegrasyonuyla yakında aktif olacak.
+/// Şu an placeholder olarak g?steriliyor.
 class FavoriYemeklerPage extends StatelessWidget {
   const FavoriYemeklerPage({super.key});
 
@@ -21,7 +21,7 @@ class FavoriYemeklerPage extends StatelessWidget {
       body: const EmptyStateWidget(
         type: EmptyStateType.noFavorites,
         title: 'Yakında Aktif',
-        message: 'Favori yemekler �zellii Supabase entegrasyonuyla birlikte yakında aktif olacak.\n\n'
+        message: 'Favori yemekler ?zellii Supabase entegrasyonuyla birlikte yakında aktif olacak.\n\n'
             'Beendiiniz yemekleri favorilere ekleyerek kolayca eri_ebileceksiniz.',
         actionLabel: null,
         customIcon: Icons.upcoming,

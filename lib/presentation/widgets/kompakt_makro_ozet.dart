@@ -41,7 +41,7 @@ class KompaktMakroOzet extends StatelessWidget {
         if (plan != null && !plan!.tumMakrolarToleranstaMi)
           const SizedBox(height: 12),
 
-        // Ana makro �zet kart1
+        // Ana makro ?zet kart1
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -232,7 +232,7 @@ class KompaktMakroOzet extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: onRegenerate,
                 icon: const Icon(Icons.refresh, size: 18),
-                label: const Text('Bu G�n� Tekrar Planla (Re-optimize)'),
+                label: const Text('Bu G?n? Tekrar Planla (Re-optimize)'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade100,
                   foregroundColor: Colors.red.shade900,
@@ -263,7 +263,7 @@ class KompaktMakroOzet extends StatelessWidget {
     final yuzde = (mevcut / hedef * 100).clamp(0, 100);
     final progress = (yuzde / 100).clamp(0.0, 1.0);
     
-    // Tolerans dı_ındaysa rengi dei_tir veya uyar1 g�ster
+    // Tolerans dı_ındaysa rengi dei_tir veya uyar1 g?ster
     final displayColor = isTolerant ? renk : Colors.red;
 
     return Row(

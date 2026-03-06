@@ -1,7 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // KR0T0K: Logger import'u eklendi.
-// �R yemek_hive_data_source kaldırıld1 - MealRepositoryV2 kullan
+// ?R yemek_hive_data_source kaldırıld1 - MealRepositoryV2 kullan
 // import '../../domain/services/ai_beslenme_servisi.dart'; // > AI SERV0S0 (REMOVED)
 import '../../domain/services/malzeme_parser_servisi.dart'; // PARSE SERV0S0
 import '../bloc/home/home_bloc.dart';
@@ -16,9 +16,9 @@ import '../widgets/detayli_ogun_card.dart';
 import '../widgets/alt_navigasyon_bar.dart';
 import '../widgets/alternatif_yemek_bottom_sheet.dart';
 import '../widgets/alternatif_besin_bottom_sheet.dart';
-// x�� Shimmer loading
-import '../widgets/animated_meal_card.dart'; // x�� Animations
-import '../widgets/empty_state_widget.dart'; // x�� Empty states
+// x?? Shimmer loading
+import '../widgets/animated_meal_card.dart'; // x?? Animations
+import '../widgets/empty_state_widget.dart'; // x?? Empty states
 import 'profil_page.dart';
 import 'antrenman_page.dart';
 import 'maintenance_page.dart';
@@ -33,10 +33,10 @@ class YeniHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        // Web g�venlii: AppLogger.init() �arıs1 kaldırıld1
-        // main.dart'ta zaten initialize ediliyor, burada tekrar �aırmaya gerek yok
+        // Web g?venlii: AppLogger.init() ?arıs1 kaldırıld1
+        // main.dart'ta zaten initialize ediliyor, burada tekrar ?aırmaya gerek yok
         
-        return sl<HomeBloc>()..add(const LoadHomePage()); //  F5 yapınca mevcut plan1 otomatik y�kle
+        return sl<HomeBloc>()..add(const LoadHomePage()); //  F5 yapınca mevcut plan1 otomatik y?kle
       },
       child: const YeniHomePageView(),
     );
@@ -62,13 +62,13 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
       onPopInvokedWithResult: (bool didPop, dynamic result) async {
         if (didPop) return;
 
-        // Android geri tu_u i�in �ıkı_ onay1
+        // Android geri tu_u i?in ?ıkı_ onay1
         final shouldPop = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Uygulamadan �ık'),
+            title: const Text('Uygulamadan ?ık'),
             content:
-                const Text('Uygulamadan �ıkmak istediinize emin misiniz?'),
+                const Text('Uygulamadan ?ıkmak istediinize emin misiniz?'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
@@ -80,7 +80,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),
-                child: const Text('Evet, �ık'),
+                child: const Text('Evet, ?ık'),
               ),
             ],
           ),
@@ -114,7 +114,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
         ),
         body: BlocConsumer<HomeBloc, HomeState>(
           listener: (context, state) {
-            // Alternatif yemekler y�klendiinde bottom sheet a�
+            // Alternatif yemekler y?klendiinde bottom sheet a?
             if (state is AlternativeMealsLoaded) {
               AlternatifYemekBottomSheet.goster(
                 context,
@@ -123,8 +123,8 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                 onYemekSecildi: (yeniYemek) {
                       context.read<HomeBloc>().add(
                             ReplaceMealWith(
-                              state.mevcutYemek, // positional arg�man
-                              yeniYemek, // positional arg�man
+                              state.mevcutYemek, // positional arg?man
+                              yeniYemek, // positional arg?man
                             ),
                           );
                     },
@@ -136,7 +136,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
               );
             }
 
-            // Alternatif malzemeler y�klendiinde bottom sheet a�
+            // Alternatif malzemeler y?klendiinde bottom sheet a?
             if (state is AlternativeIngredientsLoaded) {
               // FIX: Malzemeyi parse et - miktar ve birim bilgilerini al
               final parsedList = MalzemeParserServisi.parse(state.orijinalMalzemeMetni);
@@ -150,7 +150,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                 alternatifler: state.alternatifBesinler,
                 alerjiNedeni: 'Malzeme dei_iklii',
                 onClose: () {
-                  // FIX: X butonu ile kapatıldıında ana sayfaya geri d�n (hi�bir _ey sıfırlanmasın)
+                  // FIX: X butonu ile kapatıldıında ana sayfaya geri d?n (hi?bir _ey sıfırlanmasın)
                   context
                       .read<HomeBloc>()
                       .add(const CancelAlternativeSelection());
@@ -170,7 +170,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                         ),
                       );
                 } else {
-                  // FIX: Bottom sheet dı_ar1 tıklama/geri tu_u ile kapatıldıysa da ana sayfaya d�n
+                  // FIX: Bottom sheet dı_ar1 tıklama/geri tu_u ile kapatıldıysa da ana sayfaya d?n
                   if (!context.mounted) return;
                   context
                       .read<HomeBloc>()
@@ -180,7 +180,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
             }
           },
           builder: (context, state) {
-            // Profil sekmesi se�iliyse ProfilPage'i g�ster
+            // Profil sekmesi se?iliyse ProfilPage'i g?ster
             if (_aktifSekme == NavigasyonSekme.profil) {
               return Column(
                 children: [
@@ -191,7 +191,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                         setState(() {
                           _aktifSekme = NavigasyonSekme.beslenme;
                         });
-                        // YEN0 KULLANICI 0�0N: Plan oluşturmay1 ba_lat
+                        // YEN0 KULLANICI 0?0N: Plan oluşturmay1 ba_lat
                         context.read<HomeBloc>().add(const LoadHomePage());
                       },
                     ),
@@ -208,7 +208,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
               );
             }
 
-            // Antrenman sekmesi - ENTEGRE ED0LD0! =�
+            // Antrenman sekmesi - ENTEGRE ED0LD0! =?
             if (_aktifSekme == NavigasyonSekme.antrenman) {
               return Column(
                 children: [
@@ -247,11 +247,11 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
             if (state is AlternativeIngredientsLoaded) {
               return Column(
                 children: [
-                  // Ana i�erik
+                  // Ana i?erik
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: () async {
-                        // CRITICAL FIX: AlternativeIngredientsLoaded i�in de RefreshDailyPlan kullan
+                        // CRITICAL FIX: AlternativeIngredientsLoaded i?in de RefreshDailyPlan kullan
                         context
                             .read<HomeBloc>()
                             .add(const RefreshDailyPlan(forceRegenerate: false));
@@ -259,7 +259,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                       child: ListView(
                         padding: const EdgeInsets.all(16),
                         children: [
-                          // Tarih se�ici (ok butonlar1 ile)
+                          // Tarih se?ici (ok butonlar1 ile)
                           TarihSecici(
                             secilenTarih: state.currentDate,
                             onGeriGit: () {
@@ -343,7 +343,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
 
                           const SizedBox(height: 16),
 
-                          // Kompakt makro �zeti
+                          // Kompakt makro ?zeti
                           KompaktMakroOzet(
                             mevcutKalori: _calculateTamamlananKalori(
                                 state.plan, state.tamamlananOgunler),
@@ -357,7 +357,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                             mevcutYag: _calculateTamamlananYag(
                                 state.plan, state.tamamlananOgunler),
                             hedefYag: state.hedefler.gunlukYag,
-                            plan: state.plan, // x�� Tolerans kontrol� i�in
+                            plan: state.plan, // x?? Tolerans kontrol? i?in
                           ),
 
                           const SizedBox(height: 24),
@@ -833,7 +833,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                             const RefreshDailyPlan(
                                                 forceRegenerate: true));
                                       },
-                                      tooltip: 'Bug�n� Yenile',
+                                      tooltip: 'Bug?n? Yenile',
                                     ),
                                   ],
                                 ),
@@ -842,7 +842,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
 
                             const SizedBox(height: 16),
 
-                            // Detayl1 ��n kartlar1 - x�� Animated
+                            // Detayl1 ??n kartlar1 - x?? Animated
                             ...state.plan.ogunler.asMap().entries.map((entry) {
                               final index = entry.key;
                               final yemek = entry.value;
@@ -857,7 +857,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                   yemek: yemek,
                                   yemekDurumu: yemekDurumu,
                                   onYedimPressed: () {
-                                    //  YEN0 S0STEM: Onay dialog'u g�ster
+                                    //  YEN0 S0STEM: Onay dialog'u g?ster
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
@@ -886,7 +886,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                     );
                                   },
                                   onYemedimPressed: () {
-                                    //  YEN0 S0STEM: Yemedim dialog'u g�ster
+                                    //  YEN0 S0STEM: Yemedim dialog'u g?ster
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
@@ -925,7 +925,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                         return AlertDialog(
                                           title: const Text('= Yemek Onaylama'),
                                           content: Text(
-                                              '${yemek.ad} yemeini onaylıyor musunuz?\n\nOnaylandıktan sonra dei_tirilemez ve rapor i�in kaydedilir.'),
+                                              '${yemek.ad} yemeini onaylıyor musunuz?\n\nOnaylandıktan sonra dei_tirilemez ve rapor i?in kaydedilir.'),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
@@ -965,7 +965,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                   },
                                   onMalzemeAlternatifiPressed:
                                       (yemek, malzemeMetni, malzemeIndex) {
-                                    // Malzeme i�in alternatif besi nler oluştur
+                                    // Malzeme i?in alternatif besi nler oluştur
                                     context.read<HomeBloc>().add(
                                           GenerateIngredientAlternatives(
                                             yemek: yemek,
@@ -998,7 +998,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
               );
             }
 
-            // x�� BAŞLANG0� DURUMU: Professional empty state
+            // x?? BAŞLANG0? DURUMU: Professional empty state
             return Column(
               children: [
                 Expanded(

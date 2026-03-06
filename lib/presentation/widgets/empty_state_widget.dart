@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// x�� Empty State Widget
+/// x?? Empty State Widget
 /// Profesyonel bo_ durum ekranlar1
 class EmptyStateWidget extends StatelessWidget {
   final EmptyStateType type;
@@ -112,7 +112,7 @@ class EmptyStateWidget extends StatelessWidget {
           iconColor: Colors.purple.shade200,
           defaultTitle: 'Beslenme Plan1 Oluştur',
           defaultMessage:
-              'G�nl�k beslenme planınız1 oluşturmak i�in\naşağıdaki butona tıklayın',
+              'G?nl?k beslenme planınız1 oluşturmak i?in\naşağıdaki butona tıklayın',
           defaultActionLabel: 'Plan Oluştur',
           actionIcon: Icons.add_circle_outline,
           buttonColor: Colors.purple,
@@ -124,7 +124,7 @@ class EmptyStateWidget extends StatelessWidget {
           iconColor: Colors.red.shade200,
           defaultTitle: 'Bir Hata Oluştu',
           defaultMessage:
-              'Beklenmeyen bir sorun oluştu.\nL�tfen tekrar deneyin.',
+              'Beklenmeyen bir sorun oluştu.\nL?tfen tekrar deneyin.',
           defaultActionLabel: 'Yeniden Dene',
           actionIcon: Icons.refresh,
           buttonColor: Colors.red,
@@ -135,7 +135,7 @@ class EmptyStateWidget extends StatelessWidget {
           icon: Icons.inbox_outlined,
           iconColor: Colors.grey.shade300,
           defaultTitle: 'Veri Bulunamad1',
-          defaultMessage: 'Bu tarih i�in hen�z bir plan oluşturulmamı_',
+          defaultMessage: 'Bu tarih i?in hen?z bir plan oluşturulmamı_',
           defaultActionLabel: 'Plan Oluştur',
           actionIcon: Icons.add,
           buttonColor: Colors.blue,
@@ -145,7 +145,7 @@ class EmptyStateWidget extends StatelessWidget {
         return _EmptyStateConfig(
           icon: Icons.hourglass_empty,
           iconColor: Colors.blue.shade200,
-          defaultTitle: 'Y�kleniyor...',
+          defaultTitle: 'Y?kleniyor...',
           defaultMessage: 'Verileriniz hazırlanıyor',
           defaultActionLabel: 'Bekleyin',
           actionIcon: Icons.pending,
@@ -158,7 +158,7 @@ class EmptyStateWidget extends StatelessWidget {
           iconColor: Colors.orange.shade200,
           defaultTitle: '0nternet Balantıs1 Yok',
           defaultMessage:
-              'L�tfen internet balantınız1 kontrol edip\ntekrar deneyin',
+              'L?tfen internet balantınız1 kontrol edip\ntekrar deneyin',
           defaultActionLabel: 'Tekrar Dene',
           actionIcon: Icons.refresh,
           buttonColor: Colors.orange,
@@ -179,9 +179,9 @@ class EmptyStateWidget extends StatelessWidget {
         return _EmptyStateConfig(
           icon: Icons.food_bank_outlined,
           iconColor: Colors.orange.shade200,
-          defaultTitle: '��n Bulunamad1',
+          defaultTitle: '??n Bulunamad1',
           defaultMessage:
-              'Veritabanında bu kriterlere uygun ��n bulunamad1',
+              'Veritabanında bu kriterlere uygun ??n bulunamad1',
           defaultActionLabel: 'Filtre Dei_tir',
           actionIcon: Icons.filter_list,
           buttonColor: Colors.orange,
@@ -193,7 +193,7 @@ class EmptyStateWidget extends StatelessWidget {
           iconColor: Colors.pink.shade200,
           defaultTitle: 'Favori Yemek Yok',
           defaultMessage:
-              'Hen�z favori yemek eklemediniz.\nBeendiiniz yemekleri favorilere ekleyerek kolayca eri_ebilirsiniz.',
+              'Hen?z favori yemek eklemediniz.\nBeendiiniz yemekleri favorilere ekleyerek kolayca eri_ebilirsiniz.',
           defaultActionLabel: 'Yemek Ke_fet',
           actionIcon: Icons.explore,
           buttonColor: Colors.pink,
@@ -360,7 +360,7 @@ class CustomRefreshIndicator extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Text(
-            success ? 'Ba_arıyla g�ncellendi!' : 'G�ncelleme ba_arısız',
+            success ? 'Ba_arıyla g?ncellendi!' : 'G?ncelleme ba_arısız',
             style: const TextStyle(fontSize: 16),
           ),
         ],
@@ -377,7 +377,7 @@ class CustomRefreshIndicator extends StatelessWidget {
   }
 }
 
-/// x�� Success Overlay Animation
+/// x?? Success Overlay Animation
 class SuccessOverlay extends StatefulWidget {
   final String message;
   final VoidCallback? onComplete;
