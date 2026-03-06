@@ -166,7 +166,45 @@ class GenerateDailyPlan {
           gorselUrl: enIyiYemek.gorselUrl,
         );
 
-        uretilenOgunler[ogunAdi] = olceklenmisYemek;
+        // Alternatifleri bul (2 benzer makro değerli yemek)
+        final alternatifler = _bulAlternatifler(
+          adayYemekler: adayYemekler,
+          secilenYemek: enIyiYemek,
+          hedefKalori: oKalori,
+          hedefProtein: oProtein,
+          hedefKarb: oKarb,
+          hedefYag: oYag,
+        );
+
+        // Alternatif yemekleri oluştur
+        final alternatifYemekler = alternatifler.map((alt) {
+          final altRatio = oKalori / alt.kalori;
+          final altClamped = altRatio.clamp(0.3, 4.0);
+          return Yemek(
+            id: '${alt.id}_alt_${DateTime.now().millisecondsSinceEpoch}_${alternatifler.indexOf(alt)}',
+            ad: alt.ad,
+            ogun: _mapOgunTipi(ogunAdi),
+            kalori: alt.kalori * altClamped,
+            protein: alt.protein * altClamped,
+            karbonhidrat: alt.karbonhidrat * altClamped,
+            yag: alt.yag * altClamped,
+            malzemeler: _scaleMalzemeler(alt.malzemeler, altClamped),
+            alternatifler: const [],
+            hazirlamaSuresi: alt.hazirlamaSuresi,
+            zorluk: alt.zorluk,
+            etiketler: alt.etiketler,
+            baseWeightG: alt.baseWeightG * altClamped,
+            dominantMacro: alt.dominantMacro,
+            minMultiplier: 1.0,
+            maxMultiplier: 1.0,
+            unitName: 'porsiyon',
+            gorselUrl: alt.gorselUrl,
+          );
+        }).toList();
+
+        // Ana yemeği alternatiflerle birlikte güncelle
+        final sonYemek = olceklenmisYemek.copyWith(alternatifYemekler: alternatifYemekler);
+        uretilenOgunler[ogunAdi] = sonYemek;
         toplamKalori += gercekKalori;
         toplamProtein += gercekProtein;
         toplamKarb += gercekKarb;
@@ -292,5 +330,43 @@ class GenerateDailyPlan {
   bool _isGramVeyaMl(String kalanLower) {
     return kalanLower.startsWith('g ') || kalanLower == 'g' ||
            kalanLower.startsWith('ml ') || kalanLower == 'ml';
+  }
+
+  /// 2 benzer makro değerli alternatif yemek bul
+  List<Yemek> _bulAlternatifler({
+    required List<Yemek> adayYemekler,
+    required Yemek secilenYemek,
+    required double hedefKalori,
+    required double hedefProtein,
+    required double hedefKarb,
+    required double hedefYag,
+  }) {
+    // Seçilen yemeği listeden çıkar
+    final filtrelenmis = adayYemekler.where((y) => y.id != secilenYemek.id).toList();
+    
+    if (filtrelenmis.length < 2) return [];
+
+    // Makro benzerliğine göre skorla
+    final skorlanmis = filtrelenmis.map((aday) {
+      if (aday.kalori <= 0) return MapEntry(aday, double.infinity);
+      
+      final ratio = hedefKalori / aday.kalori;
+      if (ratio < 0.3 || ratio > 4.0) return MapEntry(aday, double.infinity);
+      
+      final tahminiP = aday.protein * ratio;
+      final tahminiK = aday.karbonhidrat * ratio;
+      final tahminiY = aday.yag * ratio;
+      
+      final pFark = (tahminiP - hedefProtein).abs();
+      final kFark = (tahminiK - hedefKarb).abs();
+      final yFark = (tahminiY - hedefYag).abs();
+      
+      final skor = pFark * 2.0 + kFark * 1.0 + yFark * 1.5;
+      return MapEntry(aday, skor);
+    }).toList();
+    
+    // Skor en düşük 2 yemeği al
+    skorlanmis.sort((a, b) => a.value.compareTo(b.value));
+    return skorlanmis.take(2).map((e) => e.key).toList();
   }
 }

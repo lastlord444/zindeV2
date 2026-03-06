@@ -42,7 +42,8 @@ class Yemek extends Equatable {
   final double karbonhidrat;
   final double yag;
   final List<String> malzemeler;
-  final List<AlternatifBesin> alternatifler;
+  final List<AlternatifBesin> alternatifler; // Malzeme alternatifleri
+  final List<Yemek> alternatifYemekler; // Yemek alternatifleri (2 adet)
   final int hazirlamaSuresi; // dakika
   final Zorluk zorluk;
   final List<String> etiketler; // ['vejetaryen', 'glutensiz', 'vegan']
@@ -77,6 +78,7 @@ class Yemek extends Equatable {
     required this.yag,
     required this.malzemeler,
     this.alternatifler = const [],
+    this.alternatifYemekler = const [],
     required this.hazirlamaSuresi,
     required this.zorluk,
     this.etiketler = const [],
@@ -101,6 +103,7 @@ class Yemek extends Equatable {
     required double yag,
     required List<String> malzemeler,
     List<AlternatifBesin> alternatifler = const [],
+    List<Yemek> alternatifYemekler = const [],
     required int hazirlamaSuresi,
     required Zorluk zorluk,
     List<String> etiketler = const [],
@@ -123,6 +126,7 @@ class Yemek extends Equatable {
       yag: yag,
       malzemeler: malzemeler,
       alternatifler: alternatifler,
+      alternatifYemekler: alternatifYemekler,
       hazirlamaSuresi: hazirlamaSuresi,
       zorluk: zorluk,
       etiketler: etiketler,
@@ -155,6 +159,7 @@ class Yemek extends Equatable {
       yag: fat,
       malzemeler: _parseStringList(json['malzemeler']) ?? [],
       alternatifler: _parseAlternatifler(json['alternatifler']) ?? [],
+      alternatifYemekler: _parseYemekAlternatifleri(json['alternatifYemekler']) ?? [],
       hazirlamaSuresi: _parseInt(json['hazirlamaSuresi'] ?? json['hazirlama_suresi']) ?? 15,
       zorluk: zorlukFromString(json['zorluk']?.toString() ?? 'kolay'),
       etiketler: _parseStringList(json['etiketler']) ?? [],
@@ -225,6 +230,20 @@ class Yemek extends Equatable {
       return value
           .where((e) => e != null && e is Map<String, dynamic>)
           .map((e) => AlternatifBesin.fromJson(e))
+          .toList();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Alternatif yemekler parse helper metodu
+  static List<Yemek>? _parseYemekAlternatifleri(dynamic value) {
+    if (value == null) return null;
+    if (value is! List) return null;
+    try {
+      return value
+          .where((e) => e != null && e is Map<String, dynamic>)
+          .map((e) => Yemek.fromJson(e))
           .toList();
     } catch (e) {
       return null;
@@ -502,6 +521,7 @@ class Yemek extends Equatable {
       baseWeightG: baseWeightG * multiplier,
       malzemeler: scaledMalzemeler,
       alternatifler: alternatifler,
+      alternatifYemekler: alternatifYemekler,
       hazirlamaSuresi: hazirlamaSuresi,
       zorluk: zorluk,
       etiketler: etiketler,
@@ -526,6 +546,7 @@ class Yemek extends Equatable {
         yag,
         malzemeler,
         alternatifler,
+        alternatifYemekler,
         hazirlamaSuresi,
         zorluk,
         etiketler,
@@ -551,6 +572,7 @@ class Yemek extends Equatable {
     double? yag,
     List<String>? malzemeler,
     List<AlternatifBesin>? alternatifler,
+    List<Yemek>? alternatifYemekler,
     int? hazirlamaSuresi,
     Zorluk? zorluk,
     List<String>? etiketler,
@@ -574,6 +596,7 @@ class Yemek extends Equatable {
       yag: yag ?? this.yag,
       malzemeler: malzemeler ?? this.malzemeler,
       alternatifler: alternatifler ?? this.alternatifler,
+      alternatifYemekler: alternatifYemekler ?? this.alternatifYemekler,
       hazirlamaSuresi: hazirlamaSuresi ?? this.hazirlamaSuresi,
       zorluk: zorluk ?? this.zorluk,
       etiketler: etiketler ?? this.etiketler,
