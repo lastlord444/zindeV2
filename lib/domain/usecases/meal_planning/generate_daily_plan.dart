@@ -27,40 +27,42 @@ class GenerateDailyPlan {
   ];
 
   Future<Either<Failure, GunlukPlan>> call({
-    required String planId,
-    required String userId,
-    required DateTime tarih,
-    required MakroHedefleri hedefler,
-    required List<Yemek> yemekHavuzu,
-    required String hedef,
-    required List<String> kisitlamalar,
-    Map<String, int> haftalikKullanilanYemekler = const {},
-  }) async {
-    try {
-      final uygunYemekler = yemekHavuzu
-          .where((y) => y.kisitlamayaUygunMu(kisitlamalar))
-          .toList();
+required String planId,
+required String userId,
+required DateTime tarih,
+required MakroHedefleri hedefler,
+required List<Yemek> yemekHavuzu,
+required String hedef,
+required List<String> kisitlamalar,
+Map<String, int> haftalikKullanilanYemekler = const {},
+}) async {
+try {
+  final uygunYemekler = yemekHavuzu
+      .where((y) => y.kisitlamayaUygunMu(kisitlamalar))
+      .toList();
 
-      if (uygunYemekler.isEmpty) {
-        return const Left(PlanHatasi('Kısıtlamalarınıza uygun yemek bulunamadı.'));
-      }
+  if (uygunYemekler.isEmpty) {
+    return const Left(PlanHatasi('Kısıtlamalarınıza uygun yemek bulunamadı.'));
+  }
 
-      // Base ID çıkartma fonksiyonu: Varyasyon takılarını uçurup ana yemeği bulur
-      String getBaseId(String idStr) {
-        var base = idStr;
-        if (base.contains('_v7_')) base = base.split('_v7_').first;
-        if (base.startsWith('v2_') && base.split('_').length >= 3) {
-          final p = base.split('_');
-          if (p.last.length >= 3) return base.substring(0, base.length - 2);
-        }
-        return base;
-      }
+  // Base ID çıkartma fonksiyonu: Varyasyon takılarını uçurup ana yemeği bulur
+  String getBaseId(String idStr) {
+    var base = idStr;
+    if (base.contains('_v7_')) base = base.split('_v7_').first;
+    if (base.contains('_alt_')) base = base.split('_alt_').first; // Alternatif ID'si
+    if (base.startsWith('v2_') && base.split('_').length >= 3) {
+      final p = base.split('_');
+      if (p.last.length >= 3) return base.substring(0, base.length - 2);
+    }
+    return base;
+  }
 
-      final baseKullanimlari = <String, int>{};
-      haftalikKullanilanYemekler.forEach((id, count) {
-        final bId = getBaseId(id);
-        baseKullanimlari[bId] = (baseKullanimlari[bId] ?? 0) + count;
-      });
+  // NOT: Haftalık kullanım takibi bu plan için FRESH olmalı!
+  // Her plan için yeni boş bir takip başlatıyoruz
+  final baseKullanimlari = <String, int>{};
+  
+  // Sadece aynı gün içinde tekrar kullanımı önlemek için minik bir takip
+  final buPlanKullanimi = <String, int>{};
 
       final dagilim = NutritionConstraints.ogunDagilimGetir(hedef);
       final gerekenOgunler = dagilim.keys.where((k) => (dagilim[k] ?? 0) > 0).toList();
@@ -143,8 +145,8 @@ class GenerateDailyPlan {
 
         enIyiYemek ??= adayYemekler[_random.nextInt(adayYemekler.length)];
 
-        // Seçilen yemeği gün içinde tekrar kullanmamak için listeye kaydet
-        baseKullanimlari[getBaseId(enIyiYemek.id)] = (baseKullanimlari[getBaseId(enIyiYemek.id)] ?? 0) + 1;
+        // Seçilen yemeği BU PLAN içinde tekrar kullanmamak için kaydet
+        buPlanKullanimi[getBaseId(enIyiYemek.id)] = (buPlanKullanimi[getBaseId(enIyiYemek.id)] ?? 0) + 1;
 
         // Ölçekleme oranı
         final ratio = enIyiYemek.kalori > 0 ? oKalori / enIyiYemek.kalori : 1.0;
