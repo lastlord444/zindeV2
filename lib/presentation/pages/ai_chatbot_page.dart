@@ -1,5 +1,5 @@
 // lib/presentation/pages/ai_chatbot_page.dart
-// AI Chatbot Sayfas1 - Supplement Danı_manl11
+// AI Chatbot Sayfası - Supplement Danışmanlığı
 
 import 'package:flutter/material.dart';
 import '../../core/services/pollinations_ai_service.dart';
@@ -28,9 +28,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   @override
   void initState() {
     super.initState();
-    // Kullanıc1 profilini y?kle
     _loadUserProfile();
-    // Ho_ geldin mesaj1 ekle
     _addWelcomeMessage();
   }
 
@@ -40,9 +38,9 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       setState(() {
         _kullaniciProfili = profil;
       });
-      AppLogger.info('x? Kullanıc1 profili AI chatbot\'a y?klendi: ${profil?.ad} ${profil?.soyad}');
+      AppLogger.info('Kullanici profili AI chatbot\'a yuklendi: ${profil?.ad} ${profil?.soyad}');
     } catch (e) {
-      AppLogger.error('Kullanıcı profili yükleme hatası', e);
+      AppLogger.error('Kullanici profili yukleme hatasi', e);
     }
   }
 
@@ -67,25 +65,25 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   String _getWelcomeText(AICategory category) {
     switch (category) {
       case AICategory.supplement:
-        return 'x9 Merhaba! Ben Dr. Ahmet Yılmaz, 30 yıllık deneyime sahip supplement uzmanıyım.\n\n'
-            'x` Whey protein, creatine, BCAA, vitaminler ve t?m supplement konularında size yardımc1 olabilirim.\n\n'
-            'Bana kilo, boy, ya_ bilgilerinizi ve hedefinizi s?ylerseniz, size ?özel supplement program1 hazırlayabilirim!';
+        return 'Merhaba! Ben Dr. Ahmet Yilmaz, 30 yillik deneyime sahip supplement uzmaniyim.\n\n'
+            'Whey protein, creatine, BCAA, vitaminler ve tum supplement konularinda size yardimci olabilirim.\n\n'
+            'Bana kilo, boy, yas bilgilerinizi ve hedefinizi soylerseniz, size ozel supplement programi hazirlayabilirim!';
       case AICategory.nutrition:
-        return 'x9 Merhaba! Ben Uzm. Dyt. Ayşe Demir, 30 yıllık deneyimli diyetisyeniyim.\n\n'
-            'x? Beslenme planlar1, makro hesaplama, T?rk mutfaına uygun diyet ?nerileri konularında size yardımc1 olabilirim.\n\n'
-            'Bana kilo, boy, ya_ ve hedefinizi s?ylerseniz, size ?özel beslenme plan1 hazırlayabilirim!';
+        return 'Merhaba! Ben Uzm. Dyt. Ayse Demir, 30 yillik deneyimli diyetisyeniyim.\n\n'
+            'Beslenme planlari, makro hesaplama, Turk mutfagina uygun diyet onerileri konularinda size yardimci olabilirim.\n\n'
+            'Bana kilo, boy, yas ve hedefinizi soylerseniz, size ozel beslenme plani hazirlayabilirim!';
       case AICategory.training:
-        return 'x9 Merhaba! Ben Hakan Kaya, 30 yıllık deneyimli fitness antren?r?y?m.\n\n'
-            '=? Antrenman programlar1, kas geli_tirme, ya yakma ve fitness konularında size yardımc1 olabilirim.\n\n'
-            'Bana deneyim seviyenizi, hedefinizi ve ekipman durumunuzu s?ylerseniz, size ?özel program hazırlayabilirim!';
+        return 'Merhaba! Ben Hakan Kaya, 30 yillik deneyimli fitness antrenoruyum.\n\n'
+            'Antrenman programlari, kas gelistirme, yag yakma ve fitness konularinda size yardimci olabilirim.\n\n'
+            'Bana deneyim seviyenizi, hedefinizi ve ekipman durumunuzu soylerseniz, size ozel program hazirlayabilirim!';
       case AICategory.general:
-        return 'x9 Merhaba! Ben Dr. Zeynep Aydın, 30 yıllık genel salık uzmanıyım.\n\n'
-            'x?? Salıkl1 ya_am, uyku, stres y?netimi ve genel salık konularında size yardımc1 olabilirim.\n\n'
-            'Sorularınız1 bekliyorum!';
+        return 'Merhaba! Ben Dr. Zeynep Aydin, 30 yillik genel saglik uzmaniyim.\n\n'
+            'Saglikli yasam, uyku, stres yonetimi ve genel saglik konularinda size yardimci olabilirim.\n\n'
+            'Sorularinizi bekliyorum!';
       case AICategory.dietician:
-        return 'x9 Merhaba! Ben Uzm. Dyt. Elif Kaya, 20 yıllık deneyimli profesyonel diyetisyeniyim.\n\n'
-            'x??️ T?rk mutfaından g?nl?k ve haftalık beslenme planlar1 hazırlıyorum. SADECE yerli yemeklerle (menemen, k?fte, pilav, balık) size ?zel planlar oluşturabilirim.\n\n'
-            'Bana kilo, boy, ya_ ve hedefinizi s?ylerseniz, size T?rk mutfaından beslenme plan1 hazırlayabilirim!';
+        return 'Merhaba! Ben Uzm. Dyt. Elif Kaya, 20 yillik deneyimli profesyonel diyetisyeniyim.\n\n'
+            'Turk mutfagindan gunluk ve haftalik beslenme planlari hazirliyorum. SADECE yerli yemeklerle (menemen, kofte, pilav, balik) size ozel planlar olusturabilirim.\n\n'
+            'Bana kilo, boy, yas ve hedefinizi soylerseniz, size Turk mutfagindan beslenme plani hazirlayabilirim!';
     }
   }
 
@@ -95,7 +93,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
     final userMessage = _messageController.text.trim();
     _messageController.clear();
 
-    // Kullanıc1 mesajın1 ekle
+    // Kullanici mesajini ekle
     setState(() {
       _messages.add(ChatMessage(
         text: userMessage,
@@ -109,17 +107,17 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
     _scrollToBottom();
 
     try {
-      // AI'dan yanıt al (profil bilgilerini de ge?ir)
+      // AI'dan yanit al (profil bilgilerini de gecir)
       final aiService = PollinationsAIService();
       final aiResponse = await aiService.mesinYanitiAl(
-        kullaniciMesaji: _kullaniciProfili != null 
-            ? "Profilim: ${_getProfilOzeti()}\n\nSorum: $userMessage" 
+        kullaniciMesaji: _kullaniciProfili != null
+            ? "Profilim: ${_getProfilOzeti()}\n\nSorum: $userMessage"
             : userMessage,
         kategori: _selectedCategory,
         gecmis: _getConversationHistory(),
       );
 
-      // AI yanıtın1 ekle
+      // AI yanitini ekle
       setState(() {
         _messages.add(ChatMessage(
           text: aiResponse,
@@ -135,7 +133,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       AppLogger.error('AI Chat Error: $e');
       setState(() {
         _messages.add(ChatMessage(
-          text: '?R ?zg?n?m, bir hata oluştu. L?tfen tekrar dene.',
+          text: 'Uzgunum, bir hata olustu. Lutfen tekrar dene.',
           isUser: false,
           timestamp: DateTime.now(),
         ));
@@ -145,13 +143,13 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   }
 
   List<Map<String, String>> _getConversationHistory() {
-    // Son 10 mesaj1 g?nder (performans i?in)
+    // Son 10 mesaji gonder (performans icin)
     final recentMessages = _messages.length > 10
         ? _messages.sublist(_messages.length - 10)
         : _messages;
 
     return recentMessages
-        .where((m) => m.isUser || !m.text.startsWith('x9')) // Ho_ geldin mesajın1 ekleme
+        .where((m) => m.isUser || !m.text.startsWith('Merhaba')) // Hos geldin mesajini ekleme
         .map((m) => {
               'role': m.isUser ? 'user' : 'assistant',
               'content': m.text,
@@ -192,10 +190,10 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
-          // Kategori dei_tirme butonu
+          // Kategori degistirme butonu
           PopupMenuButton<AICategory>(
             icon: const Icon(Icons.swap_horiz),
-            tooltip: 'Danı_man Dei_tir',
+            tooltip: 'Danisman Degistir',
             onSelected: _changeCategory,
             itemBuilder: (context) => AICategory.values.map((category) {
               return PopupMenuItem(
@@ -230,7 +228,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       ),
       body: Column(
         children: [
-          // Kullanıc1 profil kart1 (varsa g?ster)
+          // Kullanici profil karti (varsa goster)
           if (_kullaniciProfili != null)
             Container(
               width: double.infinity,
@@ -290,7 +288,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
               ),
             ),
 
-          // Kategori bilgi band1
+          // Kategori bilgi bandi
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
@@ -342,7 +340,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
             ),
           ),
 
-          // Chat mesajlar1
+          // Chat mesajlari
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
@@ -375,19 +373,19 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
                       ),
                     ),
                   ),
-        const SizedBox(width: 8),
-        Text(
-          'Yanıt yazılıyor...',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade600,
-          ),
-        ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Yanit yaziliyor...',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
                 ],
               ),
             ),
 
-          // Mesaj input alan1
+          // Mesaj input alani
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -407,7 +405,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
                     child: TextField(
                       controller: _messageController,
                       decoration: InputDecoration(
-                        hintText: 'Mesajınız1 yazın...',
+                        hintText: 'Mesajinizi yazin...',
                         hintStyle: TextStyle(color: Colors.grey.shade400),
                         filled: true,
                         fillColor: Colors.grey.shade100,
@@ -463,13 +461,13 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   String _getCategoryName(AICategory category) {
     switch (category) {
       case AICategory.supplement:
-        return 'Dr. Ahmet Yılmaz';
+        return 'Dr. Ahmet Yilmaz';
       case AICategory.nutrition:
-        return 'Uzm. Dyt. Ayşe Demir';
+        return 'Uzm. Dyt. Ayse Demir';
       case AICategory.training:
         return 'Hakan Kaya';
       case AICategory.general:
-        return 'Dr. Zeynep Aydın';
+        return 'Dr. Zeynep Aydin';
       case AICategory.dietician:
         return 'Uzm. Dyt. Elif Kaya';
     }
@@ -478,25 +476,25 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   String _getCategoryExpertise(AICategory category) {
     switch (category) {
       case AICategory.supplement:
-        return '30 yıllık Supplement Uzmanı';
+        return '30 yillik Supplement Uzmani';
       case AICategory.nutrition:
-        return '30 yıllık Diyetisyen';
+        return '30 yillik Diyetisyen';
       case AICategory.training:
-        return '30 yıllık Fitness Antrenörü';
+        return '30 yillik Fitness Antrenoru';
       case AICategory.general:
-        return '30 yıllık Genel Sağlık Uzmanı';
+        return '30 yillik Genel Saglik Uzmani';
       case AICategory.dietician:
-        return '20 yıllık Profesyonel Türk Diyetisyeni';
+        return '20 yillik Profesyonel Turk Diyetisyeni';
     }
   }
 
   String _getProfilOzeti() {
     if (_kullaniciProfili == null) return '';
-    
+
     final p = _kullaniciProfili!;
     final hedefText = _getHedefText(p.hedef);
-    
-    return '${p.yas} ya_ ⬢ ${p.mevcutKilo.toStringAsFixed(0)}kg ⬢ ${p.boy.toStringAsFixed(0)}cm ⬢ $hedefText';
+
+    return '${p.yas} yas - ${p.mevcutKilo.toStringAsFixed(0)}kg - ${p.boy.toStringAsFixed(0)}cm - $hedefText';
   }
 
   String _getHedefText(Hedef hedef) {
@@ -587,14 +585,13 @@ class ChatBubble extends StatelessWidget {
     final difference = now.difference(time);
 
     if (difference.inMinutes < 1) {
-      return 'Şimdi';
+      return 'Simdi';
     } else if (difference.inHours < 1) {
-      return '${difference.inMinutes} dk önce';
+      return '${difference.inMinutes} dk once';
     } else if (difference.inDays < 1) {
-      return '${difference.inHours} sa önce';
+      return '${difference.inHours} sa once';
     } else {
       return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
     }
   }
 }
-
