@@ -11,7 +11,7 @@ import '../../entities/nutrition/makro_hedefleri.dart';
 import '../../entities/nutrition/yemek.dart';
 
 class GenerateDailyPlan {
-  final Random _random = Random();
+  final Random _random = Random(DateTime.now().millisecondsSinceEpoch);
 
   // Sayılabilir birimler - bunlar tam sayıya yuvarlanır
   static const _sayilabilirBirimler = [
@@ -85,26 +85,38 @@ class GenerateDailyPlan {
 
         if (oKalori <= 30) continue;
 
-        // Anlık geçerli liste: haftalıkta 0 kez kullanılanlar (Çeşitliliği garantilemek)
-        var adayYemekler = uygunYemekler.where((y) => 
-            y.ogun == _mapOgunTipi(ogunAdi) && 
+        // Çeşitlilik için 3 seviyeli strateji:
+        // 1. Önce hiç kullanılmayanlar
+        var adayYemekler = uygunYemekler.where((y) =>
+            y.ogun == _mapOgunTipi(ogunAdi) &&
             (baseKullanimlari[getBaseId(y.id)] ?? 0) == 0
         ).toList();
 
-        // Eğer tükendiyse haftalıkta 1 kez veya hepsi (Tolerans esnetme)
-        if (adayYemekler.isEmpty) {
-          adayYemekler = uygunYemekler.where((y) => y.ogun == _mapOgunTipi(ogunAdi)).toList();
+        // 2. Eğer azsa, 1 kez kullanılanları da dahil et
+        if (adayYemekler.length < 10) {
+          final onceKullanilan = uygunYemekler.where((y) =>
+              y.ogun == _mapOgunTipi(ogunAdi) &&
+              (baseKullanimlari[getBaseId(y.id)] ?? 0) <= 1
+          ).toList();
+          adayYemekler = [...adayYemekler, ...onceKullanilan];
         }
-        if (adayYemekler.isEmpty) {
-          adayYemekler = uygunYemekler;
+
+        // 3. Hala azsa, tüm uygun yemekleri al ama çok agresif shuffle
+        if (adayYemekler.length < 5) {
+          adayYemekler = uygunYemekler.toList();
         }
+        
+        // Her seferinde daha agresif shuffle (3 kez)
+        final karisik = List<Yemek>.from(adayYemekler);
+        karisik.shuffle(_random);
+        karisik.shuffle(_random);
+        karisik.shuffle(_random);
 
         Yemek? enIyiYemek;
         double enIyiSkor = double.infinity;
 
-        // Çeşitlilik için çok daha fazla random aday dene (100)
-        final denemeSayisi = min(100, adayYemekler.length);
-        final karisik = List<Yemek>.from(adayYemekler)..shuffle(_random);
+        // Çeşitlilik için çok daha fazla random aday dene
+        final denemeSayisi = min(100, karisik.length);
 
         for (int i = 0; i < denemeSayisi; i++) {
           final aday = karisik[i];
