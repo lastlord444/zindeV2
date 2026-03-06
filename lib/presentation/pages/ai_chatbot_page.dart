@@ -42,7 +42,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
       });
       AppLogger.info('x? Kullanıc1 profili AI chatbot\'a y?klendi: ${profil?.ad} ${profil?.soyad}');
     } catch (e) {
-      AppLogger.error('?R Kullanıc1 profili y?kleme hatas1', e);
+      AppLogger.error('Kullanıcı profili yükleme hatası', e);
     }
   }
 
@@ -208,8 +208,7 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      PollinationsAIService.categoryDescriptions[category]!
-                          .substring(3), // Emoji'yi ?ıkar
+                      PollinationsAIService.categoryDescriptions[category]!,
                     ),
                   ],
                 ),
@@ -479,15 +478,15 @@ class _AIChatbotPageState extends State<AIChatbotPage> {
   String _getCategoryExpertise(AICategory category) {
     switch (category) {
       case AICategory.supplement:
-        return '30 yıllık Supplement Uzman1';
+        return '30 yıllık Supplement Uzmanı';
       case AICategory.nutrition:
         return '30 yıllık Diyetisyen';
       case AICategory.training:
-        return '30 yıllık Fitness Antren?r?';
+        return '30 yıllık Fitness Antrenörü';
       case AICategory.general:
-        return '30 yıllık Genel Salık Uzman1';
+        return '30 yıllık Genel Sağlık Uzmanı';
       case AICategory.dietician:
-        return '20 yıllık Profesyonel T?rk Diyetisyeni';
+        return '20 yıllık Profesyonel Türk Diyetisyeni';
     }
   }
 
@@ -590,9 +589,9 @@ class ChatBubble extends StatelessWidget {
     if (difference.inMinutes < 1) {
       return 'Şimdi';
     } else if (difference.inHours < 1) {
-      return '${difference.inMinutes} dk ?nce';
+      return '${difference.inMinutes} dk önce';
     } else if (difference.inDays < 1) {
-      return '${difference.inHours} sa ?nce';
+      return '${difference.inHours} sa önce';
     } else {
       return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
     }
