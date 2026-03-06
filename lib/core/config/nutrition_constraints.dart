@@ -16,48 +16,44 @@ class NutritionConstraints {
   /// Fallback tolerans: %10 (4. aşama)
   static const double fallbackTolerancePct = 0.10;
 
-  // ─── Hedef Bazl1 Öğün Sayıs1 ─────────────────────────────────────────────
-  /// Hedef bazl1 günlük öğün sayıs1
+  // ─── Hedef Bazlı Öğün Sayısı ─────────────────────────────────────────────
+  /// Hedef bazlı günlük öğün sayısı (Diyetisyen Standardı: 3-4 öğün)
   static int ogunSayisiGetir(String hedef) {
     switch (hedef.toLowerCase()) {
       case 'bulk':
-        return 6; // Kahvalt1 + Ara1 + Öğle + Ara2 + Akşam + Gece
+        return 4; // Kahvaltı + Öğle + Akşam + 1 Ara
       case 'maintain':
-        return 5; // Kahvalt1 + Ara1 + Öğle + Ara2 + Akşam
+        return 4; // Kahvaltı + Öğle + Akşam + 1 Ara
       case 'cut':
-        return 4; // Kahvalt1 + Ara1 + Öğle + Akşam
+        return 3; // Kahvaltı + Öğle + Akşam
       default:
-        return 5;
+        return 4;
     }
   }
 
-  // ─── Hedef Bazl1 Öğün Kalori Dağılım1 ────────────────────────────────────
-  /// Hedef bazl1 öğün kalori dağılım1 (0.0-1.0 aras1 oran)
+  // ─── Hedef Bazlı Öğün Kalori Dağılımı ────────────────────────────────────
+  /// Hedef bazlı öğün kalori dağılımı (0.0-1.0 arası oran)
   static Map<String, double> ogunDagilimGetir(String hedef) {
     switch (hedef.toLowerCase()) {
       case 'bulk':
         return {
-          'kahvalti': 0.20,
-          'araOgun1': 0.10,
-          'ogle': 0.27,
-          'araOgun2': 0.10,
-          'aksam': 0.25,
-          'geceAtistirma': 0.08,
+          'kahvalti': 0.25,
+          'araOgun1': 0.15,
+          'ogle': 0.30,
+          'aksam': 0.30,
         };
       case 'maintain':
         return {
           'kahvalti': 0.25,
-          'araOgun1': 0.10,
+          'araOgun1': 0.15,
           'ogle': 0.30,
-          'araOgun2': 0.10,
-          'aksam': 0.25,
+          'aksam': 0.30,
         };
       case 'cut':
         return {
-          'kahvalti': 0.25,
-          'araOgun1': 0.10,
+          'kahvalti': 0.30,
           'ogle': 0.40,
-          'aksam': 0.25,
+          'aksam': 0.30,
         };
       default:
         return ogunDagilimGetir('maintain');
