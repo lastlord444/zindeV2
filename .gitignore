@@ -4,12 +4,14 @@
 build/
 *.iml
 *.log
+.flutter-plugins-dependencies
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
+.metadata
 
 # Supabase local
 supabase/.temp/
@@ -24,8 +26,9 @@ seed_meals_v2.py
 build_meals.py
 wipe_plans.py
 fix_chatbot.dart
+fix_encoding.js
 fix_encoding.py
-fix_ui_ufffd.py
+fix_ui_*.py
 
 # Python
 __pycache__/
@@ -37,3 +40,24 @@ Thumbs.db
 
 # Secrets - ASLA push etme
 *.env
+supabase.json
+
+# Geçici analiz ve log dosyaları
+analyze*.txt
+analyze*.json
+build_log*.txt
+*_utf8.txt
+machine.txt
+output.txt
+seed_out.txt
+status.txt
+temp_orig.txt
+tmp_cols.txt
+test_*.txt
+err.json
+query_*.py
+
+# Test dosyaları
+test_algo.dart
+fix_*.py
+fix_*.dart

@@ -143,6 +143,10 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
               yemekId: durum == 'yenildi' || durum == 'onaylandi',
             },
           );
+          
+          // Güncellenen planı kuyruğa atıp yerel/uzak veritabanına işliyoruz
+          gunlukPlanGuncelle(guncelPlan);
+          
           return Right(guncelPlan);
         },
       );

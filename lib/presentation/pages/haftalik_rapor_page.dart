@@ -27,7 +27,7 @@ class _HaftalikRaporPageState extends State<HaftalikRaporPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('x` Haftalık Detayl1 Rapor'),
+        title: const Text('Haftalık Detaylı Rapor'),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
         actions: [
@@ -35,7 +35,7 @@ class _HaftalikRaporPageState extends State<HaftalikRaporPage> {
             onPressed: () {
               // Placeholder - yenile fonksiyonu
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Rapor �zellii yakında aktif')),
+                const SnackBar(content: Text('Rapor özelliği yakında aktif')),
               );
             },
             icon: const Icon(Icons.refresh),
@@ -48,15 +48,14 @@ class _HaftalikRaporPageState extends State<HaftalikRaporPage> {
         title: 'Haftalık Rapor',
         message: 'Haftalık beslenme uyum raporu Supabase entegrasyonuyla birlikte yakında aktif olacak.\n\n'
             'Bu sayfada:\n'
-            '⬢ Haftalık uyum y�zdesi\n'
-            '⬢ G�nl�k ��n detaylar1\n'
+            '⬢ Haftalık uyum yüzdesi\n'
+            '⬢ Günlük öğün detayları\n'
             '⬢ Makro analizi\n'
-            '⬢ �neriler ve tavsiyeler\n\n'
-            'gibi bilgileri g�rebileceksiniz.',
+            '⬢ Öneriler ve tavsiyeler\n\n'
+            'gibi bilgileri görebileceksiniz.',
         customIcon: Icons.analytics_outlined,
         iconColor: Colors.teal,
       ),
     );
   }
-}
 
