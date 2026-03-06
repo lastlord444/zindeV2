@@ -17,17 +17,17 @@ class NutritionConstraints {
   static const double fallbackTolerancePct = 0.10;
 
   // ─── Hedef Bazlı Öğün Sayısı ─────────────────────────────────────────────
-  /// Hedef bazlı günlük öğün sayısı (Diyetisyen Standardı: 3-4 öğün)
+  /// Hedef bazlı günlük öğün sayısı (Diyetisyen Standardı)
   static int ogunSayisiGetir(String hedef) {
     switch (hedef.toLowerCase()) {
       case 'bulk':
-        return 4; // Kahvaltı + Öğle + Akşam + 1 Ara
+        return 6; // Kahvaltı + Ara1 + Öğle + Ara2 + Akşam + Gece
       case 'maintain':
-        return 4; // Kahvaltı + Öğle + Akşam + 1 Ara
+        return 5; // Kahvaltı + Ara1 + Öğle + Ara2 + Akşam
       case 'cut':
-        return 3; // Kahvaltı + Öğle + Akşam
+        return 4; // Kahvaltı + Ara1 + Öğle + Akşam
       default:
-        return 4;
+        return 5;
     }
   }
 
@@ -37,23 +37,27 @@ class NutritionConstraints {
     switch (hedef.toLowerCase()) {
       case 'bulk':
         return {
-          'kahvalti': 0.25,
-          'araOgun1': 0.15,
-          'ogle': 0.30,
-          'aksam': 0.30,
+          'kahvalti': 0.20,
+          'araOgun1': 0.10,
+          'ogle': 0.25,
+          'araOgun2': 0.10,
+          'aksam': 0.25,
+          'geceAtistirma': 0.10,
         };
       case 'maintain':
         return {
           'kahvalti': 0.25,
-          'araOgun1': 0.15,
+          'araOgun1': 0.10,
           'ogle': 0.30,
-          'aksam': 0.30,
+          'araOgun2': 0.10,
+          'aksam': 0.25,
         };
       case 'cut':
         return {
-          'kahvalti': 0.30,
+          'kahvalti': 0.25,
+          'araOgun1': 0.10,
           'ogle': 0.40,
-          'aksam': 0.30,
+          'aksam': 0.25,
         };
       default:
         return ogunDagilimGetir('maintain');
