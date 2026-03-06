@@ -58,4 +58,4 @@ class _HaftalikRaporPageState extends State<HaftalikRaporPage> {
       ),
     );
   }
-
+}
