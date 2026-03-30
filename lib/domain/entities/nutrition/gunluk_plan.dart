@@ -1,11 +1,12 @@
 // lib/domain/entities/nutrition/gunluk_plan.dart
-// V2 - userId, hedefler, tamamlananOgunler alanlar1 eklendi
+// V3 - 4 durumlu onay sistemi: bekliyor, yedi, onaylandi, ataldi
 
 import 'package:equatable/equatable.dart';
 import 'yemek.dart';
+import 'yemek_onay_sistemi.dart';
 import 'makro_hedefleri.dart';
 
-/// Günlük beslenme plan1 entity'si (V2)
+/// Günlük beslenme plan1 entity'si (V3)
 class GunlukPlan extends Equatable {
   final String id;
   final String userId;
@@ -17,7 +18,7 @@ class GunlukPlan extends Equatable {
   final Yemek? araOgun2;
   final Yemek? aksamYemegi;
   final Yemek? geceAtistirma;
-  final Map<String, bool> tamamlananOgunler; // {yemekId: tamamlandi?}
+  final Map<String, String> ogunDurumlari; // {yemekId: durum} - durumlar: bekliyor, yedi, onaylandi, ataldi
 
   const GunlukPlan({
     required this.id,
@@ -30,7 +31,7 @@ class GunlukPlan extends Equatable {
     this.araOgun2,
     this.aksamYemegi,
     this.geceAtistirma,
-    this.tamamlananOgunler = const {},
+    this.ogunDurumlari = const {},
   });
 
   // ─── Tüm Öğünler ────────────────────────────────────────────────────────
@@ -76,7 +77,7 @@ class GunlukPlan extends Equatable {
       userId: userId,
       tarih: tarih,
       hedefler: hedefler,
-      tamamlananOgunler: tamamlananOgunler,
+      ogunDurumlari: ogunDurumlari,
       kahvalti: kahvalti?.id == eskiYemek.id ? yeniYemek : kahvalti,
       araOgun1: araOgun1?.id == eskiYemek.id ? yeniYemek : araOgun1,
       ogleYemegi: ogleYemegi?.id == eskiYemek.id ? yeniYemek : ogleYemegi,
@@ -99,7 +100,7 @@ class GunlukPlan extends Equatable {
     Yemek? araOgun2,
     Yemek? aksamYemegi,
     Yemek? geceAtistirma,
-    Map<String, bool>? tamamlananOgunler,
+    Map<String, String>? ogunDurumlari,
   }) {
     return GunlukPlan(
       id: id ?? this.id,
@@ -112,7 +113,7 @@ class GunlukPlan extends Equatable {
       araOgun2: araOgun2 ?? this.araOgun2,
       aksamYemegi: aksamYemegi ?? this.aksamYemegi,
       geceAtistirma: geceAtistirma ?? this.geceAtistirma,
-      tamamlananOgunler: tamamlananOgunler ?? this.tamamlananOgunler,
+      ogunDurumlari: ogunDurumlari ?? this.ogunDurumlari,
     );
   }
 
@@ -164,28 +165,110 @@ class GunlukPlan extends Equatable {
     return skor.clamp(0.0, 100.0);
   }
 
-  /// Günlük onay durumu {yemekId: onaylandi}
-  Map<String, bool> get gunlukOnayDurumu => tamamlananOgunler;
+  /// Günlük onay durumu {yemekId: onaylandi mi?}
+  /// V1 UI uyumluluk için: sadece onaylananlar true
+  Map<String, bool> get gunlukOnayDurumu => ogunDurumlari.map(
+    (yemekId, durum) => MapEntry(
+      yemekId,
+      durum == 'onaylandi',
+    ),
+  );
 
-  /// Tamamlanan  nlerin toplam kalorisi
+  /// V1 UI uyumluluk için: tamamlananOgunler alias
+  /// Sadece yedi veya onaylandi durumundakiler true
+  Map<String, bool> get tamamlananOgunler => ogunDurumlari.map(
+    (yemekId, durum) => MapEntry(
+      yemekId,
+      durum == 'yedi' || durum == 'onaylandi',
+    ),
+  );
+
+  /// Belirli bir yemeğin durumunu string olarak döndür
+  String ogunDurumu(String yemekId) => ogunDurumlari[yemekId] ?? 'bekliyor';
+
+  /// Yemek durumunu enum olarak döndür
+  YemekDurumu yemekDurumuGetir(String yemekId) {
+    final durumStr = ogunDurumlari[yemekId] ?? 'bekliyor';
+    switch (durumStr) {
+      case 'yedi':
+        return YemekDurumu.yedi;
+      case 'onaylandi':
+        return YemekDurumu.onaylandi;
+      case 'atandi':
+        return YemekDurumu.ataldi;
+      default:
+        return YemekDurumu.bekliyor;
+    }
+  }
+
+  /// Tamamlanan  nlerin toplam kalorisi (yedi + onaylandi)
   double get tamamlananKalori => tumOgunler
-      .where((y) => tamamlananOgunler[y.id] == true)
+      .where((y) {
+        final durum = ogunDurumlari[y.id] ?? 'bekliyor';
+        return durum == 'yedi' || durum == 'onaylandi';
+      })
       .fold(0.0, (t, y) => t + y.kalori);
 
-  /// Tamamlanan  nlerin toplam proteini
+  /// Tamamlanan  nlerin toplam proteini (yedi + onaylandi)
   double get tamamlananProtein => tumOgunler
-      .where((y) => tamamlananOgunler[y.id] == true)
+      .where((y) {
+        final durum = ogunDurumlari[y.id] ?? 'bekliyor';
+        return durum == 'yedi' || durum == 'onaylandi';
+      })
       .fold(0.0, (t, y) => t + y.protein);
 
-  /// Tamamlanan  nlerin toplam karbonhidrat1
+  /// Tamamlanan  nlerin toplam karbonhidrat1 (yedi + onaylandi)
   double get tamamlananKarb => tumOgunler
-      .where((y) => tamamlananOgunler[y.id] == true)
+      .where((y) {
+        final durum = ogunDurumlari[y.id] ?? 'bekliyor';
+        return durum == 'yedi' || durum == 'onaylandi';
+      })
       .fold(0.0, (t, y) => t + y.karbonhidrat);
 
-  /// Tamamlanan  nlerin toplam yağı
+  /// Tamamlanan  nlerin toplam yağı (yedi + onaylandi)
   double get tamamlananYag => tumOgunler
-      .where((y) => tamamlananOgunler[y.id] == true)
+      .where((y) {
+        final durum = ogunDurumlari[y.id] ?? 'bekliyor';
+        return durum == 'yedi' || durum == 'onaylandi';
+      })
       .fold(0.0, (t, y) => t + y.yag);
+
+  /// Günlük uyum yüzdesi
+  double get uyumYuzdesi {
+    if (tumOgunler.isEmpty) return 0.0;
+    
+    final onaylananSayisi = tumOgunler
+        .where((y) => ogunDurumlari[y.id] == 'onaylandi')
+        .length;
+    
+    return (onaylananSayisi / tumOgunler.length) * 100;
+  }
+
+  /// Onaylanan yemek sayısı
+  int get onaylananSayisi => tumOgunler
+      .where((y) => ogunDurumlari[y.id] == 'onaylandi')
+      .length;
+
+  /// Yenilen yemek sayısı (yedi + onaylandi)
+  int get yenmisSayisi => tumOgunler
+      .where((y) {
+        final durum = ogunDurumlari[y.id] ?? 'bekliyor';
+        return durum == 'yedi' || durum == 'onaylandi';
+      })
+      .length;
+
+  /// Atlanan yemek sayısı
+  int get atlananSayisi => tumOgunler
+      .where((y) => ogunDurumlari[y.id] == 'atandi')
+      .length;
+
+  /// Bekleyen yemek sayısı
+  int get bekleyenSayisi => tumOgunler
+      .where((y) {
+        final durum = ogunDurumlari[y.id] ?? 'bekliyor';
+        return durum == 'bekliyor';
+      })
+      .length;
 
   @override
   List<Object?> get props => [id, userId, tarih, hedefler];

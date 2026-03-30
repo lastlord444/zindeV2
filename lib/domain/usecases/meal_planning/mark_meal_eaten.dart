@@ -15,7 +15,7 @@ class MarkMealEaten {
     required String userId,
     required DateTime tarih,
     required String yemekId,
-    String durum = 'yenildi',
+    String durum = 'yedi',
   }) {
     return _repository.ogunDurumuGuncelle(
       userId: userId,

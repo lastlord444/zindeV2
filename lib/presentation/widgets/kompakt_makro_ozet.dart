@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/gunluk_plan.dart';
+import '../../domain/entities/nutrition/gunluk_plan.dart';
 import '../../core/config/nutrition_constraints.dart';
 import 'animated_meal_card.dart'; // // Progress Ring Animation
 

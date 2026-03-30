@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/alternatif_besin_legacy.dart';
+import '../../domain/entities/nutrition/alternatif_besin.dart';
 
 // ============================================================================
 // ALTERNAT0F BES0N BOTTOM SHEET
@@ -9,7 +9,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
   final String orijinalBesinAdi;
   final double orijinalMiktar;
   final String orijinalBirim;
-  final List<AlternatifBesinLegacy> alternatifler;
+  final List<AlternatifBesin> alternatifler;
   final String alerjiNedeni; // "Ceviz alerjiniz var" veya "Bulamıyorum"
   final VoidCallback? onClose; // YEN0: Kapatma callback'i
 
@@ -23,16 +23,16 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
     this.onClose, // CALLBACK EKLEND0
   });
 
-  static Future<AlternatifBesinLegacy?> goster(
+  static Future<AlternatifBesin?> goster(
     BuildContext context, {
     required String orijinalBesinAdi,
     required double orijinalMiktar,
     required String orijinalBirim,
-    required List<AlternatifBesinLegacy> alternatifler,
+    required List<AlternatifBesin> alternatifler,
     required String alerjiNedeni,
     VoidCallback? onClose, // YEN0: Callback parametresi
   }) {
-    return showModalBottomSheet<AlternatifBesinLegacy>(
+    return showModalBottomSheet<AlternatifBesin>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -231,7 +231,7 @@ class AlternatifBesinBottomSheet extends StatelessWidget {
   }
 
   Widget _buildAlternatifCard(
-      BuildContext context, AlternatifBesinLegacy alternatif) {
+      BuildContext context, AlternatifBesin alternatif) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(

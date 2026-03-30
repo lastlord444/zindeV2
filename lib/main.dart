@@ -1,6 +1,7 @@
 // lib/main.dart
-// ZindeAI V2.0 - Ana giriş noktas1
+// ZindeAI V2.0 - Ana giriş noktası
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,9 +15,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Load environment variables for Supabase
-  await dotenv.load(fileName: ".env");
+  // Web'de .env dosyası yüklenemeyebilir, hata yakalanmalı
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    if (kDebugMode) {
+      print('⚠️ .env dosyası yüklenemedi (Web için normal): $e');
+    }
+  }
 
-  // Bağımlılıklar1 başlat (Supabase dahil)
+  // Bağımlılıkları başlat (Supabase dahil)
   await di.initDependencies();
 
   runApp(const ZindeAIApp());

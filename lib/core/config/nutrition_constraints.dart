@@ -13,6 +13,10 @@ class NutritionConstraints {
   /// Öğün başına tolerans: ±%20 (daha geniş)
   static const double mealTolerancePct = 0.20;
 
+  /// Öğün başına maksimum protein limiti (gram) - Diyetisyen standardı
+  /// Tek öğünde 50g üzeri protein emilimi verimli değildir
+  static const double maxProteinPerMealG = 50.0;
+
   /// Fallback tolerans: %10 (4. aşama)
   static const double fallbackTolerancePct = 0.10;
 
@@ -90,9 +94,9 @@ class NutritionConstraints {
     return erkekMi ? bmr + 5 : bmr - 161;
   }
 
-  /// Aktivite katsayılar1
+  /// Aktivite katsayıları
   static const Map<String, double> aktiviteKatsayilari = {
-    'sedanter': 1.2,
+    'hareketsiz': 1.2,
     'hafifAktif': 1.375,
     'ortaAktif': 1.55,
     'cokAktif': 1.725,
@@ -106,20 +110,68 @@ class NutritionConstraints {
   }
 
   /// Hedef bazl1 günlük kalori
-  static double gunlukKaloriHesapla(double tdee, String hedef) {
+  static double gunlukKaloriHesapla(double tdee, String hedef, {double? bmr}) {
     switch (hedef.toLowerCase()) {
       case 'bulk':
         return tdee + 400; // +400 kcal surplus
       case 'cut':
-        return tdee - 400; // -400 kcal deficit
+        double kalori = tdee - 400; // -400 kcal deficit
+        // Cut yaparken kalori asla BMR (bazal metabolizma) altına düşmemelidir
+        if (bmr != null && kalori < bmr) {
+          kalori = bmr;
+        }
+        return kalori;
       case 'maintain':
       default:
         return tdee;
     }
   }
 
-  /// Protein gram1 = hedef kilo × 2.0-2.2 g/kg
-  static double proteinHesapla(double hedefKilo) => hedefKilo * 2.1;
+  /// Protein gramı hesaplama (Aktivite ve hedefe göre dinamik)
+  /// Diyetisyen standardı:
+  /// Hareketsiz: ~1.2g/kg
+  /// Hafif Aktif: ~1.4g/kg
+  /// Orta Aktif: ~1.6g/kg
+  /// Çok Aktif: ~1.8g/kg
+  /// Atletik: ~2.0-2.2g/kg
+  static double proteinHesapla({
+    required double hedefKilo,
+    required String aktiviteSeviyesi,
+    required String hedef,
+  }) {
+    double proteinCarpan = 1.6; // varsayılan
+    
+    switch (aktiviteSeviyesi) {
+      case 'hareketsiz':
+      case 'sedanter':
+        proteinCarpan = 1.2;
+        break;
+      case 'hafifAktif':
+        proteinCarpan = 1.4;
+        break;
+      case 'ortaAktif':
+        proteinCarpan = 1.6;
+        break;
+      case 'cokAktif':
+        proteinCarpan = 1.8;
+        break;
+      case 'atletik':
+        proteinCarpan = 2.2;
+        break;
+      default:
+        proteinCarpan = 1.6;
+    }
+
+    // Yağ yakımı (cut) döneminde kas kaybını önlemek için protein ihtiyacı artar
+    if (hedef.toLowerCase() == 'cut') {
+      proteinCarpan += 0.2;
+    }
+    
+    // Güvenlik sınırı: max 2.5g/kg
+    if (proteinCarpan > 2.5) proteinCarpan = 2.5;
+
+    return hedefKilo * proteinCarpan;
+  }
 
   /// Yağ gram1 = toplam kalorinin %30'u ÷ 9 kcal/g
   static double yagHesapla(double gunlukKalori) => (gunlukKalori * 0.30) / 9;

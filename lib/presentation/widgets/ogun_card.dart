@@ -1,7 +1,7 @@
 // lib/presentation/widgets/ogun_card.dart
 
 import 'package:flutter/material.dart';
-import '../../domain/entities/yemek.dart';
+import '../../domain/entities/nutrition/yemek.dart';
 
 /// Yemek kart1 widget'1
 class OgunCard extends StatelessWidget {

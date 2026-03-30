@@ -28,13 +28,18 @@ class CalculateMacros {
     final gunlukKalori = NutritionConstraints.gunlukKaloriHesapla(
       tdee,
       profil.hedef.name,
+      bmr: bmr,
     );
 
     // 4. Hedef kilo (varsa onu kullan, yoksa mevcut kilo)
     final hedefKilo = profil.hedefKilo ?? profil.mevcutKilo;
 
     // 5. Makrolar1 hesapla
-    final protein = NutritionConstraints.proteinHesapla(hedefKilo);
+    final protein = NutritionConstraints.proteinHesapla(
+      hedefKilo: hedefKilo,
+      aktiviteSeviyesi: profil.aktiviteSeviyesi.name,
+      hedef: profil.hedef.name,
+    );
     final yag = NutritionConstraints.yagHesapla(gunlukKalori);
     final karbonhidrat = NutritionConstraints.karbonhidratHesapla(
       gunlukKalori,

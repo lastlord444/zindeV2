@@ -11,7 +11,8 @@ import '../../entities/nutrition/makro_hedefleri.dart';
 import '../../entities/nutrition/yemek.dart';
 
 class GenerateDailyPlan {
-  final Random _random = Random(DateTime.now().millisecondsSinceEpoch);
+  // Random seed'i tarih bazlı yap - her gün farklı plan için
+  Random _randomForSeed(int seed) => Random(seed);
 
   // Sayılabilir birimler - bunlar tam sayıya yuvarlanır
   static const _sayilabilirBirimler = [
@@ -27,15 +28,17 @@ class GenerateDailyPlan {
   ];
 
   Future<Either<Failure, GunlukPlan>> call({
-required String planId,
-required String userId,
-required DateTime tarih,
-required MakroHedefleri hedefler,
-required List<Yemek> yemekHavuzu,
-required String hedef,
-required List<String> kisitlamalar,
-Map<String, int> haftalikKullanilanYemekler = const {},
-}) async {
+      required String planId,
+      required String userId,
+      required DateTime tarih,
+      required MakroHedefleri hedefler,
+      required List<Yemek> yemekHavuzu,
+      required String hedef,
+      required List<String> kisitlamalar,
+      Map<String, int> haftalikKullanilanYemekler = const {},
+  }) async {
+    // Her gün için farklı random seed - tarih bazlı
+    final random = Random(tarih.millisecondsSinceEpoch ~/ 1000); // Tarihin gününü seed kullan
 try {
   final uygunYemekler = yemekHavuzu
       .where((y) => y.kisitlamayaUygunMu(kisitlamalar))
@@ -57,15 +60,19 @@ try {
     return base;
   }
 
-  // NOT: Haftalık kullanım takibi bu plan için FRESH olmalı!
-  // Her plan için yeni boş bir takip başlatıyoruz
+  // Haftalık kullanım takibini, gelen veriden doldurarak başlat
   final baseKullanimlari = <String, int>{};
+  haftalikKullanilanYemekler.forEach((key, value) {
+    baseKullanimlari[getBaseId(key)] = (baseKullanimlari[getBaseId(key)] ?? 0) + value;
+  });
   
   // Sadece aynı gün içinde tekrar kullanımı önlemek için minik bir takip
   final buPlanKullanimi = <String, int>{};
 
       final dagilim = NutritionConstraints.ogunDagilimGetir(hedef);
+      AppLogger.bilgi('📊 Hedef: $hedef, Öğün Dağılımı: $dagilim');
       final gerekenOgunler = dagilim.keys.where((k) => (dagilim[k] ?? 0) > 0).toList();
+      AppLogger.bilgi('📊 Gereken Öğünler: $gerekenOgunler (${gerekenOgunler.length} adet)');
 
       final uretilenOgunler = <String, Yemek>{};
       double toplamKalori = 0, toplamProtein = 0, toplamKarb = 0, toplamYag = 0;
@@ -88,31 +95,51 @@ try {
         if (oKalori <= 30) continue;
 
         // Çeşitlilik için 3 seviyeli strateji:
-        // 1. Önce hiç kullanılmayanlar
+        // 1. Önce bu hafta hiç kullanılmayanlar VE bugün kullanılmayanlar
         var adayYemekler = uygunYemekler.where((y) =>
             y.ogun == _mapOgunTipi(ogunAdi) &&
-            (baseKullanimlari[getBaseId(y.id)] ?? 0) == 0
+            (baseKullanimlari[getBaseId(y.id)] ?? 0) == 0 &&
+            (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
         ).toList();
 
         // 2. Eğer azsa, 1 kez kullanılanları da dahil et
         if (adayYemekler.length < 10) {
           final onceKullanilan = uygunYemekler.where((y) =>
               y.ogun == _mapOgunTipi(ogunAdi) &&
-              (baseKullanimlari[getBaseId(y.id)] ?? 0) <= 1
+              (baseKullanimlari[getBaseId(y.id)] ?? 0) <= 1 &&
+              (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
           ).toList();
           adayYemekler = [...adayYemekler, ...onceKullanilan];
         }
 
-        // 3. Hala azsa, tüm uygun yemekleri al ama çok agresif shuffle
+        // 3. Hala azsa, tüm uygun yemekleri al ama aynı gün tekrarını engelle
         if (adayYemekler.length < 5) {
-          adayYemekler = uygunYemekler.toList();
+          adayYemekler = uygunYemekler.where((y) => 
+            y.ogun == _mapOgunTipi(ogunAdi) && 
+            (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
+          ).toList();
+        }
+        
+        // Acil durum: Aday hiç kalmadıysa aynı gün şartını esnet
+        if (adayYemekler.isEmpty) {
+          adayYemekler = uygunYemekler.where((y) => y.ogun == _mapOgunTipi(ogunAdi)).toList();
         }
         
         // Her seferinde daha agresif shuffle (3 kez)
         final karisik = List<Yemek>.from(adayYemekler);
-        karisik.shuffle(_random);
-        karisik.shuffle(_random);
-        karisik.shuffle(_random);
+        karisik.shuffle(random);
+        karisik.shuffle(random);
+        karisik.shuffle(random);
+
+        // Kahvaltı öğününde yumurtalı yemekleri listenin BAŞINA taşı (stable sort).
+        // Skor rekabeti hâlâ geçerli — sadece önce deneniyor, tolerans korunuyor.
+        if (ogunAdi == 'kahvalti') {
+          karisik.sort((a, b) {
+            final aP = _isYumurtaBazli(a) ? 0 : 1;
+            final bP = _isYumurtaBazli(b) ? 0 : 1;
+            return aP.compareTo(bP);
+          });
+        }
 
         Yemek? enIyiYemek;
         double enIyiSkor = double.infinity;
@@ -125,7 +152,10 @@ try {
           if (aday.kalori <= 0) continue;
 
           final ratio = oKalori / aday.kalori;
-          if (ratio < 0.3 || ratio > 4.0) continue;
+          // Yemeğin kendi sınırı varsa ona uy, yoksa 0.3 - 4.0 arası esneklik sağla
+          final strictMin = aday.minMultiplier > 0 ? aday.minMultiplier : 0.3;
+          final strictMax = aday.maxMultiplier > 0 ? aday.maxMultiplier : 4.0;
+          if (ratio < strictMin || ratio > strictMax) continue;
 
           final tahminiP = aday.protein * ratio;
           final tahminiK = aday.karbonhidrat * ratio;
@@ -135,7 +165,13 @@ try {
           final kFark = (tahminiK - oKarb).abs();
           final yFark = (tahminiY - oYag).abs();
 
-          final skor = pFark * 2.0 + kFark * 1.0 + yFark * 1.5;
+          double skor = pFark * 2.0 + kFark * 1.0 + yFark * 1.5;
+
+          // Kahvaltı için yumurtalı yemeklere ÇOK GÜÇLÜ skor bonusu ver
+          // Yumurtalı yemek her zaman kazanır (diyetisyen standardı)
+          if (ogunAdi == 'kahvalti' && _isYumurtaBazli(aday)) {
+            skor -= 200.0;
+          }
 
           if (skor < enIyiSkor) {
             enIyiSkor = skor;
@@ -143,14 +179,32 @@ try {
           }
         }
 
-        enIyiYemek ??= adayYemekler[_random.nextInt(adayYemekler.length)];
+        enIyiYemek ??= adayYemekler[random.nextInt(adayYemekler.length)];
 
-        // Seçilen yemeği BU PLAN içinde tekrar kullanmamak için kaydet
+        // Seçilen yemeği BU PLAN içinde ve HAFTALIK listede tekrar kullanmamak için kaydet
         buPlanKullanimi[getBaseId(enIyiYemek.id)] = (buPlanKullanimi[getBaseId(enIyiYemek.id)] ?? 0) + 1;
+        baseKullanimlari[getBaseId(enIyiYemek.id)] = (baseKullanimlari[getBaseId(enIyiYemek.id)] ?? 0) + 1;
 
-        // Ölçekleme oranı
+        // Ölçekleme oranı - Sabit tolerans yerine veritabanından gelen çarpanlara itaat et
         final ratio = enIyiYemek.kalori > 0 ? oKalori / enIyiYemek.kalori : 1.0;
-        final clampedRatio = ratio.clamp(0.3, 4.0);
+        var clampedRatio = ratio.clamp(
+          enIyiYemek.minMultiplier > 0 ? enIyiYemek.minMultiplier : 0.3, 
+          enIyiYemek.maxMultiplier > 0 ? enIyiYemek.maxMultiplier : 4.0
+        );
+
+        // ⭐ Diyetisyen Kuralı: Öğün başı protein 50g'ı aşmasın
+        final maxProtein = NutritionConstraints.maxProteinPerMealG;
+        if (enIyiYemek.protein > 0 && enIyiYemek.protein * clampedRatio > maxProtein) {
+          final proteinCapRatio = maxProtein / enIyiYemek.protein;
+          final minR = enIyiYemek.minMultiplier > 0 ? enIyiYemek.minMultiplier : 0.3;
+          clampedRatio = clampedRatio.clamp(minR, proteinCapRatio);
+          AppLogger.bilgi('⚠️ Protein cap: ${enIyiYemek.ad} ratio $ratio → $clampedRatio (max ${maxProtein}g)');
+        }
+
+        // 📊 Öğün Logları
+        print('🍽️ Öğün: $ogunAdi | Hedef: ${oKalori.toStringAsFixed(0)}kcal, P:${oProtein.toStringAsFixed(1)}g, K:${oKarb.toStringAsFixed(1)}g, Y:${oYag.toStringAsFixed(1)}g');
+        print('   Seçilen: ${enIyiYemek.ad} | Orijinal: ${enIyiYemek.kalori.toStringAsFixed(0)}kcal, P:${enIyiYemek.protein.toStringAsFixed(1)}g, K:${enIyiYemek.karbonhidrat.toStringAsFixed(1)}g, Y:${enIyiYemek.yag.toStringAsFixed(1)}g');
+        print('   Ratio: $ratio (clamped: $clampedRatio limit: ${enIyiYemek.maxMultiplier})');
 
         // Malzemeleri ölçekle
         final olceklenenMalzemeler = _scaleMalzemeler(enIyiYemek.malzemeler, clampedRatio);
@@ -160,6 +214,8 @@ try {
         final gercekProtein = enIyiYemek.protein * clampedRatio;
         final gercekKarb = enIyiYemek.karbonhidrat * clampedRatio;
         final gercekYag = enIyiYemek.yag * clampedRatio;
+
+        print('   ✅ Ölçeklenmiş: ${gercekKalori.toStringAsFixed(0)}kcal, P:${gercekProtein.toStringAsFixed(1)}g, K:${gercekKarb.toStringAsFixed(1)}g, Y:${gercekYag.toStringAsFixed(1)}g');
 
         final olceklenmisYemek = Yemek(
           id: '${enIyiYemek.id}_v7_${DateTime.now().millisecondsSinceEpoch}',
@@ -231,6 +287,158 @@ try {
         kalanYag -= gercekYag;
       }
 
+      // ─── Tolerans Retry Mekanizması (Geliştirilmiş) ─────────────────────────
+      // Plan oluşturulduktan sonra toplam makro toleransını kontrol et.
+      // Aşılıyorsa EN ÇOK sapma yapan öğünü yeniden seç (max 5 retry).
+      const maxRetry = 5;
+      for (int retry = 0; retry < maxRetry; retry++) {
+        // Toplamları yeniden hesapla
+        toplamKalori = 0; toplamProtein = 0; toplamKarb = 0; toplamYag = 0;
+        for (final y in uretilenOgunler.values) {
+          toplamKalori += y.kalori;
+          toplamProtein += y.protein;
+          toplamKarb += y.karbonhidrat;
+          toplamYag += y.yag;
+        }
+
+        // Hangi makro en çok sapıyor?
+        final sapmalar = <String, double>{
+          'kalori': hedefler.gunlukKalori > 0 ? (toplamKalori - hedefler.gunlukKalori).abs() / hedefler.gunlukKalori : 0,
+          'protein': hedefler.gunlukProtein > 0 ? (toplamProtein - hedefler.gunlukProtein).abs() / hedefler.gunlukProtein : 0,
+          'karb': hedefler.gunlukKarbonhidrat > 0 ? (toplamKarb - hedefler.gunlukKarbonhidrat).abs() / hedefler.gunlukKarbonhidrat : 0,
+          'yag': hedefler.gunlukYag > 0 ? (toplamYag - hedefler.gunlukYag).abs() / hedefler.gunlukYag : 0,
+        };
+
+        final maxSapma = sapmalar.values.reduce((a, b) => a > b ? a : b);
+        if (maxSapma <= 0.10) break; // Tolerans içinde, retry gerekmez
+
+        if (retry < maxRetry - 1) {
+          AppLogger.uyari('⚠️ Tolerans aşıldı (retry ${retry + 1}/$maxRetry): sapmalar=$sapmalar');
+          
+          // En çok sapma yapan makroyu bul
+          String enSapanMakro = 'kalori';
+          double enSapanDeger = 0;
+          sapmalar.forEach((makro, deger) {
+            if (deger > enSapanDeger) {
+              enSapanDeger = deger;
+              enSapanMakro = makro;
+            }
+          });
+
+          // Her öğünün bu makrodaki katkısını hesapla
+          String enSapanOgun = gerekenOgunler.first;
+          double enSapanOgunSapma = 0;
+          
+          for (final ogunAdi in gerekenOgunler) {
+            final ogun = uretilenOgunler[ogunAdi];
+            if (ogun == null) continue;
+            
+            double ogunMiktar = 0;
+            double hedefMiktar = 0;
+            
+            switch (enSapanMakro) {
+              case 'kalori':
+                ogunMiktar = ogun.kalori;
+                hedefMiktar = hedefler.gunlukKalori * dagilim[ogunAdi]!;
+                break;
+              case 'protein':
+                ogunMiktar = ogun.protein;
+                hedefMiktar = hedefler.gunlukProtein * dagilim[ogunAdi]!;
+                break;
+              case 'karb':
+                ogunMiktar = ogun.karbonhidrat;
+                hedefMiktar = hedefler.gunlukKarbonhidrat * dagilim[ogunAdi]!;
+                break;
+              case 'yag':
+                ogunMiktar = ogun.yag;
+                hedefMiktar = hedefler.gunlukYag * dagilim[ogunAdi]!;
+                break;
+            }
+            
+            final sapma = (ogunMiktar - hedefMiktar).abs() / (hedefMiktar > 0 ? hedefMiktar : 1);
+            if (sapma > enSapanOgunSapma) {
+              enSapanOgunSapma = sapma;
+              enSapanOgun = ogunAdi;
+            }
+          }
+
+          final sapanOgun = uretilenOgunler[enSapanOgun];
+          if (sapanOgun == null) break;
+
+          // Kalan bütçeyi yeniden hesapla
+          double yeniKalanKal = hedefler.gunlukKalori;
+          double yeniKalanP = hedefler.gunlukProtein;
+          double yeniKalanK = hedefler.gunlukKarbonhidrat;
+          double yeniKalanY = hedefler.gunlukYag;
+          for (final entry in uretilenOgunler.entries) {
+            if (entry.key != enSapanOgun) {
+              yeniKalanKal -= entry.value.kalori;
+              yeniKalanP -= entry.value.protein;
+              yeniKalanK -= entry.value.karbonhidrat;
+              yeniKalanY -= entry.value.yag;
+            }
+          }
+
+          // Sapan öğün için en uygun yemeği yeniden ara
+          final retryAdaylar = uygunYemekler.where((y) => 
+            y.ogun == _mapOgunTipi(enSapanOgun) && y.id != sapanOgun.id
+          ).toList();
+          retryAdaylar.shuffle(random);
+
+          Yemek? yeniEnIyi;
+          double yeniEnIyiSkor = double.infinity;
+          for (int i = 0; i < min(100, retryAdaylar.length); i++) {
+            final aday = retryAdaylar[i];
+            if (aday.kalori <= 0) continue;
+            final ratio = yeniKalanKal / aday.kalori;
+            final sMin = aday.minMultiplier > 0 ? aday.minMultiplier : 0.3;
+            final sMax = aday.maxMultiplier > 0 ? aday.maxMultiplier : 4.0;
+            if (ratio < sMin || ratio > sMax) continue;
+            final pF = (aday.protein * ratio - yeniKalanP).abs();
+            final kF = (aday.karbonhidrat * ratio - yeniKalanK).abs();
+            final yF = (aday.yag * ratio - yeniKalanY).abs();
+            final s = pF * 2.0 + kF * 1.0 + yF * 1.5;
+            if (s < yeniEnIyiSkor) { yeniEnIyiSkor = s; yeniEnIyi = aday; }
+          }
+          if (yeniEnIyi != null) {
+            final r = (yeniKalanKal / yeniEnIyi.kalori).clamp(
+              yeniEnIyi.minMultiplier > 0 ? yeniEnIyi.minMultiplier : 0.3,
+              yeniEnIyi.maxMultiplier > 0 ? yeniEnIyi.maxMultiplier : 4.0,
+            );
+            uretilenOgunler[enSapanOgun] = Yemek(
+              id: '${yeniEnIyi.id}_v7_${DateTime.now().millisecondsSinceEpoch}',
+              ad: yeniEnIyi.ad,
+              ogun: _mapOgunTipi(enSapanOgun),
+              kalori: yeniEnIyi.kalori * r,
+              protein: yeniEnIyi.protein * r,
+              karbonhidrat: yeniEnIyi.karbonhidrat * r,
+              yag: yeniEnIyi.yag * r,
+              malzemeler: _scaleMalzemeler(yeniEnIyi.malzemeler, r),
+              hazirlamaSuresi: yeniEnIyi.hazirlamaSuresi,
+              zorluk: yeniEnIyi.zorluk,
+              etiketler: yeniEnIyi.etiketler,
+              baseWeightG: yeniEnIyi.baseWeightG * r,
+              minMultiplier: 1.0,
+              maxMultiplier: 1.0,
+              unitName: 'porsiyon',
+              gorselUrl: yeniEnIyi.gorselUrl,
+            );
+            AppLogger.bilgi('🔄 Öğün "$enSapanOgun" yeniden seçildi (en sapan makro: $enSapanMakro)');
+          } else {
+            break; // Daha iyi aday bulunamadı
+          }
+        }
+      }
+
+      // Toplamları son kez hesapla
+      toplamKalori = 0; toplamProtein = 0; toplamKarb = 0; toplamYag = 0;
+      for (final y in uretilenOgunler.values) {
+        toplamKalori += y.kalori;
+        toplamProtein += y.protein;
+        toplamKarb += y.karbonhidrat;
+        toplamYag += y.yag;
+      }
+
       final finalPlan = GunlukPlan(
         id: planId,
         userId: userId,
@@ -242,7 +450,7 @@ try {
         araOgun2: uretilenOgunler['araOgun2'],
         aksamYemegi: uretilenOgunler['aksam'],
         geceAtistirma: uretilenOgunler['geceAtistirma'],
-        tamamlananOgunler: const {},
+        ogunDurumlari: const {}, // Tüm öğünler başlangıçta 'bekliyor' durumunda
       );
 
       AppLogger.bilgi('✅ V7 Plan Tamamlandı! P:${toplamProtein.toStringAsFixed(1)} K:${toplamKarb.toStringAsFixed(1)} Y:${toplamYag.toStringAsFixed(1)} Kal:${toplamKalori.toStringAsFixed(0)}');
@@ -346,7 +554,59 @@ try {
            kalanLower.startsWith('ml ') || kalanLower == 'ml';
   }
 
-  /// 2 benzer makro değerli alternatif yemek bul
+  /// Yumurta bazlı yemek mi? (malzeme veya etiketlerde yumurta aranır)
+  bool _isYumurtaBazli(Yemek yemek) {
+    final lower = yemek.ad.toLowerCase();
+    if (lower.contains('yumurta') || lower.contains('omlet') || 
+        lower.contains('menemen') || lower.contains('egg')) return true;
+    for (final m in yemek.malzemeler) {
+      if (m.toLowerCase().contains('yumurta')) return true;
+    }
+    for (final e in yemek.etiketler) {
+      if (e.toLowerCase().contains('yumurta')) return true;
+    }
+    return false;
+  }
+
+  // ─── Bilinen Protein Kaynakları (Türk Mutfağı) ─────────────────────────
+  static const _proteinKaynaklari = <String>{
+    'dana', 'kuzu', 'kiyma', 'biftek', 'kofte', 'sucuk', 'pastirma',
+    'tavuk', 'hindi', 'piliç',
+    'somon', 'balik', 'ton', 'levrek', 'hamsi', 'alabalik', 'karides',
+    'kalamar', 'sardalya', 'uskumru', 'cipura', 'mezgit',
+    'yumurta', 'menemen', 'omlet', 'peynir', 'kasar', 'lor', 'sut',
+    'yogurt', 'ayran', 'feta', 'labne',
+    'barbunya', 'mercimek', 'nohut', 'fasulye', 'borulce', 'bezelye',
+    'badem', 'ceviz', 'findik', 'fistik',
+    'tofu', 'soya', 'jambon', 'avokado', 'yulaf',
+  };
+
+  /// Yemeğin çekirdek besinlerini tespit et
+  Set<String> _cekirdekBesinler(Yemek yemek) {
+    final besinler = <String>{};
+    // proteinKaynagi alanından
+    if (yemek.proteinKaynagi != null && yemek.proteinKaynagi!.isNotEmpty) {
+      final pk = yemek.proteinKaynagi!.toLowerCase().trim();
+      for (final k in _proteinKaynaklari) {
+        if (pk.contains(k)) besinler.add(k);
+      }
+    }
+    // Yemek adından
+    final adLower = yemek.ad.toLowerCase();
+    for (final k in _proteinKaynaklari) {
+      if (adLower.contains(k)) besinler.add(k);
+    }
+    // İlk 3 malzemeden
+    for (int i = 0; i < yemek.malzemeler.length && i < 3; i++) {
+      final mLower = yemek.malzemeler[i].toLowerCase();
+      for (final k in _proteinKaynaklari) {
+        if (mLower.contains(k)) besinler.add(k);
+      }
+    }
+    return besinler;
+  }
+
+  /// 2 alternatif yemek bul - FARKLI protein kaynağı + protein limiti
   List<Yemek> _bulAlternatifler({
     required List<Yemek> adayYemekler,
     required Yemek secilenYemek,
@@ -355,32 +615,53 @@ try {
     required double hedefKarb,
     required double hedefYag,
   }) {
-    // Seçilen yemeği listeden çıkar
-    final filtrelenmis = adayYemekler.where((y) => y.id != secilenYemek.id).toList();
-    
+    final secilenCekirdek = _cekirdekBesinler(secilenYemek);
+    final maxProtein = NutritionConstraints.maxProteinPerMealG;
+
+    // 1. Seçilen yemeği ve aynı çekirdek besine sahip yemekleri ele
+    final filtrelenmis = adayYemekler.where((y) {
+      if (y.id == secilenYemek.id) return false;
+      final adayCekirdek = _cekirdekBesinler(y);
+      final kesisim = secilenCekirdek.intersection(adayCekirdek);
+      return kesisim.isEmpty; // Çekirdek besin çakışması olmamalı
+    }).toList();
+
     if (filtrelenmis.length < 2) return [];
 
-    // Makro benzerliğine göre skorla
-    final skorlanmis = filtrelenmis.map((aday) {
-      if (aday.kalori <= 0) return MapEntry(aday, double.infinity);
-      
+    // 2. Benzersiz protein kaynağı: her kaynaktan max 1 tane
+    final benzersizMap = <String, MapEntry<Yemek, double>>{};
+
+    for (final aday in filtrelenmis) {
+      if (aday.kalori <= 0) continue;
       final ratio = hedefKalori / aday.kalori;
-      if (ratio < 0.3 || ratio > 4.0) return MapEntry(aday, double.infinity);
-      
+      if (ratio < 0.3 || ratio > 4.0) continue;
+
+      // Protein limiti kontrolü
       final tahminiP = aday.protein * ratio;
-      final tahminiK = aday.karbonhidrat * ratio;
-      final tahminiY = aday.yag * ratio;
-      
-      final pFark = (tahminiP - hedefProtein).abs();
-      final kFark = (tahminiK - hedefKarb).abs();
-      final yFark = (tahminiY - hedefYag).abs();
-      
+      var effectiveRatio = ratio;
+      if (tahminiP > maxProtein && aday.protein > 0) {
+        effectiveRatio = maxProtein / aday.protein;
+        if (effectiveRatio < 0.3) continue;
+      }
+
+      final tP = aday.protein * effectiveRatio;
+      final tK = aday.karbonhidrat * effectiveRatio;
+      final tY = aday.yag * effectiveRatio;
+
+      final pFark = (tP - hedefProtein).abs();
+      final kFark = (tK - hedefKarb).abs();
+      final yFark = (tY - hedefYag).abs();
       final skor = pFark * 2.0 + kFark * 1.0 + yFark * 1.5;
-      return MapEntry(aday, skor);
-    }).toList();
-    
-    // Skor en düşük 2 yemeği al
-    skorlanmis.sort((a, b) => a.value.compareTo(b.value));
-    return skorlanmis.take(2).map((e) => e.key).toList();
+
+      final besinKey = _cekirdekBesinler(aday).join('+');
+      if (!benzersizMap.containsKey(besinKey) || benzersizMap[besinKey]!.value > skor) {
+        benzersizMap[besinKey] = MapEntry(aday, skor);
+      }
+    }
+
+    // 3. Skor en düşük 2 FARKLI protein kaynaklı yemeği al
+    final sirali = benzersizMap.values.toList()
+      ..sort((a, b) => a.value.compareTo(b.value));
+    return sirali.take(2).map((e) => e.key).toList();
   }
 }

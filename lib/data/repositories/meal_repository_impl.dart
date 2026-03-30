@@ -96,35 +96,93 @@ class MealRepositoryImpl implements MealRepository {
     return tumResult.fold(
       (f) => Left(f),
       (yemekler) {
-        var uygunlar = yemekler
-            .where((y) =>
-                y.id != mevcutYemek.id &&
-                y.kisitlamayaUygunMu(kisitlamalar))
-            .toList();
+        // ─── 1. Mevcut yemeğin çekirdek besinlerini tespit et ───────────
+        final mevcutCekirdek = _cekirdekBesinler(mevcutYemek);
+        AppLogger.bilgi('🔍 Çekirdek besinler (${mevcutYemek.ad}): $mevcutCekirdek');
 
-        // Her alternatif iin önce hedef kaloriye göre ölekleme yap
-        final olcekliUygunlar = uygunlar.map((a) {
-          if (a.kalori > 0 && mevcutYemek.kalori > 0) {
-            double multiplier = mevcutYemek.kalori / a.kalori;
-            multiplier = multiplier.clamp(a.minMultiplier, a.maxMultiplier);
-            return a.scale(multiplier);
-          }
-          return a;
+        // ─── 2. Aday filtreleme ─────────────────────────────────────────
+        var uygunlar = yemekler.where((y) {
+          // Aynı ID'yi ele
+          if (y.id == mevcutYemek.id) return false;
+          // Kısıtlama kontrolü
+          if (!y.kisitlamayaUygunMu(kisitlamalar)) return false;
+          // ⭐ KRİTİK: Çekirdek besin çakışma kontrolü
+          // Adayın çekirdek besinleri, mevcut yemeğin çekirdek besinleriyle
+          // kesişmemeli (barbunya→barbunya engeli)
+          final adayCekirdek = _cekirdekBesinler(y);
+          final kesisim = mevcutCekirdek.intersection(adayCekirdek);
+          if (kesisim.isNotEmpty) return false;
+          return true;
         }).toList();
 
-        // Multi-makro sapma skoru hesapla (düşük = daha iyi eşleşme)
+        // Benzersizlik: Her protein kaynağından sadece 1 tane al
+        final benzersizMap = <String, Yemek>{};
+        for (final y in uygunlar) {
+          final besinKey = _cekirdekBesinler(y).join('+');
+          if (!benzersizMap.containsKey(besinKey)) {
+            benzersizMap[besinKey] = y;
+          }
+        }
+        final benzersizUygunlar = benzersizMap.values.toList();
+
+        // ─── 3. Ölçekleme + Protein Limiti ──────────────────────────────
+        final olcekliUygunlar = <Yemek>[];
+        for (final a in benzersizUygunlar) {
+          if (a.kalori <= 0 || mevcutYemek.kalori <= 0) continue;
+
+          double multiplier = mevcutYemek.kalori / a.kalori;
+          multiplier = multiplier.clamp(
+            a.minMultiplier > 0 ? a.minMultiplier : 0.3,
+            a.maxMultiplier > 0 ? a.maxMultiplier : 4.0,
+          );
+
+          // ⭐ Protein limiti: Ölçeklenmiş protein 50g'ı aşmasın
+          final olcekliProtein = a.protein * multiplier;
+          if (olcekliProtein > 50.0) {
+            // Protein limitine göre multiplier'ı düşür
+            final proteinCappedMultiplier = 50.0 / a.protein;
+            multiplier = multiplier.clamp(
+              a.minMultiplier > 0 ? a.minMultiplier : 0.3,
+              proteinCappedMultiplier,
+            );
+            // Multiplier min'in altına düşerse bu yemeği atla
+            final minMult = a.minMultiplier > 0 ? a.minMultiplier : 0.3;
+            if (multiplier < minMult) continue;
+          }
+
+          try {
+            olcekliUygunlar.add(a.scale(multiplier));
+          } catch (_) {
+            // scale min/max aralık dışında, atla
+          }
+        }
+
+        // ─── 4. Makro sapma skoru (hedef öğün makrosuna göre) ───────────
         double sapmaSkoru(Yemek y) {
-          final kaloriSapma = mevcutYemek.kalori > 0 ? ((y.kalori - mevcutYemek.kalori).abs() / mevcutYemek.kalori) * 0.40 : 0.0;
-          final proteinSapma = mevcutYemek.protein > 0 ? ((y.protein - mevcutYemek.protein).abs() / mevcutYemek.protein) * 0.30 : 0.0;
-          final karbSapma = mevcutYemek.karbonhidrat > 0 ? ((y.karbonhidrat - mevcutYemek.karbonhidrat).abs() / mevcutYemek.karbonhidrat) * 0.20 : 0.0;
-          final yagSapma = mevcutYemek.yag > 0 ? ((y.yag - mevcutYemek.yag).abs() / mevcutYemek.yag) * 0.10 : 0.0;
+          final kaloriSapma = mevcutYemek.kalori > 0
+              ? ((y.kalori - mevcutYemek.kalori).abs() / mevcutYemek.kalori) * 0.30
+              : 0.0;
+          final proteinSapma = mevcutYemek.protein > 0
+              ? ((y.protein - mevcutYemek.protein).abs() / mevcutYemek.protein) * 0.35
+              : 0.0;
+          final karbSapma = mevcutYemek.karbonhidrat > 0
+              ? ((y.karbonhidrat - mevcutYemek.karbonhidrat).abs() / mevcutYemek.karbonhidrat) * 0.20
+              : 0.0;
+          final yagSapma = mevcutYemek.yag > 0
+              ? ((y.yag - mevcutYemek.yag).abs() / mevcutYemek.yag) * 0.15
+              : 0.0;
           return kaloriSapma + proteinSapma + karbSapma + yagSapma;
         }
 
-        // Sapma skoruna göre sırala (en yakın makro değerlerine sahip olanlar ilk sırada)
+        // Skor sıralaması
         olcekliUygunlar.sort((a, b) => sapmaSkoru(a).compareTo(sapmaSkoru(b)));
 
         final alternatifler = olcekliUygunlar.take(sayi).toList();
+
+        AppLogger.bilgi('✅ ${alternatifler.length} alternatif bulundu (${mevcutYemek.ad} için)');
+        for (final alt in alternatifler) {
+          AppLogger.bilgi('  → ${alt.ad} | P:${alt.protein.toStringAsFixed(0)}g K:${alt.karbonhidrat.toStringAsFixed(0)}g Y:${alt.yag.toStringAsFixed(0)}g');
+        }
 
         return Right(alternatifler);
       },
@@ -136,4 +194,61 @@ class MealRepositoryImpl implements MealRepository {
     _yemekOnbellegi = yemekler;
     AppLogger.bilgi('✅ ${yemekler.length} yemek yüklendi');
   }
+
+  // ─── Bilinen Protein Kaynakları (Türk Mutfağı) ─────────────────────────
+  static const _proteinKaynaklari = <String>{
+    // Kırmızı et
+    'dana', 'kuzu', 'kiyma', 'biftek', 'kofte', 'sucuk', 'pastirma',
+    // Beyaz et
+    'tavuk', 'hindi', 'piliç',
+    // Balık & deniz ürünleri
+    'somon', 'balik', 'ton', 'levrek', 'hamsi', 'alabalik', 'karides',
+    'kalamar', 'sardalya', 'uskumru', 'cipura', 'mezgit',
+    // Yumurta & süt
+    'yumurta', 'menemen', 'omlet', 'peynir', 'kasar', 'lor', 'sut',
+    'yogurt', 'ayran', 'feta', 'labne',
+    // Baklagiller
+    'barbunya', 'mercimek', 'nohut', 'fasulye', 'borulce', 'bezelye',
+    // Kuruyemiş
+    'badem', 'ceviz', 'findik', 'fistik',
+    // Diğer
+    'tofu', 'soya', 'jambon', 'avokado', 'yulaf',
+  };
+
+  /// Yemeğin çekirdek (ana) besinlerini tespit et
+  /// Öncelik: proteinKaynagi alanı > ad analizi > malzeme analizi
+  Set<String> _cekirdekBesinler(Yemek yemek) {
+    final besinler = <String>{};
+
+    // 1. proteinKaynagi alanından
+    if (yemek.proteinKaynagi != null && yemek.proteinKaynagi!.isNotEmpty) {
+      final pk = yemek.proteinKaynagi!.toLowerCase().trim();
+      for (final kaynak in _proteinKaynaklari) {
+        if (pk.contains(kaynak)) {
+          besinler.add(kaynak);
+        }
+      }
+    }
+
+    // 2. Yemek adından
+    final adLower = yemek.ad.toLowerCase();
+    for (final kaynak in _proteinKaynaklari) {
+      if (adLower.contains(kaynak)) {
+        besinler.add(kaynak);
+      }
+    }
+
+    // 3. İlk 3 malzemeden (genelde ana besinler başta)
+    for (int i = 0; i < yemek.malzemeler.length && i < 3; i++) {
+      final malzLower = yemek.malzemeler[i].toLowerCase();
+      for (final kaynak in _proteinKaynaklari) {
+        if (malzLower.contains(kaynak)) {
+          besinler.add(kaynak);
+        }
+      }
+    }
+
+    return besinler;
+  }
 }
+

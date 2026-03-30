@@ -124,30 +124,45 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
     required String durum,
   }) async {
     try {
-      await _remote.ogunDurumKaydet(
-        userId: userId,
-        tarih: tarih,
-        yemekId: yemekId,
-        durum: durum,
-      );
+      // Durum validasyonu - sadece geçerli durumları kabul et
+      final gecerliDurumlar = ['bekliyor', 'yedi', 'onaylandi', 'atandi'];
+      if (!gecerliDurumlar.contains(durum)) {
+        return Left(BilinmeyenHata('Geçersiz durum: $durum'));
+      }
 
-      // Mevcut plan1 güncelle
+      // Mevcut planı getir (in-memory cache'den veya DB'den)
       final planResult = await gunlukPlanGetir(userId, tarih);
       return planResult.fold(
         (f) => Left(f),
-        (plan) {
-          if (plan == null) return const Left(BulunamadiHatasi('Plan bulunamad1'));
+        (plan) async {
+          if (plan == null) return const Left(BulunamadiHatasi('Plan bulunamadı'));
+          
+          // Yeni durum map'ini oluştur (in-memory, bilgi kaybı yok)
+          final yeniDurumlar = Map<String, String>.from(plan.ogunDurumlari);
+          yeniDurumlar[yemekId] = durum;
+          
           final guncelPlan = plan.copyWith(
-            tamamlananOgunler: {
-              ...plan.tamamlananOgunler,
-              yemekId: durum == 'yenildi' || durum == 'onaylandi',
-            },
+            ogunDurumlari: yeniDurumlar,
           );
           
-          // Güncellenen planı kuyruğa atıp yerel/uzak veritabanına işliyoruz
-          gunlukPlanGuncelle(guncelPlan);
+          // Supabase'e güncellenmiş durumları kaydet (async fire-and-forget)
+          try {
+            await _remote.ogunDurumKaydet(
+              userId: userId,
+              tarih: tarih,
+              yemekId: yemekId,
+              durum: durum,
+            );
+          } catch (e) {
+            AppLogger.uyari('Supabase durum kaydetme hatası: $e');
+          }
           
-          return Right(guncelPlan);
+          // Güncellenen planı hem yerel hem uzak veritabanına kaydet
+          final kaydetResult = await gunlukPlanGuncelle(guncelPlan);
+          return kaydetResult.fold(
+            (f) => Right(guncelPlan), // Yerel kaydedildi bile, kullanıcıya güncel planı dön
+            (savedPlan) => Right(guncelPlan),
+          );
         },
       );
     } on SunucuIstisnasi catch (e) {
@@ -193,11 +208,25 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
       return MakroHedefleri.fromJson(map as Map<String, dynamic>);
     }
 
-    Map<String, bool> parseTamamlanan(dynamic json) {
+    Map<String, String> parseOgunDurumlari(dynamic json) {
       if (json == null) return {};
       final map = json is String ? jsonDecode(json) : json;
-      return (map as Map<String, dynamic>)
-          .map((k, v) => MapEntry(k, v == true));
+      if (map is Map<String, dynamic>) {
+        final result = <String, String>{};
+        for (final entry in map.entries) {
+          if (entry.value is bool) {
+            // V1 format: Map<String, bool> → V2 format
+            result[entry.key] = entry.value == true ? 'onaylandi' : 'bekliyor';
+          } else if (entry.value is String) {
+            // V2 format: Map<String, String> - doğrudan kullan
+            result[entry.key] = entry.value;
+          } else {
+            result[entry.key] = 'bekliyor';
+          }
+        }
+        return result;
+      }
+      return {};
     }
 
     return GunlukPlan(
@@ -211,11 +240,18 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
       araOgun2: parseYemek(data['ara_ogun_2']),
       aksamYemegi: parseYemek(data['aksam']),
       geceAtistirma: parseYemek(data['gece_atistirma']),
-      tamamlananOgunler: parseTamamlanan(data['tamamlanan_ogunler']),
+      ogunDurumlari: parseOgunDurumlari(data['ogun_durumlari'] ?? data['tamamlanan_ogunler']),
     );
   }
 
   Map<String, dynamic> _planToSupabaseJson(GunlukPlan plan) {
+    // V2 format: 4-durumlu string map kaydet
+    // Hem V1 uyumluluk hem V2 durumlarını taşır
+    final encodedOgunDurumlari = <String, dynamic>{};
+    plan.ogunDurumlari.forEach((yemekId, durum) {
+      encodedOgunDurumlari[yemekId] = durum; // V2: string olarak kaydet
+    });
+
     return {
       'user_id': plan.userId,
       'tarih': Formatters.supabaseGunFormatla(plan.tarih),
@@ -226,7 +262,8 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
       'aksam': plan.aksamYemegi?.toJson(),
       'gece_atistirma': plan.geceAtistirma?.toJson(),
       'hedefler': plan.hedefler.toJson(),
-      'tamamlanan_ogunler': plan.tamamlananOgunler,
+      // V2 format: string durumları kaydet (V1 tamamlanan_ogunler alanına)
+      'tamamlanan_ogunler': encodedOgunDurumlari,
     };
   }
 }

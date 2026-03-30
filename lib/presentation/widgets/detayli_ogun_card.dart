@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/yemek.dart';
-import '../../domain/entities/yemek_onay_sistemi.dart';
+import '../../domain/entities/nutrition/yemek.dart';
+import '../../domain/entities/nutrition/yemek_onay_sistemi.dart';
 import '../pages/meal_detail_page.dart';
 // Hero tags i?in
 

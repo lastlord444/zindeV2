@@ -8,7 +8,7 @@ import '../bloc/home/home_bloc.dart';
 import '../bloc/home/home_event.dart';
 import '../bloc/home/home_state.dart';
 import '../../core/di/injection_container.dart';
-import '../../domain/entities/yemek_onay_sistemi.dart';
+import '../../domain/entities/nutrition/yemek_onay_sistemi.dart';
 import '../widgets/tarih_secici.dart';
 import '../widgets/haftalik_takvim.dart';
 import '../widgets/kompakt_makro_ozet.dart';
@@ -443,10 +443,9 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                           // Detayl1 n kartlar1 -  YEN0 ONAY S0STEM0
                           ...state.plan.ogunler.map((yemek) {
                             
-                            final onayliMi = state.gunlukOnayDurumu[yemek.id.toString()];
-                            final yemekDurumu = onayliMi == true 
-                                ? YemekDurumu.yedi 
-                                : YemekDurumu.bekliyor;
+                            // YENİ: Doğru durumu GunlukPlan entity'sinden al
+                            final yemekDurumu = state.plan.yemekDurumuGetir(yemek.id.toString());
+                            
                             return DetayliOgunCard(
                               yemek: yemek,
                               yemekDurumu: yemekDurumu,
@@ -487,7 +486,10 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                               onAlternatifPressed: () {
                                 // Alternatif yemekler oluştur
                                 context.read<HomeBloc>().add(
-                                      GenerateAlternativeMeals(yemek),
+                                      GenerateAlternativeMeals(
+                                        yemek,
+                                        sayi: 2, // Her yemek için 2 gerçekten farklı alternatif
+                                      ),
                                     );
                               },
                               onMalzemeAlternatifiPressed:
@@ -847,10 +849,9 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                               final index = entry.key;
                               final yemek = entry.value;
                               
-                              final onayliMi = state.gunlukOnayDurumu[yemek.id.toString()];
-                              final yemekDurumu = onayliMi == true 
-                                  ? YemekDurumu.yedi 
-                                  : YemekDurumu.bekliyor;
+                              // YENİ: Doğru durumu GunlukPlan entity'sinden al
+                              final yemekDurumu = state.plan.yemekDurumuGetir(yemek.id.toString());
+                              
                               return AnimatedMealCard(
                                 index: index,
                                 child: DetayliOgunCard(
@@ -959,7 +960,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                     context.read<HomeBloc>().add(
                                           GenerateAlternativeMeals(
                                             yemek,
-                                            sayi: 3,
+                                            sayi: 2, // Her yemek için 2 gerçekten farklı alternatif
                                           ),
                                         );
                                   },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/yemek.dart';
+import '../../domain/entities/nutrition/yemek.dart';
 // HeroTags iin
 
 class MealDetailPage extends StatelessWidget {

@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../domain/services/haftalik_alisveris_servisi.dart';
-import '../../domain/entities/alisveris_listesi.dart';
+import '../../domain/entities/analytics/alisveris_listesi.dart';
 import '../../core/di/injection_container.dart' as di;
 import '../../domain/repositories/user_repository.dart';
 
@@ -355,20 +355,16 @@ class _AlisverisListesiPageState extends State<AlisverisListesiPage> {
   Widget _kategorilerTab() {
     final liste = _liste!;
 
-    // SADECE ANA BES0N KATEGOR0LER0N0 GSTER
-    final anaKategoriler = liste.kategoriler.entries.where((entry) {
-      final kategori = entry.key.toLowerCase();
-      return kategori.contains('et') ||
-             kategori.contains('süt') ||
-             kategori.contains('tahıl') ||
-             kategori.contains('bakliyat');
-    }).toList();
+    // TÜM kategorileri göster (boş kalmaması için)
+    // Az malzemeli kategoriler en sonda görünür
+    final siraliKategoriler = liste.kategoriler.entries.toList()
+      ..sort((a, b) => b.value.length.compareTo(a.value.length));
 
     return ListView.builder(
       padding: const EdgeInsets.all(8),
-      itemCount: anaKategoriler.length,
+      itemCount: siraliKategoriler.length,
       itemBuilder: (context, index) {
-        final entry = anaKategoriler[index];
+        final entry = siraliKategoriler[index];
         return _malzemeBolumKarti(entry.key, entry.value);
       },
     );

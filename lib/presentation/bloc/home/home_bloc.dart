@@ -82,7 +82,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           emit(HomeLoaded(
             plan: plan,
             hedefler: makrolar,
-            tamamlananOgunler: plan.tamamlananOgunler,
             secilenTarih: _secilenTarih,
           ));
         } else {
@@ -127,7 +126,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 (yeniPlan) => emit(HomeLoaded(
                   plan: yeniPlan,
                   hedefler: makrolar,
-                  tamamlananOgunler: yeniPlan.tamamlananOgunler,
                   secilenTarih: _secilenTarih,
                 )),
               );
@@ -150,19 +148,77 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       add(const LoadHomePage());
       return;
     }
-    if (event.forceRegenerate) {
-      await _planRepo.gunlukPlanSil(_userId!, _secilenTarih);
+    
+    // Profil güncel bilgilerini al
+    final profilResult = await _userRepo.onbellektenProfilGetir();
+    if (profilResult == null) {
+      emit(const HomeError('Profil bulunamadı.'));
+      return;
     }
-    add(const LoadHomePage());
+    
+    final makrolar = _calculateMacros(profilResult);
+    
+    if (event.forceRegenerate) {
+      // Eski planı sil ve doğrudan yeni plan oluştur
+      await _planRepo.gunlukPlanSil(_userId!, _secilenTarih);
+      
+      emit(const HomeLoading(progress: 0.6, mesaj: 'Yeni plan oluşturuluyor...'));
+      
+      final yemeklerResult = await _mealRepo.tumYemekleriGetir();
+      await yemeklerResult.fold(
+        (hata) async => emit(HomeError(hata.mesaj)),
+        (yemekler) async {
+          final haftaBasi = _secilenTarih.subtract(
+            Duration(days: _secilenTarih.weekday - 1),
+          );
+          final haftalikResult = await _planRepo.haftalikPlanlarGetir(
+            _userId!, haftaBasi,
+          );
+          final haftalikKullanim = <String, int>{};
+          haftalikResult.fold(
+            (_) {},
+            (planlar) {
+              for (final p in planlar) {
+                for (final y in p.tumOgunler) {
+                  haftalikKullanim[y.id] = (haftalikKullanim[y.id] ?? 0) + 1;
+                }
+              }
+            },
+          );
+          
+          final yeniPlanResult = await _planRepo.gunlukPlanOlustur(
+            userId: _userId!,
+            tarih: _secilenTarih,
+            hedefler: makrolar,
+            yemekHavuzu: yemekler,
+            hedef: profilResult.hedef.name,
+            kisitlamalar: profilResult.tumKisitlamalar,
+            haftalikKullanilanYemekler: haftalikKullanim,
+          );
+          
+          yeniPlanResult.fold(
+            (hata) => emit(HomeError(hata.mesaj)),
+            (yeniPlan) => emit(HomeLoaded(
+              plan: yeniPlan,
+              hedefler: makrolar,
+              secilenTarih: _secilenTarih,
+            )),
+          );
+        },
+      );
+    } else {
+      // forceRegenerate değilse, mevcut planı yeniden yükle
+      add(const LoadHomePage());
+    }
   }
 
   Future<void> _onMarkMealAsEaten(
       MarkMealAsEaten event, Emitter<HomeState> emit) async {
-    await _guncelleOgunDurumu(event.yemekId, 'yenildi', emit);
+    await _guncelleOgunDurumu(event.yemekId, 'yedi', emit);
   }
 
   Future<void> _onSkipMeal(SkipMeal event, Emitter<HomeState> emit) async {
-    await _guncelleOgunDurumu(event.yemekId, 'atlandi', emit);
+    await _guncelleOgunDurumu(event.yemekId, 'atandi', emit);
   }
 
   Future<void> _onConfirmMealEaten(
@@ -172,7 +228,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onResetMealStatus(
       ResetMealStatus event, Emitter<HomeState> emit) async {
-    await _guncelleOgunDurumu(event.yemekId, 'yenilecek', emit);
+    await _guncelleOgunDurumu(event.yemekId, 'bekliyor', emit);
   }
 
   Future<void> _guncelleOgunDurumu(
@@ -192,7 +248,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (guncelPlan) => emit(HomeLoaded(
         plan: guncelPlan,
         hedefler: mevcutState.hedefler,
-        tamamlananOgunler: guncelPlan.tamamlananOgunler,
         secilenTarih: _secilenTarih,
       )),
     );
@@ -218,10 +273,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (alternatifler) => emit(AlternativeMealsLoaded(
         plan: mevcutState.plan,
         hedefler: mevcutState.hedefler,
-        tamamlananOgunler: mevcutState.tamamlananOgunler,
-        alternatifYemekler: alternatifler,
         secilenTarih: _secilenTarih,
         mevcutYemek: event.mevcutYemek,
+        alternatifYemekler: alternatifler,
       )),
     );
   }
@@ -242,7 +296,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoaded(
       plan: guncelPlan,
       hedefler: mevcutState.hedefler,
-      tamamlananOgunler: mevcutState.tamamlananOgunler,
       secilenTarih: _secilenTarih,
     ));
   }
@@ -255,7 +308,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(AlternativeIngredientsLoaded(
       plan: mevcutState.plan,
       hedefler: mevcutState.hedefler,
-      tamamlananOgunler: mevcutState.tamamlananOgunler,
       secilenTarih: mevcutState.secilenTarih,
       ogunId: event.yemek.id.toString(),
       besinAdi: event.malzemeMetni,
@@ -291,7 +343,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoaded(
       plan: guncelPlan,
       hedefler: altState.hedefler,
-      tamamlananOgunler: altState.tamamlananOgunler,
       secilenTarih: altState.secilenTarih,
     ));
   }
@@ -310,7 +361,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeLoaded(
         plan: mevcutState.plan,
         hedefler: mevcutState.hedefler,
-        tamamlananOgunler: mevcutState.tamamlananOgunler,
         alternatifYemekler: null,
         secilenTarih: _secilenTarih,
       ));

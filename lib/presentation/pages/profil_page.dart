@@ -233,6 +233,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    color: Colors.purple.shade900,
                   ),
                 ),
               ],
@@ -369,9 +370,10 @@ class _ProfilPageState extends State<ProfilPage> {
                 if (_diyetTipi.varsayilanKisitlamalar.isNotEmpty) ...[
                   Text(
                     '=? Otomatik Kısıtlamalar (${_diyetTipi.aciklama}):',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
+                      color: Colors.orange.shade900,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -429,6 +431,7 @@ class _ProfilPageState extends State<ProfilPage> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
+                      color: Colors.red,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -525,25 +528,25 @@ class _ProfilPageState extends State<ProfilPage> {
                     _buildMakroCard(
                       '🔥 Günlük Kalori',
                       '${_sonuc!.gunlukKalori.toStringAsFixed(0)} kcal',
-                      Colors.orange,
+                      Colors.orange.shade800,
                     ),
                     const SizedBox(height: 12),
                     _buildMakroCard(
                       '🥩 Protein',
                       '${_sonuc!.gunlukProtein.toStringAsFixed(0)} g',
-                      Colors.red,
+                      Colors.red.shade800,
                     ),
                     const SizedBox(height: 12),
                     _buildMakroCard(
                       '🥖 Karbonhidrat',
                       '${_sonuc!.gunlukKarbonhidrat.toStringAsFixed(0)} g',
-                      Colors.amber,
+                      Colors.amber.shade800,
                     ),
                     const SizedBox(height: 12),
                     _buildMakroCard(
                       '🥑 Yağ',
                       '${_sonuc!.gunlukYag.toStringAsFixed(0)} g',
-                      Colors.green,
+                      Colors.green.shade800,
                     ),
                   ],
                 ),
@@ -574,116 +577,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   ),
                 ),
               ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // YENİ YEMEK VERİTABANI YENİLEME BUTONU
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () async {
-                  final confirm = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Yemek Veritabanını Yenile'),
-                      content: const Text(
-                        '''Eski yemekler silinip yeni yemekler yüklenecek.
-
- 120 farklı ara öğün
-  Yeni akşam yemekleri
- Tüm kategorilerde çeşitlilik
-
-Planlar yeniden oluşturulacak. Devam edilsin mi?''',
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          child: const Text('İptal'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            foregroundColor: Colors.white,
-                          ),
-                          child: const Text('Yenile'),
-                        ),
-                      ],
-                    ),
-                  );
-
-                  if (confirm == true && mounted) {
-                    // Progress dialog g?ster
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => const AlertDialog(
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircularProgressIndicator(),
-                            SizedBox(height: 16),
-                            Text('Yeni yemekler yükleniyor...'),
-                          ],
-                        ),
-                      ),
-                    );
-
-                    try {
-                      // ?a?️ PostgreSQL modunda yemek yenileme özelliği devre dışıı
-                      // Yemek verileri bulutta saklanıyor ve admin panel ?zerinden y?netilir
-                      await Future.delayed(const Duration(seconds: 1));
-                      
-                      bool success = false; // Devre dı_ı
-
-                      if (mounted) {
-                        Navigator.pop(context); // Progress dialog kapat
-
-                        if (success) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(' Yeni yemekler y?klendi! Şimdi "Plan Oluştur" butonuna basın!'),
-                              backgroundColor: Colors.green,
-                              duration: Duration(seconds: 4),
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('?R Y?kleme ba_arısız!'),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        }
-                      }
-                    } catch (e) {
-                      if (mounted) {
-                        Navigator.pop(context); // Progress dialog kapat
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('?❌ Hata: $e'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    }
-                  }
-                },
-                icon: const Icon(Icons.refresh),
-                label: const Text(
-                  'Yemek Veritabanın1 Yenile (120 Ara ??n Ekle)',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.orange,
-                  side: const BorderSide(color: Colors.orange, width: 2),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+     us.circular(12),
                   ),
                 ),
               ),
@@ -723,9 +617,10 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
               const SizedBox(width: 8),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: Colors.purple.shade900,
                 ),
               ),
             ],
@@ -749,9 +644,23 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
       style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: TextStyle(
+          color: Colors.purple.shade800,
+          fontWeight: FontWeight.bold,
+        ),
         suffixText: suffix.isNotEmpty ? suffix : null,
+        suffixStyle: TextStyle(color: Colors.grey.shade600, fontWeight: FontWeight.bold),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.purple.shade200),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.purple.shade100, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.purple.shade600, width: 2),
         ),
         filled: true,
         fillColor: Colors.grey.shade50,
@@ -771,8 +680,21 @@ Planlar yeniden oluşturulacak. Devam edilsin mi?''',
       style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: TextStyle(
+          color: Colors.purple.shade800,
+          fontWeight: FontWeight.bold,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.purple.shade200),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.purple.shade100, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.purple.shade600, width: 2),
         ),
         filled: true,
         fillColor: Colors.white, // FIX: Arka plan uyumu için beyaz yaptık

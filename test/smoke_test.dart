@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zinde_ai/domain/entities/gunluk_plan.dart';
-import 'package:zinde_ai/domain/entities/makro_hedefleri.dart';
-import 'package:zinde_ai/domain/entities/yemek.dart';
+import 'package:zinde_ai/domain/entities/nutrition/gunluk_plan.dart';
+import 'package:zinde_ai/domain/entities/nutrition/makro_hedefleri.dart';
+import 'package:zinde_ai/domain/entities/nutrition/yemek.dart';
 import 'package:zinde_ai/domain/usecases/meal_planning/generate_daily_plan.dart';
 
 void main() {

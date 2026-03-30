@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
-import '../lib/domain/entities/nutrition/yemek.dart';
-import '../lib/domain/entities/nutrition/makro_hedefleri.dart';
-import '../lib/domain/usecases/meal_planning/generate_daily_plan.dart';
+import 'package:zinde_ai/domain/entities/nutrition/yemek.dart';
+import 'package:zinde_ai/domain/entities/nutrition/makro_hedefleri.dart';
+import 'package:zinde_ai/domain/usecases/meal_planning/generate_daily_plan.dart';
 
 Future<List<Yemek>> fetchMeals() async {
   final url = Uri.parse('http://127.0.0.1:54331/rest/v1/meals?select=*');
@@ -62,7 +62,7 @@ void main() {
     );
 
     result.fold(
-      (failure) => log("Plan olusturulamadi: " + failure.message),
+      (failure) => log("Plan olusturulamadi: " + failure.mesaj),
       (plan) {
         log("\n OLUstURULAN PLAN BAsARILI!");
         
