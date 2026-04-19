@@ -309,8 +309,8 @@ class KompaktMakroOzet extends StatelessWidget {
                   Text(
                     baslik,
                     style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
                       color: isTolerant ? Colors.black : Colors.red.shade900,
                     ),
                   ),
@@ -337,7 +337,7 @@ class KompaktMakroOzet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       child: LinearProgressIndicator(
                         value: progress,
-                        minHeight: 6,
+                        minHeight: 8,
                         backgroundColor: displayColor.withValues(alpha: 0.25),
                         valueColor: AlwaysStoppedAnimation(displayColor),
                       ),
@@ -348,9 +348,9 @@ class KompaktMakroOzet extends StatelessWidget {
                   Text(
                     '${mevcut.toStringAsFixed(0)}/${hedef.toStringAsFixed(0)}$birim',
                     style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: isTolerant ? Colors.black87 : Colors.red.shade900,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: isTolerant ? Colors.black : Colors.red.shade900,
                     ),
                   ),
                 ],

@@ -94,9 +94,24 @@ try {
 
         if (oKalori <= 30) continue;
 
+        // ⭐ ARA ÖĞÜN ÇEŞİTLİLİK BOOST: Local yemek havuzunu Supabase'e ekle
+        // araOgun1 veya araOgun2 seçiliyorsa local 53-snack havuzunu enjekte et
+        List<Yemek> genisHavuz = uygunYemekler;
+        if (ogunAdi == 'araOgun1' || ogunAdi == 'araOgun2') {
+          final ogunTipiLocal = _mapOgunTipi(ogunAdi);
+          final localSnacklar = _localAraOgunHavuzu(ogunTipiLocal)
+              .where((y) => y.kisitlamayaUygunMu(kisitlamalar))
+              .toList();
+          // Local yemekler zaten araOgunX tipinde, Supabase ile birleştir (duplicate ID'si olmasın)
+          final mevcutIds = uygunYemekler.map((y) => y.id).toSet();
+          final yeniLocallar = localSnacklar.where((y) => !mevcutIds.contains(y.id)).toList();
+          genisHavuz = [...uygunYemekler, ...yeniLocallar];
+          AppLogger.bilgi('🍎 Ara öğün havuzu: ${uygunYemekler.length} Supabase + ${yeniLocallar.length} local = ${genisHavuz.length} toplam');
+        }
+
         // Çeşitlilik için 3 seviyeli strateji:
         // 1. Önce bu hafta hiç kullanılmayanlar VE bugün kullanılmayanlar
-        var adayYemekler = uygunYemekler.where((y) =>
+        var adayYemekler = genisHavuz.where((y) =>
             y.ogun == _mapOgunTipi(ogunAdi) &&
             (baseKullanimlari[getBaseId(y.id)] ?? 0) == 0 &&
             (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
@@ -104,7 +119,7 @@ try {
 
         // 2. Eğer azsa, 1 kez kullanılanları da dahil et
         if (adayYemekler.length < 10) {
-          final onceKullanilan = uygunYemekler.where((y) =>
+          final onceKullanilan = genisHavuz.where((y) =>
               y.ogun == _mapOgunTipi(ogunAdi) &&
               (baseKullanimlari[getBaseId(y.id)] ?? 0) <= 1 &&
               (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
@@ -114,7 +129,7 @@ try {
 
         // 3. Hala azsa, tüm uygun yemekleri al ama aynı gün tekrarını engelle
         if (adayYemekler.length < 5) {
-          adayYemekler = uygunYemekler.where((y) => 
+          adayYemekler = genisHavuz.where((y) => 
             y.ogun == _mapOgunTipi(ogunAdi) && 
             (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
           ).toList();
@@ -122,8 +137,9 @@ try {
         
         // Acil durum: Aday hiç kalmadıysa aynı gün şartını esnet
         if (adayYemekler.isEmpty) {
-          adayYemekler = uygunYemekler.where((y) => y.ogun == _mapOgunTipi(ogunAdi)).toList();
+          adayYemekler = genisHavuz.where((y) => y.ogun == _mapOgunTipi(ogunAdi)).toList();
         }
+
         
         // Her seferinde daha agresif shuffle (3 kez)
         final karisik = List<Yemek>.from(adayYemekler);
@@ -192,13 +208,20 @@ try {
           enIyiYemek.maxMultiplier > 0 ? enIyiYemek.maxMultiplier : 4.0
         );
 
-        // ⭐ Diyetisyen Kuralı: Öğün başı protein 50g'ı aşmasın
+        // ⭐ Diyetisyen Kuralı: Öğün başı protein yumuşak cap
+        // KRİTİK: Protein cap kalori hedefini ASLA ezmemeli.
+        // Eğer cap uygulamak ratio'yu min'in altına düşürürse → cap UYGULANMAZ.
         final maxProtein = NutritionConstraints.maxProteinPerMealG;
         if (enIyiYemek.protein > 0 && enIyiYemek.protein * clampedRatio > maxProtein) {
           final proteinCapRatio = maxProtein / enIyiYemek.protein;
           final minR = enIyiYemek.minMultiplier > 0 ? enIyiYemek.minMultiplier : 0.3;
-          clampedRatio = clampedRatio.clamp(minR, proteinCapRatio);
-          AppLogger.bilgi('⚠️ Protein cap: ${enIyiYemek.ad} ratio $ratio → $clampedRatio (max ${maxProtein}g)');
+          // Sadece cap uygulandığında ratio hâlâ geçerliyse uygula
+          if (proteinCapRatio >= minR) {
+            clampedRatio = clampedRatio.clamp(minR, proteinCapRatio);
+            AppLogger.bilgi('⚠️ Protein cap: ${enIyiYemek.ad} ratio $ratio → $clampedRatio (max ${maxProtein}g)');
+          } else {
+            AppLogger.bilgi('ℹ️ Protein cap atlandı (kalori öncelikli): ${enIyiYemek.ad} → ${(enIyiYemek.protein * clampedRatio).toStringAsFixed(1)}g protein');
+          }
         }
 
         // 📊 Öğün Logları
@@ -380,7 +403,16 @@ try {
           }
 
           // Sapan öğün için en uygun yemeği yeniden ara
-          final retryAdaylar = uygunYemekler.where((y) => 
+          // ⭐ Ara öğünlerde genişletilmiş havuzu kullan (local snacklar dahil)
+          List<Yemek> retryHavuz = uygunYemekler;
+          if (enSapanOgun == 'araOgun1' || enSapanOgun == 'araOgun2') {
+            final ogunTipiRetry = _mapOgunTipi(enSapanOgun);
+            final localRetry = _localAraOgunHavuzu(ogunTipiRetry)
+                .where((y) => y.kisitlamayaUygunMu(kisitlamalar)).toList();
+            final mevcutRetryIds = uygunYemekler.map((y) => y.id).toSet();
+            retryHavuz = [...uygunYemekler, ...localRetry.where((y) => !mevcutRetryIds.contains(y.id))];
+          }
+          final retryAdaylar = retryHavuz.where((y) => 
             y.ogun == _mapOgunTipi(enSapanOgun) && y.id != sapanOgun.id
           ).toList();
           retryAdaylar.shuffle(random);
@@ -461,6 +493,326 @@ try {
       AppLogger.hata('Plan oluşturma hatası', e);
       return Left(PlanHatasi('Plan oluşturulurken hata: ${e.toString()}'));
     }
+  }
+
+  /// Tüm hedefler için zengin LOCAL ara öğün yemek havuzu
+  /// Supabase'deki yemeklere EK OLARAK kullanılır
+  /// 50+ benzersiz sağlıklı seçenek: protein bar, fıstık ezmesi, whey, curuyemiş vb.
+  List<Yemek> _localAraOgunHavuzu(OgunTipi ogunTipi) {
+    // Her yemeğin baz değerleri 100g/1 porsiyon için
+    // minMultiplier/maxMultiplier ile ölçekleme sınırları belirlendi
+    final havuz = <Yemek>[
+      // ──────────────── PROTEIN BAR & SUPPLEMENT ────────────────
+      Yemek(id: 'local_snack_001', ad: 'Protein Bar (Yüksek Protein)', ogun: ogunTipi,
+        kalori: 220, protein: 25, karbonhidrat: 20, yag: 6,
+        malzemeler: ['1 adet Protein Bar (60g)', 'Whey İzolatı baz'], hazirlamaSuresi: 0,
+        zorluk: Zorluk.kolay, minMultiplier: 0.8, maxMultiplier: 2.0,
+        proteinKaynagi: 'whey', etiketler: ['yüksek-protein', 'pratik']),
+      Yemek(id: 'local_snack_002', ad: 'Whey Protein Shake', ogun: ogunTipi,
+        kalori: 160, protein: 30, karbonhidrat: 8, yag: 2,
+        malzemeler: ['30g Whey Protein Tozu', '250ml Süt (yarım yağlı)', '1 çay kaşığı Kakao'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.7, maxMultiplier: 2.5,
+        proteinKaynagi: 'whey', etiketler: ['yüksek-protein', 'shake']),
+      Yemek(id: 'local_snack_003', ad: 'Whey + Muz Shake', ogun: ogunTipi,
+        kalori: 250, protein: 28, karbonhidrat: 28, yag: 3,
+        malzemeler: ['30g Whey Protein Tozu', '1 adet Muz', '200ml Süt'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.7, maxMultiplier: 2.0,
+        proteinKaynagi: 'whey', etiketler: ['yüksek-protein', 'shake']),
+      Yemek(id: 'local_snack_004', ad: 'Gainomax Recovery Shake', ogun: ogunTipi,
+        kalori: 195, protein: 22, karbonhidrat: 22, yag: 2,
+        malzemeler: ['1 kutu Gainomax (250ml)', 'Çikolatalı veya Vanilyalı'],
+        hazirlamaSuresi: 0, zorluk: Zorluk.kolay, minMultiplier: 0.8, maxMultiplier: 1.5,
+        proteinKaynagi: 'whey', etiketler: ['pratik', 'yüksek-protein']),
+
+      // ──────────────── FISTIK EZMESİ BAZLI ────────────────
+      Yemek(id: 'local_snack_005', ad: 'Fıstık Ezmesi & Elma', ogun: ogunTipi,
+        kalori: 280, protein: 9, karbonhidrat: 30, yag: 16,
+        malzemeler: ['2 yemek kaşığı Fıstık Ezmesi (32g)', '1 adet Elma (orta boy)'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'fıstık', etiketler: ['doğal', 'sağlıklı-yağ']),
+      Yemek(id: 'local_snack_006', ad: 'Fıstık Ezmesi & Pirinç Keki', ogun: ogunTipi,
+        kalori: 310, protein: 11, karbonhidrat: 36, yag: 16,
+        malzemeler: ['2 yemek kaşığı Fıstık Ezmesi', '3 adet Pirinç Keki',
+                     '1 çay kaşığı Bal'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.0,
+        proteinKaynagi: 'fıstık', etiketler: ['pratik']),
+      Yemek(id: 'local_snack_007', ad: 'Fıstık Ezmesi & Yulaf Topları', ogun: ogunTipi,
+        kalori: 340, protein: 13, karbonhidrat: 38, yag: 16,
+        malzemeler: ['2 yemek kaşığı Fıstık Ezmesi', '40g Yulaf (pişmiş)',
+                     '1 çay kaşığı Bal', '1 yemek kaşığı Fındık'],
+        hazirlamaSuresi: 5, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 1.8,
+        proteinKaynagi: 'fıstık, yulaf', etiketler: ['yüksek-lif']),
+      Yemek(id: 'local_snack_008', ad: 'Badem Ezmesi & Havuç', ogun: ogunTipi,
+        kalori: 230, protein: 7, karbonhidrat: 18, yag: 14,
+        malzemeler: ['2 yemek kaşığı Badem Ezmesi', '2 adet Havuç (orta boy)'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'badem', etiketler: ['doğal', 'düşük-karb']),
+
+      // ──────────────── YOĞURT BAZLI ────────────────
+      Yemek(id: 'local_snack_009', ad: 'Yoğurt & Granola Kasesi', ogun: ogunTipi,
+        kalori: 320, protein: 16, karbonhidrat: 42, yag: 8,
+        malzemeler: ['200g Yoğurt (%2)', '40g Granola', '1 yemek kaşığı Bal',
+                     '50g Karışık Meyve'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yoğurt', etiketler: ['probiyotik']),
+      Yemek(id: 'local_snack_010', ad: 'Yunan Yoğurt & Meyve Kasesi', ogun: ogunTipi,
+        kalori: 220, protein: 18, karbonhidrat: 24, yag: 4,
+        malzemeler: ['200g Yunan Yoğurdu (%0 yağ)', '100g Çilek veya Yaban Mersini',
+                     '1 çay kaşığı Bal', '1 yemek kaşığı Chia Tohumu'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yoğurt', etiketler: ['yüksek-protein', 'düşük-kalori']),
+      Yemek(id: 'local_snack_011', ad: 'Yoğurt & Ceviz & Bal', ogun: ogunTipi,
+        kalori: 270, protein: 13, karbonhidrat: 20, yag: 14,
+        malzemeler: ['180g Yoğurt', '20g Ceviz (yarım avuç)', '1 çay kaşığı Bal'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yoğurt, ceviz'),
+      Yemek(id: 'local_snack_012', ad: 'Yoğurt Parfait (Muz & Yulaf)', ogun: ogunTipi,
+        kalori: 350, protein: 15, karbonhidrat: 55, yag: 7,
+        malzemeler: ['150g Yoğurt', '1 adet Muz', '30g Yulaf Ezmesi', '1 çay kaşığı Tarçın'],
+        hazirlamaSuresi: 5, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 1.8,
+        proteinKaynagi: 'yoğurt'),
+
+      // ──────────────── LOR / COTTAGE CHEESE  ────────────────
+      Yemek(id: 'local_snack_013', ad: 'Lor Peyniri & Meyve', ogun: ogunTipi,
+        kalori: 200, protein: 20, karbonhidrat: 14, yag: 6,
+        malzemeler: ['150g Lor Peyniri', '100g Çilek', '1 çay kaşığı Bal'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'lor', etiketler: ['yüksek-protein', 'düşük-kalori']),
+      Yemek(id: 'local_snack_014', ad: 'Lor & Salatalık & Zeytin', ogun: ogunTipi,
+        kalori: 180, protein: 18, karbonhidrat: 6, yag: 9,
+        malzemeler: ['150g Lor Peyniri', '1 adet Salatalık', '5 adet Zeytin',
+                     '1 çay kaşığı Zeytinyağı'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'lor', etiketler: ['düşük-karb']),
+      Yemek(id: 'local_snack_015', ad: 'Süzme Yoğurt Kasesi', ogun: ogunTipi,
+        kalori: 190, protein: 22, karbonhidrat: 10, yag: 5,
+        malzemeler: ['180g Süzme Yoğurt', '1 çay kaşığı Bal', '5g Chia Tohumu',
+                     '30g Yaban Mersini'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yoğurt', etiketler: ['yüksek-protein']),
+
+      // ──────────────── KURUYEMIŞ BAZLI ────────────────
+      Yemek(id: 'local_snack_016', ad: 'Karışık Kuruyemiş & Kuru Meyve', ogun: ogunTipi,
+        kalori: 280, protein: 8, karbonhidrat: 28, yag: 16,
+        malzemeler: ['20g Badem', '10g Ceviz', '10g Kaju', '15g Kuru Kayısı'],
+        hazirlamaSuresi: 0, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'badem, ceviz, kaju', etiketler: ['pratik', 'vegan']),
+      Yemek(id: 'local_snack_017', ad: 'Badem & Bitter Çikolata', ogun: ogunTipi,
+        kalori: 260, protein: 8, karbonhidrat: 18, yag: 18,
+        malzemeler: ['25g Çiğ Badem', '20g Bitter Çikolata (%70+)'],
+        hazirlamaSuresi: 0, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'badem', etiketler: ['antioksidan']),
+      Yemek(id: 'local_snack_018', ad: 'Antep Fıstığı & Yaban Mersini', ogun: ogunTipi,
+        kalori: 230, protein: 8, karbonhidrat: 20, yag: 14,
+        malzemeler: ['25g Antep Fıstığı', '100g Yaban Mersini'],
+        hazirlamaSuresi: 0, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'fıstık', etiketler: ['antioksidan', 'vegan']),
+      Yemek(id: 'local_snack_019', ad: 'Karışık Kuruyemiş (Sade)', ogun: ogunTipi,
+        kalori: 300, protein: 9, karbonhidrat: 12, yag: 24,
+        malzemeler: ['15g Ceviz', '15g Badem', '10g Fındık', '5g Kaju'],
+        hazirlamaSuresi: 0, zorluk: Zorluk.kolay, minMultiplier: 0.4, maxMultiplier: 2.5,
+        proteinKaynagi: 'ceviz, badem', etiketler: ['vegan', 'pratik']),
+
+      // ──────────────── PİRİNÇ KEKİ / TAM TAHIL ────────────────
+      Yemek(id: 'local_snack_020', ad: 'Pirinç Keki & Avokado', ogun: ogunTipi,
+        kalori: 260, protein: 5, karbonhidrat: 28, yag: 14,
+        malzemeler: ['3 adet Pirinç Keki', '1/2 adet Avokado', 'Tuz & Limon suyu'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.0,
+        proteinKaynagi: 'avokado', etiketler: ['glutensiz', 'vegan']),
+      Yemek(id: 'local_snack_021', ad: 'Pirinç Keki & Ton Balığı', ogun: ogunTipi,
+        kalori: 200, protein: 22, karbonhidrat: 18, yag: 4,
+        malzemeler: ['3 adet Pirinç Keki', '80g Ton Balığı (konserve, suda)',
+                     '1 çay kaşığı Limon Suyu'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.0,
+        proteinKaynagi: 'ton', etiketler: ['yüksek-protein', 'glutensiz']),
+      Yemek(id: 'local_snack_022', ad: 'Tam Tahıllı Kraker & Humus', ogun: ogunTipi,
+        kalori: 240, protein: 9, karbonhidrat: 32, yag: 8,
+        malzemeler: ['5 adet Tam Tahıllı Kraker', '60g Humus'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.0,
+        proteinKaynagi: 'nohut'),
+      Yemek(id: 'local_snack_023', ad: 'Yulaf Ezmesi Tahıl Barı', ogun: ogunTipi,
+        kalori: 210, protein: 7, karbonhidrat: 35, yag: 5,
+        malzemeler: ['1 adet Yulaf Ezmesi Barı (50g)', 'Bal ve Yulaf baz'],
+        hazirlamaSuresi: 0, zorluk: Zorluk.kolay, minMultiplier: 0.8, maxMultiplier: 2.0,
+        proteinKaynagi: 'yulaf', etiketler: ['pratik', 'lif-kaynaği']),
+
+      // ──────────────── MEYVE BAZLI ────────────────
+      Yemek(id: 'local_snack_024', ad: 'Muz & Badem Kasesi', ogun: ogunTipi,
+        kalori: 250, protein: 7, karbonhidrat: 38, yag: 9,
+        malzemeler: ['1 adet Büyük Muz', '20g Badem', '1 çay kaşığı Tarçın'],
+        hazirlamaSuresi: 1, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'badem', etiketler: ['vegan', 'pratik']),
+      Yemek(id: 'local_snack_025', ad: 'Elma & Peynir Dilimleri', ogun: ogunTipi,
+        kalori: 220, protein: 10, karbonhidrat: 24, yag: 10,
+        malzemeler: ['1 adet Elma', '40g Kaşar Peyniri (dilimlenmiş)'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'peynir'),
+      Yemek(id: 'local_snack_026', ad: 'Meyve Kasesi & Ceviz', ogun: ogunTipi,
+        kalori: 200, protein: 4, karbonhidrat: 30, yag: 8,
+        malzemeler: ['50g Çilek', '50g Üzüm', '1/2 adet Muz', '15g Ceviz'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'ceviz', etiketler: ['antioksidan', 'vegan']),
+      Yemek(id: 'local_snack_027', ad: 'Portakal & Badem', ogun: ogunTipi,
+        kalori: 190, protein: 6, karbonhidrat: 26, yag: 8,
+        malzemeler: ['1 adet Büyük Portakal', '20g Badem'],
+        hazirlamaSuresi: 1, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.5,
+        proteinKaynagi: 'badem', etiketler: ['C-vitamini', 'vegan']),
+
+      // ──────────────── YUMURTA BAZLI ────────────────
+      Yemek(id: 'local_snack_028', ad: 'Haşlanmış Yumurta & Peynir', ogun: ogunTipi,
+        kalori: 210, protein: 16, karbonhidrat: 2, yag: 15,
+        malzemeler: ['2 adet Haşlanmış Yumurta', '20g Beyaz Peynir',
+                     '5 adet Zeytin', 'Tuz & Karabiber'],
+        hazirlamaSuresi: 10, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yumurta, peynir', etiketler: ['düşük-karb']),
+      Yemek(id: 'local_snack_029', ad: 'Mini Yumurta Muffin', ogun: ogunTipi,
+        kalori: 240, protein: 18, karbonhidrat: 4, yag: 16,
+        malzemeler: ['2 adet Yumurta', '30g Kıyılmış Tavuk', '1 yemek kaşığı Kırmızı Biber'],
+        hazirlamaSuresi: 15, zorluk: Zorluk.orta, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yumurta, tavuk', etiketler: ['düşük-karb', 'yüksek-protein']),
+
+      // ──────────────── TAVUK / ET BAZLI ────────────────
+      Yemek(id: 'local_snack_030', ad: 'Tavuk Göğüs Strips (Pratik)', ogun: ogunTipi,
+        kalori: 190, protein: 30, karbonhidrat: 2, yag: 6,
+        malzemeler: ['100g Haşlanmış Tavuk Göğüs', 'Tuz & Sarımsak Tozu'],
+        hazirlamaSuresi: 20, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'tavuk', etiketler: ['yüksek-protein', 'düşük-karb']),
+      Yemek(id: 'local_snack_031', ad: 'Hindi Jambon & Peynir Rulo', ogun: ogunTipi,
+        kalori: 180, protein: 20, karbonhidrat: 3, yag: 10,
+        malzemeler: ['60g Hindi Jambon', '30g Beyaz Peynir', 'Roka yaprakları'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'jambon', etiketler: ['düşük-karb']),
+
+      // ──────────────── ÖZEL SAĞLIKLI FORMULLER ────────────────
+      Yemek(id: 'local_snack_032', ad: 'Enerji Topu (Yulaf & Fıstık Ezmesi)', ogun: ogunTipi,
+        kalori: 320, protein: 12, karbonhidrat: 38, yag: 14,
+        malzemeler: ['40g Yulaf Ezmesi', '2 yemek kaşığı Fıstık Ezmesi',
+                     '1 yemek kaşığı Bal', '10g Çikolata Cipsi'],
+        hazirlamaSuresi: 10, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.0,
+        proteinKaynagi: 'yulaf, fıstık'),
+      Yemek(id: 'local_snack_033', ad: 'Protein Puding (Süt & Whey)', ogun: ogunTipi,
+        kalori: 200, protein: 26, karbonhidrat: 14, yag: 4,
+        malzemeler: ['250ml Süt', '25g Whey Protein Tozu', '1 paket Sugar-Free Puding Tozu'],
+        hazirlamaSuresi: 5, zorluk: Zorluk.kolay, minMultiplier: 0.7, maxMultiplier: 2.0,
+        proteinKaynagi: 'whey', etiketler: ['yüksek-protein']),
+      Yemek(id: 'local_snack_034', ad: 'Çiğ Sebze & Hummus', ogun: ogunTipi,
+        kalori: 170, protein: 7, karbonhidrat: 20, yag: 7,
+        malzemeler: ['80g Hummus', '50g Havuç', '50g Salatalık', '30g Kırmızı Biber'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'nohut', etiketler: ['vegan', 'düşük-kalori']),
+      Yemek(id: 'local_snack_035', ad: 'Edamame (Tuzlanmış)', ogun: ogunTipi,
+        kalori: 190, protein: 16, karbonhidrat: 14, yag: 8,
+        malzemeler: ['150g Edamame (haşlanmış)', 'Deniz tuzu & Limon'],
+        hazirlamaSuresi: 5, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'soya', etiketler: ['vegan', 'yüksek-protein']),
+      Yemek(id: 'local_snack_036', ad: 'Ton Balığı & Salatalık', ogun: ogunTipi,
+        kalori: 180, protein: 26, karbonhidrat: 4, yag: 6,
+        malzemeler: ['100g Ton Balığı (suda, konserve)', '1 adet Salatalık',
+                     '1 çay kaşığı Zeytinyağı', 'Limon suyu'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'ton', etiketler: ['yüksek-protein', 'düşük-kalori']),
+      Yemek(id: 'local_snack_037', ad: 'Avokado Toast Mini', ogun: ogunTipi,
+        kalori: 280, protein: 7, karbonhidrat: 28, yag: 16,
+        malzemeler: ['1 dilim Tam Buğday Ekmek', '1/2 adet Avokado',
+                     'Kırmızı Biber Pulu', 'Limon Suyu'],
+        hazirlamaSuresi: 5, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'avokado'),
+      Yemek(id: 'local_snack_038', ad: 'Muzlu Yulaf Shake', ogun: ogunTipi,
+        kalori: 290, protein: 10, karbonhidrat: 52, yag: 5,
+        malzemeler: ['1 adet Muz', '40g Yulaf Ezmesi', '200ml Süt', '1 çay kaşığı Bal'],
+        hazirlamaSuresi: 5, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yulaf'),
+      Yemek(id: 'local_snack_039', ad: 'Süt & Yulaf Barı', ogun: ogunTipi,
+        kalori: 230, protein: 9, karbonhidrat: 36, yag: 6,
+        malzemeler: ['200ml Süt (tam yağlı)', '1 adet Yulaf Barı'],
+        hazirlamaSuresi: 1, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.0,
+        proteinKaynagi: 'yulaf'),
+      Yemek(id: 'local_snack_040', ad: 'Somon Dilimleri & Krakker', ogun: ogunTipi,
+        kalori: 250, protein: 20, karbonhidrat: 16, yag: 12,
+        malzemeler: ['60g Füme Somon', '3 adet Tam Buğday Kraker',
+                     '1 yemek kaşığı Labne Peyniri'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.0,
+        proteinKaynagi: 'somon', etiketler: ['omega-3']),
+
+      // ──────────────── BULK ÖZEL (Yüksek Kalori) ────────────────
+      Yemek(id: 'local_snack_041', ad: 'Mass Gainer Shake (Muz & Fıstık)', ogun: ogunTipi,
+        kalori: 520, protein: 28, karbonhidrat: 70, yag: 14,
+        malzemeler: ['30g Whey Protein', '1 büyük Muz', '2 yemek kaşığı Fıstık Ezmesi',
+                     '300ml Süt', '30g Yulaf Ezmesi'],
+        hazirlamaSuresi: 5, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 1.5,
+        proteinKaynagi: 'whey, fıstık', etiketler: ['bulk', 'yüksek-kalori']),
+      Yemek(id: 'local_snack_042', ad: 'Tam Fıstık Ezmesi Sandviç', ogun: ogunTipi,
+        kalori: 430, protein: 15, karbonhidrat: 48, yag: 20,
+        malzemeler: ['2 dilim Tam Buğday Ekmek', '3 yemek kaşığı Fıstık Ezmesi',
+                     '1 yemek kaşığı Bal'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 1.8,
+        proteinKaynagi: 'fıstık', etiketler: ['bulk']),
+      Yemek(id: 'local_snack_043', ad: 'Yoğurt & Granola & Fıstık Ezmesi', ogun: ogunTipi,
+        kalori: 480, protein: 20, karbonhidrat: 54, yag: 18,
+        malzemeler: ['200g Yoğurt', '50g Granola', '2 yemek kaşığı Fıstık Ezmesi',
+                     '1 yemek kaşığı Bal'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 1.5,
+        proteinKaynagi: 'yoğurt, fıstık', etiketler: ['bulk']),
+
+      // ──────────────── CUT ÖZEL (Düşük Kalori) ────────────────
+      Yemek(id: 'local_snack_044', ad: 'Salatalık & Labne Dip', ogun: ogunTipi,
+        kalori: 130, protein: 9, karbonhidrat: 8, yag: 7,
+        malzemeler: ['2 adet Salatalık', '80g Labne Peyniri', 'Dereotu & Sarımsak'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 3.0,
+        proteinKaynagi: 'labne', etiketler: ['düşük-kalori', 'cut']),
+      Yemek(id: 'local_snack_045', ad: 'Proteinli Smoothie (Düşük Kalori)', ogun: ogunTipi,
+        kalori: 150, protein: 24, karbonhidrat: 10, yag: 2,
+        malzemeler: ['25g Whey Protein (izolat)', '200ml Su', '50g Dondurulmuş Çilek',
+                     'Yapay Tatlandırıcı'],
+        hazirlamaSuresi: 3, zorluk: Zorluk.kolay, minMultiplier: 0.7, maxMultiplier: 2.0,
+        proteinKaynagi: 'whey', etiketler: ['düşük-kalori', 'cut']),
+      Yemek(id: 'local_snack_046', ad: '0% Yoğurt & Çilek', ogun: ogunTipi,
+        kalori: 140, protein: 14, karbonhidrat: 18, yag: 1,
+        malzemeler: ['200g Sıfır Yağlı Yoğurt', '100g Çilek', '1 çay kaşığı Stevia'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.5,
+        proteinKaynagi: 'yoğurt', etiketler: ['düşük-kalori', 'cut']),
+      Yemek(id: 'local_snack_047', ad: 'Haşlanmış Yumurta (Beyaz)', ogun: ogunTipi,
+        kalori: 100, protein: 12, karbonhidrat: 1, yag: 5,
+        malzemeler: ['2 adet Haşlanmış Yumurta', 'Sarımsak Tozu & Kırmızı Biber'],
+        hazirlamaSuresi: 10, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 3.0,
+        proteinKaynagi: 'yumurta', etiketler: ['düşük-kalori', 'cut']),
+
+      // ──────────────── ÖZEL ATISTIRMALIK  ────────────────
+      Yemek(id: 'local_snack_048', ad: 'Bitter Çikolata & Badem', ogun: ogunTipi,
+        kalori: 200, protein: 5, karbonhidrat: 14, yag: 15,
+        malzemeler: ['25g Bitter Çikolata (%80)', '15g Çiğ Badem'],
+        hazirlamaSuresi: 0, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'badem', etiketler: ['antioksidan']),
+      Yemek(id: 'local_snack_049', ad: 'Zeytinli Tam Buğday Kraker', ogun: ogunTipi,
+        kalori: 200, protein: 5, karbonhidrat: 24, yag: 10,
+        malzemeler: ['4 adet Tam Buğday Kraker', '10 adet Siyah Zeytin',
+                     '1 çay kaşığı Zeytinyağı'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'zeytin'),
+      Yemek(id: 'local_snack_050', ad: 'Kefir & Mevsim Meyvesi', ogun: ogunTipi,
+        kalori: 160, protein: 8, karbonhidrat: 22, yag: 4,
+        malzemeler: ['200ml Kefir', '80g Mevsim Meyvesi (muz, çilek vb)'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.6, maxMultiplier: 2.5,
+        proteinKaynagi: 'yoğurt', etiketler: ['probiyotik']),
+      Yemek(id: 'local_snack_051', ad: 'Yulaf Krep (Protein)', ogun: ogunTipi,
+        kalori: 290, protein: 18, karbonhidrat: 38, yag: 7,
+        malzemeler: ['60g Yulaf Unu', '1 adet Yumurta', '100ml Süt',
+                     '1 yemek kaşığı Bal'],
+        hazirlamaSuresi: 10, zorluk: Zorluk.orta, minMultiplier: 0.5, maxMultiplier: 2.0,
+        proteinKaynagi: 'yumurta, yulaf'),
+      Yemek(id: 'local_snack_052', ad: 'Nohut Cipsi (Fırında)', ogun: ogunTipi,
+        kalori: 210, protein: 11, karbonhidrat: 28, yag: 6,
+        malzemeler: ['100g Haşlanmış Nohut', '1 çay kaşığı Zeytinyağı',
+                     'Baharatlar (kimyon, paprika)'],
+        hazirlamaSuresi: 30, zorluk: Zorluk.orta, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'nohut', etiketler: ['vegan', 'lif-kaynağı']),
+      Yemek(id: 'local_snack_053', ad: 'Peynirli Tam Buğday Kraker (2 Çeşit)', ogun: ogunTipi,
+        kalori: 245, protein: 12, karbonhidrat: 28, yag: 10,
+        malzemeler: ['4 adet Tam Buğday Kraker', '30g Kaşar Peyniri', '20g Beyaz Peynir'],
+        hazirlamaSuresi: 2, zorluk: Zorluk.kolay, minMultiplier: 0.5, maxMultiplier: 2.5,
+        proteinKaynagi: 'peynir', etiketler: ['pratik']),
+    ];
+    return havuz;
   }
 
   OgunTipi _mapOgunTipi(String ad) {

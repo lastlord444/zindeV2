@@ -371,6 +371,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
                               ),
                               Row(
@@ -774,6 +775,7 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 Row(

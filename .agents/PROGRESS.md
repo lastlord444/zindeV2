@@ -161,6 +161,17 @@
 **Bir Sonraki Oturumda:**
 - Geri kalan pages/widgets Analyze hatalarını bitirmeye odaklanılacak.
 
+### 2026-03-31 - Beslenme Kalitesi & UI İyileştirme Oturumu
+**Yapılanlar:**
+- `gunluk_plan.dart` → `tumMakrolarToleranstaMi` getter'ı düzeltildi: Artık kalori + protein + karb + yağ tümü ±%10 kontrol ediliyor.
+- `kompakt_makro_ozet.dart` → Yazı silikliği giderildi: font büyütüldü, bold yapıldı, renk Colors.black.
+- `detayli_ogun_card.dart` → Malzeme listesi yazıları 14px + Colors.black + w500 yapıldı.
+- `generate_daily_plan.dart` → **53 adet local ara öğün yemek havuzu** eklendi (protein bar, whey, fıstık ezmesi, Gainomax, kuruyemiş, yoğurt kasesi, lor peyniri vb.). araOgun1/araOgun2 seçiminde bu havuz Supabase yemeklerine eklenerek çeşitlilik 3-4x artırıldı.
+
+**Mimari:**
+- Local snack havuzu `_localAraOgunHavuzu()` ile tanımlandı, kisitlamalar filtresinden geçiyor.
+- Supabase'e bağımlılık azaltıldı — DB boş olsa bile 53 ara öğün seçeneği mevcut.
+
 ---
 
 ## 🚨 Önemli Notlar

@@ -121,11 +121,13 @@ class GunlukPlan extends Equatable {
   /// Tüm  nleri liste olarak döndür (tumOgunler alias)
   List<Yemek> get ogunler => tumOgunler;
 
-  /// Planlanan kalori hedef toleransında m1? (±%15 - sadece kalori kontrol)
+  /// TÜM makrolar toleransta mı? (±%10 - kalori + protein + karb + yağ)
   bool get tumMakrolarToleranstaMi {
-    // Yalnızca kalori tolerans1 kontrol edilir
-    // Makrolar porsiyon öleklendirmesiyle otomatik ayarlanır
-    return kaloriToleranstaMi(0.15);
+    const tolerans = 0.10;
+    return kaloriToleranstaMi(tolerans) &&
+        proteinToleranstaMi(tolerans) &&
+        karbToleranstaMi(tolerans) &&
+        yagToleranstaMi(tolerans);
   }
 
   /// Karbonhidrat toleransta m1? (±%10 varsayılan)

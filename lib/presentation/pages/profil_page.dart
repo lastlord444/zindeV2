@@ -228,7 +228,7 @@ class _ProfilPageState extends State<ProfilPage> {
               children: [
                 Icon(Icons.person, color: Colors.purple.shade700, size: 32),
                 const SizedBox(width: 12),
-                const Text(
+                Text(
                   'Profil & Makro Hesaplama',
                   style: TextStyle(
                     fontSize: 24,
@@ -574,10 +574,6 @@ class _ProfilPageState extends State<ProfilPage> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-     us.circular(12),
                   ),
                 ),
               ),

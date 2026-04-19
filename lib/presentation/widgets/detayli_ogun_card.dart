@@ -504,9 +504,9 @@ class DetayliOgunCard extends StatelessWidget {
           const Text(
             'Malzemeler:',
             style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey,
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
             ),
           ),
           const SizedBox(height: 8),
@@ -531,8 +531,9 @@ class DetayliOgunCard extends StatelessWidget {
                     child: Text(
                       malzeme,
                       style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.black87,
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -541,7 +542,7 @@ class DetayliOgunCard extends StatelessWidget {
                       '~${(yemek.baseWeightG / malzemeler.length).toStringAsFixed(0)} g',
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.black54,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -593,7 +594,7 @@ class DetayliOgunCard extends StatelessWidget {
           birim,
           style: TextStyle(
             fontSize: 10,
-            color: Colors.grey.shade600,
+            color: Colors.black54,
           ),
         ),
       ],
