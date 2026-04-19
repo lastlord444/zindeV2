@@ -15,20 +15,6 @@ build/
 
 # Supabase local
 supabase/.temp/
-supabase_utf8.json
-batch_err.json
-matrix_result.txt
-test_err.txt
-
-# Seed scripts (contain local Supabase keys)
-seed_meals.py
-seed_meals_v2.py
-build_meals.py
-wipe_plans.py
-fix_chatbot.dart
-fix_encoding.js
-fix_encoding.py
-fix_ui_*.py
 
 # Python
 __pycache__/
@@ -41,24 +27,51 @@ Thumbs.db
 # Secrets - ASLA push etme
 *.env
 supabase.json
+supabase_*.json
 
 # Geçici analiz ve log dosyaları
 analyze*.txt
 analyze*.json
 build_log*.txt
+build_*.log
 *_utf8.txt
 machine.txt
+machine_utf8.txt
 output.txt
 seed_out.txt
 status.txt
 temp_orig.txt
-tmp_cols.txt
+tmp_*
 test_*.txt
+test_*.json
 err.json
+batch_err.json
+matrix_result.txt
+flutter_doctor*.txt
+
+# Fix ve debug scriptleri (kalıcı değil)
+fix_*.py
+fix_*.js
+fix_*.dart
+revert_*.py
+unfuck_*.py
 query_*.py
+seed_*.py
+build_*.py
+wipe_*.py
+add_*.py
+generate_healthy_*.py
+combine_*.py
 
 # Test dosyaları
 test_algo.dart
-fix_*.py
-fix_*.dart
-_archive/  
+test_regex.dart
+
+# SQL fix dosyaları
+SUPABASE_FIX.sql
+
+# Arşiv
+_archive/
+
+# Intellij IDEA
+zinde_ai.iml

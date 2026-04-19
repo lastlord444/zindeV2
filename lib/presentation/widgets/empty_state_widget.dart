@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// x?? Empty State Widget
 /// Profesyonel bo_ durum ekranlar1
@@ -145,7 +145,7 @@ class EmptyStateWidget extends StatelessWidget {
         return _EmptyStateConfig(
           icon: Icons.hourglass_empty,
           iconColor: Colors.blue.shade200,
-          defaultTitle: 'Y?kleniyor...',
+          defaultTitle: 'Yükleniyor...',
           defaultMessage: 'Verileriniz hazırlanıyor',
           defaultActionLabel: 'Bekleyin',
           actionIcon: Icons.pending,
@@ -156,9 +156,9 @@ class EmptyStateWidget extends StatelessWidget {
         return _EmptyStateConfig(
           icon: Icons.wifi_off,
           iconColor: Colors.orange.shade200,
-          defaultTitle: '0nternet Balantıs1 Yok',
+          defaultTitle: 'İnternet Bağlantısı Yok',
           defaultMessage:
-              'L?tfen internet balantınız1 kontrol edip\ntekrar deneyin',
+              'Lütfen internet bağlantınızı kontrol edip\ntekrar deneyin',
           defaultActionLabel: 'Tekrar Dene',
           actionIcon: Icons.refresh,
           buttonColor: Colors.orange,
@@ -168,8 +168,8 @@ class EmptyStateWidget extends StatelessWidget {
         return _EmptyStateConfig(
           icon: Icons.check_circle_outline,
           iconColor: Colors.green.shade200,
-          defaultTitle: 'Ba_arıl1!',
-          defaultMessage: '0_lem ba_arıyla tamamland1',
+          defaultTitle: 'Başarılı!',
+          defaultMessage: 'İşlem başarıyla tamamlandı',
           defaultActionLabel: 'Devam Et',
           actionIcon: Icons.arrow_forward,
           buttonColor: Colors.green,
@@ -182,7 +182,7 @@ class EmptyStateWidget extends StatelessWidget {
           defaultTitle: '??n Bulunamad1',
           defaultMessage:
               'Veritabanında bu kriterlere uygun ??n bulunamad1',
-          defaultActionLabel: 'Filtre Dei_tir',
+          defaultActionLabel: 'Filtre Değiştir',
           actionIcon: Icons.filter_list,
           buttonColor: Colors.orange,
         );
@@ -193,8 +193,8 @@ class EmptyStateWidget extends StatelessWidget {
           iconColor: Colors.pink.shade200,
           defaultTitle: 'Favori Yemek Yok',
           defaultMessage:
-              'Hen?z favori yemek eklemediniz.\nBeendiiniz yemekleri favorilere ekleyerek kolayca eri_ebilirsiniz.',
-          defaultActionLabel: 'Yemek Ke_fet',
+              'Henüz favori yemek eklemediniz.\nBeğendiğiniz yemekleri favorilere ekleyerek kolayca erişebilirsiniz.',
+          defaultActionLabel: 'Yemek Keşfet',
           actionIcon: Icons.explore,
           buttonColor: Colors.pink,
         );

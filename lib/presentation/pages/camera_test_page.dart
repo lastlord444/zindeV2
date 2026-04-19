@@ -4,7 +4,7 @@
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../../core/utils/app_logger.dart';
+import '../../core/utils/logger.dart';
 
 class CameraTestPage extends StatefulWidget {
   const CameraTestPage({super.key});

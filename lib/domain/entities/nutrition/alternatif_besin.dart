@@ -64,7 +64,7 @@ class AlternatifBesin extends Equatable {
   /// En iyi alternatifi getir
   BesinAlternatifi get enIyiAlternatif {
     if (alternatifler.isEmpty) {
-      throw Exception('Alternatif bulunamad1');
+      throw Exception('Alternatif bulunamadı');
     }
     return alternatifler
         .reduce((a, b) => a.benzerlikSkoru > b.benzerlikSkoru ? a : b);

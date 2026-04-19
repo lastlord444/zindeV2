@@ -12,9 +12,9 @@ class AppConfig {
 
   // Plan oluşturma
   static const int planlariOnBellekteTut = 7; // 7 günlük plan sakla
-  static const int alternatifYemekSayisi = 5; // Alternatif gösterim sayıs1
+  static const int alternatifYemekSayisi = 5; // Alternatif gösterim sayısı
 
-  // Hata mesajlar1
+  // Hata mesajları
   static const String varsayilanHataMesaji = 'Beklenmedik bir hata oluştu. Lütfen tekrar deneyin.';
-  static const String agBaglantisiHatasi = 'İnternet bağlantıs1 bulunamad1.';
+  static const String agBaglantisiHatasi = 'İnternet bağlantısı bulunamadı.';
 }

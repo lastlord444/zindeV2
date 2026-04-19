@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 
-/// Temel hata sınıf1
+/// Temel hata sınıfı
 abstract class Failure extends Equatable {
   final String mesaj;
   const Failure(this.mesaj);
@@ -11,34 +11,34 @@ abstract class Failure extends Equatable {
   List<Object?> get props => [mesaj];
 }
 
-/// Sunucu hatas1 (Supabase / API)
+/// Sunucu hatası (Supabase / API)
 class SunucuHatasi extends Failure {
-  const SunucuHatasi([super.mesaj = 'Sunucu hatas1 oluştu.']);
+  const SunucuHatasi([super.mesaj = 'Sunucu hatası oluştu.']);
 }
 
-/// Ağ bağlantıs1 hatas1
+/// Ağ bağlantısı hatası
 class AgBaglantisiHatasi extends Failure {
-  const AgBaglantisiHatasi([super.mesaj = 'İnternet bağlantıs1 yok.']);
+  const AgBaglantisiHatasi([super.mesaj = 'İnternet bağlantısı yok.']);
 }
 
-/// Veri bulunamad1 hatas1
+/// Veri bulunamadı hatası
 class BulunamadiHatasi extends Failure {
-  const BulunamadiHatasi([super.mesaj = 'İstenen veri bulunamad1.']);
+  const BulunamadiHatasi([super.mesaj = 'İstenen veri bulunamadı.']);
 }
 
-/// Yerel depolama hatas1
+/// Yerel depolama hatası
 class DepolamaHatasi extends Failure {
   const DepolamaHatasi([super.mesaj = 'Veri kaydedilemedi.']);
 }
 
-/// Kimlik doğrulama hatas1
+/// Kimlik doğrulama hatası
 class KimlikHatasi extends Failure {
   const KimlikHatasi([super.mesaj = 'Oturum süresi doldu, lütfen tekrar giriş yapın.']);
 }
 
-/// Plan oluşturma hatas1 (tolerans sağlanamad1)
+/// Plan oluşturma hatası (tolerans sağlanamadı)
 class PlanHatasi extends Failure {
-  const PlanHatasi([super.mesaj = 'Beslenme plan1 oluşturulamad1. Lütfen tekrar deneyin.']);
+  const PlanHatasi([super.mesaj = 'Beslenme planı oluşturulamadı. Lütfen tekrar deneyin.']);
 }
 
 /// Genel beklenmedik hata

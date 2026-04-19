@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import '../../core/services/pollinations_ai_service.dart';
-import '../../core/utils/app_logger.dart';
+import '../../core/utils/logger.dart';
 import '../../core/di/injection_container.dart' as di;
 import '../../domain/entities/user/kullanici_profili.dart';
 import '../../domain/entities/user/hedef.dart';

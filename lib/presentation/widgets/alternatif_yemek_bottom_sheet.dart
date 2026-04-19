@@ -221,7 +221,7 @@ class AlternatifYemekBottomSheet extends StatelessWidget {
           Icon(Icons.info_outline, size: 48, color: Colors.grey.shade400),
           const SizedBox(height: 12),
           Text(
-            'Şu an alternatif bulunamad1',
+            'Şu an alternatif bulunamadı',
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey.shade600,

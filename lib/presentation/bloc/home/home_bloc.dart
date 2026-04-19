@@ -12,7 +12,7 @@ import 'home_event.dart';
 import 'home_state.dart';
 
 /// Ana Sayfa BLoC
-/// Günlük beslenme planın1 yönetir
+/// Günlük beslenme planını yönetir
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final UserRepository _userRepo;
   final MealPlanRepository _planRepo;
@@ -57,10 +57,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       LoadHomePage event, Emitter<HomeState> emit) async {
     emit(const HomeLoading(progress: 0.1, mesaj: 'Profil yükleniyor...'));
 
-    // Kullanıc1 profilini getir
+    // Kullanıcı profilini getir
     final profilResult = await _userRepo.onbellektenProfilGetir();
     if (profilResult == null) {
-      emit(const HomeError('Profil bulunamad1. Lütfen önce profilinizi oluşturun.'));
+      emit(const HomeError('Profil bulunamadı. Lütfen önce profilinizi oluşturun.'));
       return;
     }
 

@@ -449,13 +449,28 @@ class Yemek extends Equatable {
     }
   }
 
-  /// 📏 Yemeği belirtilen arpanla öleklendirir
+  /// Malzeme metninden ilk sayısal değeri çıkarır (effective ratio hesaplaması için)
+  static double? _extractFirstNumber(String text) {
+    final trimmed = text.trim();
+    final match = RegExp(r'^(\d+(?:[.,/]\d+)?)').firstMatch(trimmed);
+    if (match == null) return null;
+    final str = match.group(1)!;
+    if (str.contains('/')) {
+      final parts = str.split('/');
+      final pay = double.tryParse(parts[0]) ?? 0;
+      final payda = double.tryParse(parts[1]) ?? 1;
+      return payda != 0 ? pay / payda : null;
+    }
+    return double.tryParse(str.replaceAll(',', '.'));
+  }
+
+  /// 📏 Yemeği belirtilen çarpanla ölçeklendirir
   /// Örnek: multiplier = 1.5 → 150 gram, kalori/protein/karb/yag × 1.5
   ///
   /// Kullanım:
   /// ```dart
   /// final buyukPorsiyon = yemek.scale(1.5); // %50 daha büyük
-  /// final kucukPorsiyon = yemek.scale(0.7); // %30 daha küük
+  /// final kucukPorsiyon = yemek.scale(0.7); // %30 daha küçük
   /// ```
   Yemek scale(double multiplier) {
     if (multiplier < minMultiplier || multiplier > maxMultiplier) {
@@ -510,15 +525,34 @@ class Yemek extends Equatable {
       return m; 
     }).toList();
 
+    // 🔥 KRİTİK FIX: Yuvarlama sonrası effective ratio hesapla
+    // Malzeme miktarları yuvarlandığı için makrolar da buna uymalı
+    double effectiveMultiplier = multiplier;
+    {
+      double sumRatios = 0;
+      int cnt = 0;
+      for (int i = 0; i < malzemeler.length && i < scaledMalzemeler.length; i++) {
+        final origNum = _extractFirstNumber(malzemeler[i]);
+        final scaledNum = _extractFirstNumber(scaledMalzemeler[i]);
+        if (origNum != null && origNum > 0 && scaledNum != null && scaledNum > 0) {
+          sumRatios += scaledNum / origNum;
+          cnt++;
+        }
+      }
+      if (cnt > 0) {
+        effectiveMultiplier = sumRatios / cnt;
+      }
+    }
+
     return Yemek(
       id: id,
       ad: ad,
       ogun: ogun,
-      kalori: kalori * multiplier,
-      protein: protein * multiplier,
-      karbonhidrat: karbonhidrat * multiplier,
-      yag: yag * multiplier,
-      baseWeightG: baseWeightG * multiplier,
+      kalori: kalori * effectiveMultiplier,
+      protein: protein * effectiveMultiplier,
+      karbonhidrat: karbonhidrat * effectiveMultiplier,
+      yag: yag * effectiveMultiplier,
+      baseWeightG: baseWeightG * effectiveMultiplier,
       malzemeler: scaledMalzemeler,
       alternatifler: alternatifler,
       alternatifYemekler: alternatifYemekler,

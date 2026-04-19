@@ -1,46 +1,46 @@
 // lib/core/errors/exceptions.dart
 
-/// Supabase / API sunucu istisnas1
+/// Supabase / API sunucu istisnası
 class SunucuIstisnasi implements Exception {
   final String mesaj;
   final int? statusKodu;
-  const SunucuIstisnasi({this.mesaj = 'Sunucu hatas1', this.statusKodu});
+  const SunucuIstisnasi({this.mesaj = 'Sunucu hatası', this.statusKodu});
 
   @override
   String toString() => 'SunucuIstisnasi: $mesaj (kod: $statusKodu)';
 }
 
-/// Ağ bağlantıs1 istisnas1
+/// Ağ bağlantısı istisnası
 class AgIstisnasi implements Exception {
   final String mesaj;
-  const AgIstisnasi({this.mesaj = 'İnternet bağlantıs1 yok'});
+  const AgIstisnasi({this.mesaj = 'İnternet bağlantısı yok'});
 
   @override
   String toString() => 'AgIstisnasi: $mesaj';
 }
 
-/// Veri bulunamad1 istisnas1
+/// Veri bulunamadı istisnası
 class BulunamadiIstisnasi implements Exception {
   final String mesaj;
-  const BulunamadiIstisnasi({this.mesaj = 'Veri bulunamad1'});
+  const BulunamadiIstisnasi({this.mesaj = 'Veri bulunamadı'});
 
   @override
   String toString() => 'BulunamadiIstisnasi: $mesaj';
 }
 
-/// Yerel depolama istisnas1
+/// Yerel depolama istisnası
 class DepolamaIstisnasi implements Exception {
   final String mesaj;
-  const DepolamaIstisnasi({this.mesaj = 'Depolama hatas1'});
+  const DepolamaIstisnasi({this.mesaj = 'Depolama hatası'});
 
   @override
   String toString() => 'DepolamaIstisnasi: $mesaj';
 }
 
-/// Plan oluşturma istisnas1
+/// Plan oluşturma istisnası
 class PlanIstisnasi implements Exception {
   final String mesaj;
-  const PlanIstisnasi({this.mesaj = 'Plan oluşturulamad1'});
+  const PlanIstisnasi({this.mesaj = 'Plan oluşturulamadı'});
 
   @override
   String toString() => 'PlanIstisnasi: $mesaj';

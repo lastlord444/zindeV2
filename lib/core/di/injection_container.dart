@@ -1,5 +1,5 @@
 // lib/core/di/injection_container.dart
-// Dependency Injection - get_it ile servis kayd1
+// Dependency Injection - get_it ile servis kaydı
 
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -17,6 +17,7 @@ import '../../data/datasources/remote/supabase_meal_datasource.dart';
 // Data - Repositories
 import '../../data/repositories/user_repository_impl.dart';
 import '../../data/repositories/meal_plan_repository_impl.dart';
+import '../../data/repositories/meal_repository_impl.dart';
 
 // Domain - Repositories
 import '../../domain/repositories/user_repository.dart';
@@ -40,14 +41,13 @@ import '../../domain/usecases/analytics/generate_shopping_list.dart';
 import '../../presentation/bloc/home/home_bloc.dart';
 import '../../presentation/bloc/profil/profil_bloc.dart';
 
-// Yemek havuzu - yerel veri kaynaklar1
-import '../../data/repositories/meal_repository_impl.dart';
+// Yemek havuzu - yerel veri kaynakları
 import '../../data/repositories/workout_repository_impl.dart';
 import '../../data/repositories/analytics_repository_impl.dart';
 
 final sl = GetIt.instance;
 
-/// Tüm bağımlılıklar1 kaydet
+/// Tüm bağımlılıkları kaydet
 Future<void> initDependencies() async {
   AppLogger.bilgi('🔧 Bağımlılıklar başlatılıyor...');
 
@@ -104,7 +104,7 @@ Future<void> initDependencies() async {
     ),
   );
 
-  // ─── Use Cases (repository bağıml1) ──────────────────────────────────────
+  // ─── Use Cases (repository bağımlı) ──────────────────────────────────────
   sl.registerLazySingleton<GetUserProfile>(
       () => GetUserProfile(sl<UserRepository>()));
   sl.registerLazySingleton<UpdateUserProfile>(
@@ -140,5 +140,5 @@ Future<void> initDependencies() async {
     ),
   );
 
-  AppLogger.bilgi('✅ Tüm bağımlılıklar başlatıld1');
+  AppLogger.bilgi('✅ Tüm bağımlılıklar başlatıldı');
 }

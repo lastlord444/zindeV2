@@ -13,7 +13,6 @@ import '../repositories/meal_repository.dart';
 import '../../core/errors/failures.dart';
 import '../../core/utils/logger.dart';
 import 'meal_optimizer.dart';
-import '../../core/utils/logger.dart';
 
 /// Sirkadiyen Geri Bildirim Servisi
 /// 

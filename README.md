@@ -1,4 +1,4 @@
-f# ZindeAI v2.0
+# ZindeAI v2.0
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.24+-02569B?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)
@@ -37,21 +37,34 @@ Yapay zeka destekli kişisel antrenör ve diyetisyen uygulaması. Kullanıcılar
 ```
 lib/
 ├── core/                    # Temel bileşenler
-│   ├── network/            # Ağ yapılandırması
-│   ├── services/           # AI servisleri (Pollinations)
-│   └── utils/              # Logger, validators, formatters
-├── data/                   # Veri katmanı
-│   ├── datasources/        # Local & Remote veri kaynakları
-│   └── repositories/       # Repository implementasyonları
-├── domain/                 # İş mantığı katmanı
-│   ├── entities/           # Domain modelleri
-│   ├── repositories/       # Repository arayüzleri
-│   ├── services/           # Domain servisleri
-│   └── usecases/           # Kullanım durumları
-└── presentation/           # UI katmanı
-    ├── bloc/              # BLoC state yönetimi
-    ├── pages/             # Sayfalar
-    └── widgets/           # Yeniden kullanılabilir widget'lar
+│   ├── config/              # Uygulama ve Supabase yapılandırması
+│   ├── di/                  # Dependency Injection (GetIt)
+│   ├── errors/              # Failure ve Exception sınıfları
+│   ├── network/             # Ağ bağlantı kontrolü
+│   ├── services/            # AI servisleri (Pollinations)
+│   └── utils/               # Logger, validators, formatters
+├── data/                    # Veri katmanı
+│   ├── datasources/         # Local & Remote veri kaynakları
+│   │   ├── local/           # SharedPreferences veri kaynağı
+│   │   └── remote/          # Supabase veri kaynakları
+│   └── repositories/        # Repository implementasyonları
+├── domain/                  # İş mantığı katmanı
+│   ├── entities/            # Domain modelleri
+│   │   ├── analytics/       # Haftalık rapor, alışveriş listesi
+│   │   ├── nutrition/       # Yemek, makro hedefleri, günlük plan
+│   │   ├── user/            # Kullanıcı profili, hedef
+│   │   └── workout/         # Antrenman planı, egzersiz
+│   ├── repositories/        # Repository arayüzleri
+│   ├── services/            # Domain servisleri (optimizer, makro, vs.)
+│   └── usecases/            # Kullanım durumları
+│       ├── analytics/       # Rapor, alışveriş listesi
+│       ├── meal_planning/   # Plan oluşturma, alternatifler
+│       ├── user/            # Profil, makro hesaplama
+│       └── workout/         # Antrenman programları
+└── presentation/            # UI katmanı
+    ├── bloc/                # BLoC state yönetimi
+    ├── pages/               # Sayfalar
+    └── widgets/             # Yeniden kullanılabilir widget'lar
 ```
 
 ## 🚀 Kurulum

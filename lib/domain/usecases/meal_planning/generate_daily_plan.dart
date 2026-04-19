@@ -232,13 +232,18 @@ try {
         // Malzemeleri ölçekle
         final olceklenenMalzemeler = _scaleMalzemeler(enIyiYemek.malzemeler, clampedRatio);
 
-        // Gerçek makroları hesapla
-        final gercekKalori = enIyiYemek.kalori * clampedRatio;
-        final gercekProtein = enIyiYemek.protein * clampedRatio;
-        final gercekKarb = enIyiYemek.karbonhidrat * clampedRatio;
-        final gercekYag = enIyiYemek.yag * clampedRatio;
+        // 🔥 KRİTİK FIX: Malzeme yuvarlaması sonrası gerçek effective ratio hesapla
+        // Malzeme miktarları yuvarlandığı için makrolar da buna uymalı (besin ↔ makro tutarlılığı)
+        final effectiveRatio = _computeEffectiveRatio(
+            enIyiYemek.malzemeler, olceklenenMalzemeler, clampedRatio);
 
-        print('   ✅ Ölçeklenmiş: ${gercekKalori.toStringAsFixed(0)}kcal, P:${gercekProtein.toStringAsFixed(1)}g, K:${gercekKarb.toStringAsFixed(1)}g, Y:${gercekYag.toStringAsFixed(1)}g');
+        // Gerçek makroları EFFECTIVE RATIO ile hesapla (malzemelerle birebir uyumlu)
+        final gercekKalori = enIyiYemek.kalori * effectiveRatio;
+        final gercekProtein = enIyiYemek.protein * effectiveRatio;
+        final gercekKarb = enIyiYemek.karbonhidrat * effectiveRatio;
+        final gercekYag = enIyiYemek.yag * effectiveRatio;
+
+        print('   ✅ Ölçeklenmiş (effective=${effectiveRatio.toStringAsFixed(3)}): ${gercekKalori.toStringAsFixed(0)}kcal, P:${gercekProtein.toStringAsFixed(1)}g, K:${gercekKarb.toStringAsFixed(1)}g, Y:${gercekYag.toStringAsFixed(1)}g');
 
         final olceklenmisYemek = Yemek(
           id: '${enIyiYemek.id}_v7_${DateTime.now().millisecondsSinceEpoch}',
@@ -252,7 +257,7 @@ try {
           hazirlamaSuresi: enIyiYemek.hazirlamaSuresi,
           zorluk: enIyiYemek.zorluk,
           etiketler: enIyiYemek.etiketler,
-          baseWeightG: enIyiYemek.baseWeightG * clampedRatio,
+          baseWeightG: enIyiYemek.baseWeightG * effectiveRatio,
           minMultiplier: 1.0,
           maxMultiplier: 1.0,
           unitName: 'porsiyon',
@@ -273,20 +278,23 @@ try {
         final alternatifYemekler = alternatifler.map((alt) {
           final altRatio = oKalori / alt.kalori;
           final altClamped = altRatio.clamp(0.3, 4.0);
+          final altMalzemeler = _scaleMalzemeler(alt.malzemeler, altClamped);
+          final altEffective = _computeEffectiveRatio(
+              alt.malzemeler, altMalzemeler, altClamped);
           return Yemek(
             id: '${alt.id}_alt_${DateTime.now().millisecondsSinceEpoch}_${alternatifler.indexOf(alt)}',
             ad: alt.ad,
             ogun: _mapOgunTipi(ogunAdi),
-            kalori: alt.kalori * altClamped,
-            protein: alt.protein * altClamped,
-            karbonhidrat: alt.karbonhidrat * altClamped,
-            yag: alt.yag * altClamped,
-            malzemeler: _scaleMalzemeler(alt.malzemeler, altClamped),
+            kalori: alt.kalori * altEffective,
+            protein: alt.protein * altEffective,
+            karbonhidrat: alt.karbonhidrat * altEffective,
+            yag: alt.yag * altEffective,
+            malzemeler: altMalzemeler,
             alternatifler: const [],
             hazirlamaSuresi: alt.hazirlamaSuresi,
             zorluk: alt.zorluk,
             etiketler: alt.etiketler,
-            baseWeightG: alt.baseWeightG * altClamped,
+            baseWeightG: alt.baseWeightG * altEffective,
             dominantMacro: alt.dominantMacro,
             minMultiplier: 1.0,
             maxMultiplier: 1.0,
@@ -437,19 +445,22 @@ try {
               yeniEnIyi.minMultiplier > 0 ? yeniEnIyi.minMultiplier : 0.3,
               yeniEnIyi.maxMultiplier > 0 ? yeniEnIyi.maxMultiplier : 4.0,
             );
+            final retryMalzemeler = _scaleMalzemeler(yeniEnIyi.malzemeler, r);
+            final retryEffective = _computeEffectiveRatio(
+                yeniEnIyi.malzemeler, retryMalzemeler, r);
             uretilenOgunler[enSapanOgun] = Yemek(
               id: '${yeniEnIyi.id}_v7_${DateTime.now().millisecondsSinceEpoch}',
               ad: yeniEnIyi.ad,
               ogun: _mapOgunTipi(enSapanOgun),
-              kalori: yeniEnIyi.kalori * r,
-              protein: yeniEnIyi.protein * r,
-              karbonhidrat: yeniEnIyi.karbonhidrat * r,
-              yag: yeniEnIyi.yag * r,
-              malzemeler: _scaleMalzemeler(yeniEnIyi.malzemeler, r),
+              kalori: yeniEnIyi.kalori * retryEffective,
+              protein: yeniEnIyi.protein * retryEffective,
+              karbonhidrat: yeniEnIyi.karbonhidrat * retryEffective,
+              yag: yeniEnIyi.yag * retryEffective,
+              malzemeler: retryMalzemeler,
               hazirlamaSuresi: yeniEnIyi.hazirlamaSuresi,
               zorluk: yeniEnIyi.zorluk,
               etiketler: yeniEnIyi.etiketler,
-              baseWeightG: yeniEnIyi.baseWeightG * r,
+              baseWeightG: yeniEnIyi.baseWeightG * retryEffective,
               minMultiplier: 1.0,
               maxMultiplier: 1.0,
               unitName: 'porsiyon',
@@ -904,6 +915,48 @@ try {
   bool _isGramVeyaMl(String kalanLower) {
     return kalanLower.startsWith('g ') || kalanLower == 'g' ||
            kalanLower.startsWith('ml ') || kalanLower == 'ml';
+  }
+
+  // ─── 🔥 Effective Ratio Hesaplama (Besin ↔ Makro Tutarlılığı) ──────────
+
+  /// Malzeme metninden ilk sayısal değeri çıkarır (kesirli format dahil)
+  double? _extractNumber(String text) {
+    final trimmed = text.trim();
+    final match = RegExp(r'^(\d+(?:[.,/]\d+)?)').firstMatch(trimmed);
+    if (match == null) return null;
+    final str = match.group(1)!;
+    if (str.contains('/')) {
+      final parts = str.split('/');
+      final pay = double.tryParse(parts[0]) ?? 0;
+      final payda = double.tryParse(parts[1]) ?? 1;
+      return payda != 0 ? pay / payda : null;
+    }
+    return double.tryParse(str.replaceAll(',', '.'));
+  }
+
+  /// 🔥 Malzeme yuvarlama sonrası gerçek effective ratio hesaplama
+  /// Orijinal ve ölçeklenmiş malzeme listelerini karşılaştırarak
+  /// malzeme miktarlarıyla tutarlı bir çarpan döndürür.
+  /// Bu sayede gösterilen besinler ile makro değerleri birebir uyuşur.
+  double _computeEffectiveRatio(
+      List<String> original, List<String> scaled, double fallbackRatio) {
+    double sumRatios = 0;
+    int count = 0;
+
+    for (int i = 0; i < original.length && i < scaled.length; i++) {
+      final origNum = _extractNumber(original[i]);
+      final scaledNum = _extractNumber(scaled[i]);
+
+      if (origNum == null || origNum <= 0 || scaledNum == null || scaledNum <= 0) {
+        continue;
+      }
+
+      sumRatios += scaledNum / origNum;
+      count++;
+    }
+
+    if (count == 0) return fallbackRatio;
+    return sumRatios / count;
   }
 
   /// Yumurta bazlı yemek mi? (malzeme veya etiketlerde yumurta aranır)

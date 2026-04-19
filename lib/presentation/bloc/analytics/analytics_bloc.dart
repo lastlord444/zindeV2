@@ -26,7 +26,7 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
   Future<void> _onLoadWeeklyAnalytics(
       LoadWeeklyAnalytics event, Emitter<AnalyticsState> emit) async {
     if (_userId == null) {
-      emit(const AnalyticsHata('Kullanıc1 oturumu bulunamad1'));
+      emit(const AnalyticsHata('Kullanıcı oturumu bulunamadı'));
       return;
     }
     emit(const AnalyticsYukleniyor());

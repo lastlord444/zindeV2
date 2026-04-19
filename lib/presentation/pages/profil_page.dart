@@ -6,7 +6,7 @@ import '../../domain/entities/user/hedef.dart';
 import '../../domain/entities/user/kullanici_profili.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../../domain/usecases/user/update_user_profile.dart';
-import '../../core/utils/app_logger.dart';
+import '../../core/utils/logger.dart';
 
 class ProfilPage extends StatefulWidget {
   final VoidCallback? onProfilKaydedildi; // Profil kaydedilince callback

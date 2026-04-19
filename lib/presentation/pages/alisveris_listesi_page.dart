@@ -46,13 +46,13 @@ class _AlisverisListesiPageState extends State<AlisverisListesiPage> {
     });
 
     try {
-      // Kullanıc1 profilini UserRepository'den al
+      // Kullanıcı profilini UserRepository'den al
       final kullanici = await _userRepo.onbellektenProfilGetir();
       if (kullanici == null) {
-        throw Exception('Kullanıc1 profili bulunamad1');
+        throw Exception('Kullanıcı profili bulunamadı');
       }
 
-      // Haftanın ba_langıcın1 hesapla (Pazartesi)
+      // Haftanın başlangıcını hesapla (Pazartesi)
       final haftaBaslangici = _haftaBaslangiciHesapla(_secilenTarih);
 
       // Alışveriş listesini oluştur
