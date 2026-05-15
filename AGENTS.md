@@ -11,3 +11,10 @@
   - GPT mentor tarafından review edilmeden hiçbir PR merge edilemez.
 - **Raporlama:** Türkçe raporlama zorunludur.
 - **Önkoşul:** Her görevden önce `docs/ai` klasöründeki dosyalar okunmalıdır.
+- Her büyük değişiklikte ZindeMentor protokolü uygulanır.
+- Değişiklik önce sınıflandırılır:
+  - DB / schema / validator / CI / backend / Supabase / Edge Function / kod mimarisi → önce Sonnet
+  - ürün vizyonu / UX / ekran akışı / metin / kavram / kural sadeleştirme → önce Opus
+  - dış dünya araştırması / rakip / best-practice / açık kaynak repo inceleme → önce Gemini
+- Karma işlerde önce en riskli teknik taraf Sonnet’e sorulur, sonra ürün/UX için Opus’a gidilir.
+- GPT mentor final karar verene kadar PR merge edilmez.

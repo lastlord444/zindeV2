@@ -13,3 +13,42 @@
 - Açılan PR ajanlar tarafından **merge edilmeyecektir**.
 - Kullanıcı (Mehmet) PR linkini GPT mentora gönderecektir.
 - GPT mentor onay vermeden hiçbir şekilde merge işlemi yapılmayacaktır.
+
+## ZindeMentor Değişiklik Sınıflandırma Protokolü
+
+Her yeni değişiklik isteğinde önce şu sınıflandırma yapılır:
+
+1. Teknik/Kod/DB ise:
+   - Supabase/Postgres
+   - migration
+   - RLS
+   - RPC
+   - Edge Function
+   - validator
+   - CI
+   - Flutter mimari
+   - test/gate
+   → İlk uzman: Sonnet
+
+2. Ürün/UX ise:
+   - ekran akışı
+   - meal card düzeni
+   - Coach Center
+   - kullanıcı dili
+   - onboarding
+   - özellik sadeleştirme
+   - roadmap
+   → İlk uzman: Opus
+
+3. Araştırma ise:
+   - rakip app analizi
+   - diet/fitness app best-practice
+   - açık kaynak repo karşılaştırması
+   - güncel teknoloji araştırması
+   → İlk uzman: Gemini
+
+4. Karma iş ise:
+   - önce riskli teknik taraf Sonnet
+   - sonra ürün akışı Opus
+   - gerekirse araştırma Gemini
+   - final karar GPT mentor

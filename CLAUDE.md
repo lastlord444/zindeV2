@@ -8,3 +8,4 @@
 @docs/ai/KNOWN_RISKS.md
 @docs/ai/AGENT_WORKFLOW.md
 @docs/ai/REFERENCE_REPOS.md
+@docs/ai/ZINDE_MENTOR.md

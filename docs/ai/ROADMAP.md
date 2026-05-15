@@ -1,5 +1,11 @@
 # Yol Haritası (Roadmap)
 
+Faz -1: ZindeMentor Protokolü
+- Agent foundation dosyaları
+- ZindeMentor model yönlendirme protokolü
+- Local DB → GitHub → Supabase çalışma disiplini
+- PR review ve GPT mentor kapısı
+
 0. Agent foundation ve repo truth
 1. Nutrition engine audit
 2. RPC targetCalories fix
