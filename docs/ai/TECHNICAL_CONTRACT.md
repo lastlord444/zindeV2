@@ -1,0 +1,21 @@
+# Teknik Kontrat (Technical Contract)
+
+- **Makro Hesaplama:** AI kesinlikle makro hesaplamaz. DB + optimizer + validator makro hesaplamalarını yapar.
+- **Plan Üretimi:** Plan üretimi tamamen deterministic olmalıdır.
+- **Validasyon:** Plan hedef dışıysa (tolerans değerlerinin dışındaysa) valid sayılmamalıdır.
+- **Öğün Yapısı:** 
+  - Her öğün mutlaka **1 ana + 2 alternatif** desteklemelidir.
+  - Ara öğünler de bu kurala (1 ana + 2 alternatif) DAHİLDİR.
+  - Alternatifler kesinlikle makro olarak birbirine denk olmalıdır.
+- **Meal Type Contract:** Sistemde kullanılan geçerli öğün tipleri şunlardır:
+  - `kahvalti`
+  - `ara_ogun_1`
+  - `ogle`
+  - `ara_ogun_2`
+  - `aksam`
+  - `gece_atistirmasi`
+- **Bilinen Riskler & Kurallar:**
+  - `gece_atistirma` / `gece_atistirmasi` isimlendirme farkı bilinen bir risktir.
+  - `get_best_fit_foods` içindeki 500 kcal sabiti bilinen bir risktir.
+  - `targetCalories` doğrudan RPC'ye gitmelidir.
+  - Mobil app içinde kesinlikle LLM API key tutulamaz.
