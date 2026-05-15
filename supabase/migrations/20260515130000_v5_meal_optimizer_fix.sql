@@ -3,11 +3,27 @@
 -- Unifies 'gece_atistirma' vs 'gece_atistirmasi' to the canonical 'gece_atistirmasi'
 
 -- 1. Rename column in daily_meal_plans
-ALTER TABLE public.daily_meal_plans RENAME COLUMN gece_atistirma TO gece_atistirmasi;
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'daily_meal_plans' AND column_name = 'gece_atistirma'
+    ) AND NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'daily_meal_plans' AND column_name = 'gece_atistirmasi'
+    ) THEN
+        ALTER TABLE public.daily_meal_plans RENAME COLUMN gece_atistirma TO gece_atistirmasi;
+    END IF;
+END $$;
 
 -- 2. Update existing data in user_meal_logs and foods
 UPDATE public.user_meal_logs SET meal_type = 'gece_atistirmasi' WHERE meal_type = 'gece_atistirma';
-UPDATE public.foods SET meal_type = 'gece_atistirmasi' WHERE meal_type = 'gece_atistirma';
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'foods') THEN
+        UPDATE public.foods SET meal_type = 'gece_atistirmasi' WHERE meal_type = 'gece_atistirma';
+    END IF;
+END $$;
 
 -- 3. Fix user_meal_logs constraints
 ALTER TABLE public.user_meal_logs DROP CONSTRAINT IF EXISTS user_meal_logs_meal_type_check;
@@ -121,7 +137,7 @@ BEGIN
             END AS f_ratio
         FROM public.foods f
         WHERE f.meal_type = p_meal_type
-          AND (p_blacklist_array IS NULL OR f.id = ANY(p_blacklist_array)) = FALSE
+          AND NOT (f.id = ANY(COALESCE(p_blacklist_array, ARRAY[]::TEXT[])))
           AND f.active = TRUE
     ),
     distances AS (

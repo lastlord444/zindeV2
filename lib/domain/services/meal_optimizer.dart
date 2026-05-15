@@ -97,7 +97,7 @@ class MealOptimizer {
         'p_target_c_ratio': targetCRatio,
         'p_target_f_ratio': targetFRatio,
         'p_meal_type': Yemek.ogunTipiFromString(mealType).canonicalName,
-        'p_blacklist_array': blacklistIds.isEmpty ? null : blacklistIds,
+        'p_blacklist_array': blacklistIds,
         'p_limit': 3,
       },
     );
