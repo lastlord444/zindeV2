@@ -239,7 +239,7 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
       ogleYemegi: parseYemek(data['ogle']),
       araOgun2: parseYemek(data['ara_ogun_2']),
       aksamYemegi: parseYemek(data['aksam']),
-      geceAtistirma: parseYemek(data['gece_atistirma']),
+      geceAtistirma: parseYemek(data['gece_atistirmasi'] ?? data['gece_atistirma']),
       ogunDurumlari: parseOgunDurumlari(data['ogun_durumlari'] ?? data['tamamlanan_ogunler']),
     );
   }
@@ -260,7 +260,7 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
       'ogle': plan.ogleYemegi?.toJson(),
       'ara_ogun_2': plan.araOgun2?.toJson(),
       'aksam': plan.aksamYemegi?.toJson(),
-      'gece_atistirma': plan.geceAtistirma?.toJson(),
+      'gece_atistirmasi': plan.geceAtistirma?.toJson(),
       'hedefler': plan.hedefler.toJson(),
       // V2 format: string durumları kaydet (V1 tamamlanan_ogunler alanına)
       'tamamlanan_ogunler': encodedOgunDurumlari,

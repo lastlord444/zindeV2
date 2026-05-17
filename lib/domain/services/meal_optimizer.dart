@@ -92,11 +92,12 @@ class MealOptimizer {
     final List<dynamic> rpcResult = await _supabase.rpc(
       'get_best_fit_foods',
       params: {
+        'p_target_calories': targetCalories,
         'p_target_p_ratio': targetPRatio,
         'p_target_c_ratio': targetCRatio,
         'p_target_f_ratio': targetFRatio,
-        'p_meal_type': mealType,
-        'p_blacklist_array': blacklistIds.isEmpty ? null : blacklistIds,
+        'p_meal_type': Yemek.ogunTipiFromString(mealType).canonicalName,
+        'p_blacklist_array': blacklistIds,
         'p_limit': 3,
       },
     );

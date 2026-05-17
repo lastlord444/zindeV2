@@ -18,6 +18,18 @@ enum OgunTipi {
   final String emoji;
 
   const OgunTipi(this.ad, this.emoji);
+
+  String get canonicalName {
+    switch (this) {
+      case OgunTipi.kahvalti: return 'kahvalti';
+      case OgunTipi.araOgun1: return 'ara_ogun_1';
+      case OgunTipi.ogle: return 'ogle';
+      case OgunTipi.araOgun2: return 'ara_ogun_2';
+      case OgunTipi.aksam: return 'aksam';
+      case OgunTipi.geceAtistirma: return 'gece_atistirmasi';
+      case OgunTipi.cheatMeal: return 'cheat_meal';
+    }
+  }
 }
 
 /// Yemek hazırlama zorluk seviyesi
