@@ -174,6 +174,10 @@ class MealOptimizer {
     final List<Yemek> alternatives =
         altCandidates.map((c) => _candidateToYemek(c, mealType)).toList();
 
+    if (alternatives.length < 2) {
+      throw Exception('Yeterli alternatif bulunamadı ($mealType). Bulunan: ${alternatives.length}, İstenen: 2. Alternatif Hard Gate devrede.');
+    }
+
     final result = MealOptimizationResult(
       mainMeal: mainYemek,
       alternatives: alternatives,

@@ -274,6 +274,13 @@ try {
           hedefYag: oYag,
         );
 
+        // HARD GATE: Alternatif sayısı kontrolü
+        if (alternatifler.length < 2) {
+          final msg = 'Yeterli alternatif bulunamadı ($ogunAdi). Bulunan: ${alternatifler.length}, İstenen: 2. Plan iptal edildi.';
+          AppLogger.hata('Alternatif Hatası', Exception(msg));
+          return Left(PlanHatasi(msg));
+        }
+
         // Alternatif yemekleri oluştur
         final alternatifYemekler = alternatifler.map((alt) {
           final altRatio = oKalori / alt.kalori;
@@ -448,6 +455,50 @@ try {
             final retryMalzemeler = _scaleMalzemeler(yeniEnIyi.malzemeler, r);
             final retryEffective = _computeEffectiveRatio(
                 yeniEnIyi.malzemeler, retryMalzemeler, r);
+
+            final yeniAlternatifler = _bulAlternatifler(
+              adayYemekler: retryAdaylar,
+              secilenYemek: yeniEnIyi,
+              hedefKalori: yeniKalanKal,
+              hedefProtein: yeniKalanP,
+              hedefKarb: yeniKalanK,
+              hedefYag: yeniKalanY,
+            );
+
+            if (yeniAlternatifler.length < 2) {
+              final msg = 'Retry: Yeterli alternatif bulunamadı ($enSapanOgun). Bulunan: ${yeniAlternatifler.length}, İstenen: 2. Plan iptal edildi.';
+              AppLogger.hata('Alternatif Hatası', Exception(msg));
+              return Left(PlanHatasi(msg));
+            }
+
+            final alternatifYemekler = yeniAlternatifler.map((alt) {
+              final altRatio = yeniKalanKal / alt.kalori;
+              final altClamped = altRatio.clamp(0.3, 4.0);
+              final altMalzemeler = _scaleMalzemeler(alt.malzemeler, altClamped);
+              final altEffective = _computeEffectiveRatio(
+                  alt.malzemeler, altMalzemeler, altClamped);
+              return Yemek(
+                id: '${alt.id}_alt_${DateTime.now().millisecondsSinceEpoch}_${yeniAlternatifler.indexOf(alt)}',
+                ad: alt.ad,
+                ogun: _mapOgunTipi(enSapanOgun),
+                kalori: alt.kalori * altEffective,
+                protein: alt.protein * altEffective,
+                karbonhidrat: alt.karbonhidrat * altEffective,
+                yag: alt.yag * altEffective,
+                malzemeler: altMalzemeler,
+                alternatifler: const [],
+                hazirlamaSuresi: alt.hazirlamaSuresi,
+                zorluk: alt.zorluk,
+                etiketler: alt.etiketler,
+                baseWeightG: alt.baseWeightG * altEffective,
+                dominantMacro: alt.dominantMacro,
+                minMultiplier: 1.0,
+                maxMultiplier: 1.0,
+                unitName: 'porsiyon',
+                gorselUrl: alt.gorselUrl,
+              );
+            }).toList();
+
             uretilenOgunler[enSapanOgun] = Yemek(
               id: '${yeniEnIyi.id}_v7_${DateTime.now().millisecondsSinceEpoch}',
               ad: yeniEnIyi.ad,
@@ -457,6 +508,7 @@ try {
               karbonhidrat: yeniEnIyi.karbonhidrat * retryEffective,
               yag: yeniEnIyi.yag * retryEffective,
               malzemeler: retryMalzemeler,
+              alternatifYemekler: alternatifYemekler,
               hazirlamaSuresi: yeniEnIyi.hazirlamaSuresi,
               zorluk: yeniEnIyi.zorluk,
               etiketler: yeniEnIyi.etiketler,
@@ -480,6 +532,23 @@ try {
         toplamProtein += y.protein;
         toplamKarb += y.karbonhidrat;
         toplamYag += y.yag;
+      }
+
+      final sapmalarSon = <String, double>{
+        'kalori': hedefler.gunlukKalori > 0 ? (toplamKalori - hedefler.gunlukKalori).abs() / hedefler.gunlukKalori : 0,
+        'protein': hedefler.gunlukProtein > 0 ? (toplamProtein - hedefler.gunlukProtein).abs() / hedefler.gunlukProtein : 0,
+        'karb': hedefler.gunlukKarbonhidrat > 0 ? (toplamKarb - hedefler.gunlukKarbonhidrat).abs() / hedefler.gunlukKarbonhidrat : 0,
+        'yag': hedefler.gunlukYag > 0 ? (toplamYag - hedefler.gunlukYag).abs() / hedefler.gunlukYag : 0,
+      };
+
+      final maxSapmaSon = sapmalarSon.values.reduce((a, b) => a > b ? a : b);
+      if (maxSapmaSon > 0.15) {
+        String logMsg = 'Final Validasyon Hatası: ';
+        sapmalarSon.forEach((k, v) {
+          if (v > 0.15) logMsg += '$k makrosu %${(v * 100).toStringAsFixed(1)} saptı. ';
+        });
+        AppLogger.hata('Hard Gate', Exception(logMsg));
+        return Left(PlanHatasi(logMsg.trim()));
       }
 
       final finalPlan = GunlukPlan(
@@ -1023,20 +1092,10 @@ try {
     final secilenCekirdek = _cekirdekBesinler(secilenYemek);
     final maxProtein = NutritionConstraints.maxProteinPerMealG;
 
-    // 1. Seçilen yemeği ve aynı çekirdek besine sahip yemekleri ele
-    final filtrelenmis = adayYemekler.where((y) {
-      if (y.id == secilenYemek.id) return false;
-      final adayCekirdek = _cekirdekBesinler(y);
-      final kesisim = secilenCekirdek.intersection(adayCekirdek);
-      return kesisim.isEmpty; // Çekirdek besin çakışması olmamalı
-    }).toList();
+    final gecerliAdaylar = <MapEntry<Yemek, double>>[];
 
-    if (filtrelenmis.length < 2) return [];
-
-    // 2. Benzersiz protein kaynağı: her kaynaktan max 1 tane
-    final benzersizMap = <String, MapEntry<Yemek, double>>{};
-
-    for (final aday in filtrelenmis) {
+    for (final aday in adayYemekler) {
+      if (aday.id == secilenYemek.id) continue;
       if (aday.kalori <= 0) continue;
       final ratio = hedefKalori / aday.kalori;
       if (ratio < 0.3 || ratio > 4.0) continue;
@@ -1058,15 +1117,35 @@ try {
       final yFark = (tY - hedefYag).abs();
       final skor = pFark * 2.0 + kFark * 1.0 + yFark * 1.5;
 
-      final besinKey = _cekirdekBesinler(aday).join('+');
-      if (!benzersizMap.containsKey(besinKey) || benzersizMap[besinKey]!.value > skor) {
-        benzersizMap[besinKey] = MapEntry(aday, skor);
+      gecerliAdaylar.add(MapEntry(aday, skor));
+    }
+
+    gecerliAdaylar.sort((a, b) => a.value.compareTo(b.value));
+
+    // Çeşitlilik öncelikli (farklı protein kaynakları) seçim yapmaya çalış
+    final secilenler = <Yemek>[];
+    final kullanilanKeyler = <String>{secilenCekirdek.join('+')};
+
+    for (final adayEntry in gecerliAdaylar) {
+      if (secilenler.length >= 2) break;
+      final aday = adayEntry.key;
+      final key = _cekirdekBesinler(aday).join('+');
+      
+      if (key.isEmpty || !kullanilanKeyler.contains(key)) {
+        secilenler.add(aday);
+        if (key.isNotEmpty) kullanilanKeyler.add(key);
       }
     }
 
-    // 3. Skor en düşük 2 FARKLI protein kaynaklı yemeği al
-    final sirali = benzersizMap.values.toList()
-      ..sort((a, b) => a.value.compareTo(b.value));
-    return sirali.take(2).map((e) => e.key).toList();
+    // Eğer 2 alternatif bulamadıysak, çeşitliliği göz ardı edip en iyi skora sahip olanları ekle
+    for (final adayEntry in gecerliAdaylar) {
+      if (secilenler.length >= 2) break;
+      final aday = adayEntry.key;
+      if (!secilenler.any((s) => s.id == aday.id)) {
+        secilenler.add(aday);
+      }
+    }
+
+    return secilenler;
   }
 }
