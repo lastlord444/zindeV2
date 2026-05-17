@@ -64,3 +64,10 @@ Base id'ler ("Fit Pankek" vb.) ID'nin içinde yer almaz. Bu yüzden `getBaseId('
 ## 9. Test/Validator Önerileri
 - **Makro/Malzeme Tutarlılık Testi:** Bir yemek objesindeki malzemelerin gramajları parse edilip standart makrolarla çarpıldığında, yemeğin `.kalori`, `.protein` değerleriyle %10 tolerans içinde eşleştiğini assert eden bir validator script yazılmalı.
 - **Tekrar Testi:** `generate_daily_plan.dart` üst üste 7 gün çalıştırıldığında aynı `base_id`'nin belirlenen limitten (örn. haftada 2) fazla gelmediğini assert eden bir test eklenmeli.
+
+## 10. Diagnostic Test Coverage
+`test/nutrition_seed_diagnostics_test.dart` dosyası içinde eklenen kanıtlayıcı diagnostik testler:
+- **Test 1:** Malzemeler sabitken makroların random değişebilmesi (Synthetic Seed) riskini kanıtlar.
+- **Test 2:** Aynı base yemeğin adjective ile çoğaltılması (Illusion of Variety) riskini kanıtlar.
+- **Test 3:** `getBaseId` mantığının sıralı ID'leri engelleyememesini ve repetition blocker'ın çalışmadığını kanıtlar.
+- **Test 4:** Fit Pankek örneği üzerinden UI'da gösterilen makro değerleri ile gerçek besin değerleri arasında büyük sapma olduğunu doğrular.
