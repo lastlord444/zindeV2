@@ -481,8 +481,8 @@ class DetayliOgunCard extends StatelessWidget {
         yemek.tarif!.contains('(') &&
         yemek.tarif!.contains('g)');
 
-    print('DEBUG: Meal ${yemek.ad} baseWeightG: ${yemek.baseWeightG}');
-    print('DEBUG: malzemeler: ${yemek.malzemeler}');
+//     print('DEBUG: Meal ${yemek.ad} baseWeightG: ${yemek.baseWeightG}');
+//     print('DEBUG: malzemeler: ${yemek.malzemeler}');
 
     if (yemek.malzemeler.isNotEmpty) {
       return _buildMalzemelerListesi(yemek.malzemeler);
@@ -592,7 +592,7 @@ class DetayliOgunCard extends StatelessWidget {
         ),
         Text(
           birim,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 10,
             color: Colors.black54,
           ),
