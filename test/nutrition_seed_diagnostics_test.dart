@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:zinde_ai/domain/entities/nutrition/yemek.dart';
+import 'package:zinde_ai/domain/usecases/meal_planning/generate_daily_plan.dart';
 
 // ZindeV2 içerisindeki gerçek logic'i bozmamak adına diagnostic/kanıt testlerini buraya izole ediyoruz.
 
@@ -88,6 +90,59 @@ void main() {
 
       // Kanıt: UI'da sunulan makrolar gerçek malzemelerin besin değerleriyle
       // kabul edilebilir tolerans (%10-15) içinde örtüşmemektedir.
+    });
+    test('Test 5: Yemek entity normalizedBaseName ile sıfatların temizlenmesi', () {
+      final y1 = Yemek(id: '1', ad: 'Pratik Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay);
+      final y2 = Yemek(id: '2', ad: 'Doyurucu Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay);
+      final y3 = Yemek(id: '3', ad: 'Sağlıklı Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay);
+
+      expect(y1.normalizedBaseName, 'fit-pankek');
+      expect(y2.normalizedBaseName, 'fit-pankek');
+      expect(y3.normalizedBaseName, 'fit-pankek');
+      expect(y1.normalizedBaseName, equals(y2.normalizedBaseName));
+      expect(y2.normalizedBaseName, equals(y3.normalizedBaseName));
+    });
+
+    test('Test 6: Farklı meal_type aynı isimde olsa base key meal_type ile ayrılmalı', () {
+      final y1 = Yemek(id: '1', ad: 'Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay);
+      final y2 = Yemek(id: '2', ad: 'Fit Pankek', ogun: OgunTipi.araOgun1, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay);
+
+      final key1 = GenerateDailyPlan.getMealBaseKey(y1);
+      final key2 = GenerateDailyPlan.getMealBaseKey(y2);
+
+      expect(key1, 'kahvalti:fit-pankek');
+      expect(key2, 'ara_ogun_1:fit-pankek');
+      expect(key1, isNot(equals(key2)));
+    });
+
+    test('Test 7: meal_kahvalti_00001 ve meal_kahvalti_00002 farklı base sanılmamalı', () {
+      final y1 = Yemek(id: 'meal_kahvalti_00001', ad: 'Pratik Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay);
+      final y2 = Yemek(id: 'meal_kahvalti_00002', ad: 'Sağlıklı Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay);
+
+      final key1 = GenerateDailyPlan.getMealBaseKey(y1);
+      final key2 = GenerateDailyPlan.getMealBaseKey(y2);
+
+      // Daha önce Test 3'te sırf ID'ye bakıldığı iin farklı base id dönüyordu.
+      // Şimdi isim normalize edilip base key üretildiği iin aynı kabul edilecekler.
+      expect(key1, equals(key2));
+    });
+    test('Test 8: buildBaseUsageMap ile haftalık kullanım verisinin birleştirilmesi', () {
+      final havuz = [
+        Yemek(id: 'meal_kahvalti_00001', ad: 'Pratik Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay),
+        Yemek(id: 'meal_kahvalti_00002', ad: 'Sağlıklı Fit Pankek', ogun: OgunTipi.kahvalti, kalori: 100, protein: 10, karbonhidrat: 10, yag: 10, malzemeler: const [], hazirlamaSuresi: 10, zorluk: Zorluk.kolay),
+      ];
+
+      final haftalik = {
+        'meal_kahvalti_00001': 1,
+        'meal_kahvalti_00002': 2,
+      };
+
+      final baseKullanimlari = GenerateDailyPlan.buildBaseUsageMap(haftalik, havuz);
+
+      // İki farklı ID olmasına rağmen, her ikisi de kahvalti:fit-pankek base key'ine resolve edilmeli
+      // Toplam kullanım = 1 + 2 = 3 olmalı.
+      expect(baseKullanimlari.length, 1);
+      expect(baseKullanimlari['kahvalti:fit-pankek'], 3);
     });
   });
 }

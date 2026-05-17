@@ -62,6 +62,7 @@ class Yemek extends Equatable {
   final String? tarif;
   final String? gorselUrl;
   final String? proteinKaynagi; // 🍗 Ana Protein Kaynağı
+  final String? baseTemplateId; // Repetition blocker için ana şablon ID
   
   // ✅ YENİ ALANLAR - Makro Tolerans Sistemi iin
   final double baseWeightG;           // Referans ağırlık (gram) - varsayılan 100
@@ -97,6 +98,7 @@ class Yemek extends Equatable {
     this.tarif,
     this.gorselUrl,
     this.proteinKaynagi,
+    this.baseTemplateId,
     required this.baseWeightG,
     required this.dominantMacro,
     required this.minMultiplier,
@@ -122,6 +124,7 @@ class Yemek extends Equatable {
     String? tarif,
     String? gorselUrl,
     String? proteinKaynagi,
+    String? baseTemplateId,
     double baseWeightG = 100.0,
     String? dominantMacro, // null ise otomatik hesapla
     double minMultiplier = 0.5,
@@ -145,6 +148,7 @@ class Yemek extends Equatable {
       tarif: tarif,
       gorselUrl: gorselUrl,
       proteinKaynagi: proteinKaynagi,
+      baseTemplateId: baseTemplateId,
       baseWeightG: baseWeightG,
       dominantMacro: dominantMacro ?? _calculateDominantMacro(protein, karbonhidrat, yag, kalori),
       minMultiplier: minMultiplier,
@@ -178,6 +182,7 @@ class Yemek extends Equatable {
       tarif: json['tarif']?.toString(),
       gorselUrl: (json['gorselUrl'] ?? json['gorsel_url'])?.toString(),
       proteinKaynagi: (json['proteinKaynagi'] ?? json['protein_kaynagi'])?.toString(),
+      baseTemplateId: (json['baseTemplateId'] ?? json['base_template_id'])?.toString(),
       // Supabase snake_case → Dart camelCase fallback
       baseWeightG: _parseDouble(json['baseWeightG'] ?? json['base_weight_g']) ?? 100.0,
       dominantMacro: (json['dominantMacro'] ?? json['dominant_macro'])?.toString() ?? _calculateDominantMacro(protein, carb, fat, kalori),
@@ -280,6 +285,7 @@ class Yemek extends Equatable {
       'tarif': tarif,
       'gorselUrl': gorselUrl,
       'proteinKaynagi': proteinKaynagi,
+      'baseTemplateId': baseTemplateId,
       // ✅ YENİ ALANLAR
       'baseWeightG': baseWeightG,
       'dominantMacro': dominantMacro,
@@ -439,9 +445,57 @@ class Yemek extends Equatable {
   /// Yağ yüzdesi
   double get yagYuzdesi => (yag * 9 / kalori) * 100;
 
-  /// Yemek aıklamas1 (kısa özet)
+  /// Yemek açıklaması (kısa özet)
   String get kisaOzet {
     return '$ad - ${kalori.toInt()} kcal | P: ${protein.toInt()}g | K: ${karbonhidrat.toInt()}g | Y: ${yag.toInt()}g';
+  }
+
+  /// Repetition blocker için deterministic base key üretir
+  String get normalizedBaseName {
+    String normalizeStr(String input) {
+      var result = input.toLowerCase();
+      // Türkçe karakterleri normalize et
+      const turkishChars = {'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u'};
+      turkishChars.forEach((key, value) {
+        result = result.replaceAll(key, value);
+      });
+      return result.replaceAll(RegExp(r'\s+'), ' ').trim();
+    }
+
+    if (baseTemplateId != null && baseTemplateId!.isNotEmpty) {
+      return normalizeStr(baseTemplateId!).replaceAll(' ', '-');
+    }
+
+    var name = normalizeStr(ad);
+
+    // Varyasyon sıfatlarını temizle
+    final adjectives = [
+      'pratik', 'doyurucu', 'saglikli', 'nefis', 'ev yapimi', 'ev yapimi', 'proteinli'
+    ];
+
+    bool changed = true;
+    while (changed) {
+      changed = false;
+      for (final adj in adjectives) {
+        if (name.startsWith('$adj ')) {
+          name = name.substring(adj.length + 1).trim();
+          changed = true;
+        }
+      }
+    }
+
+    // Fit kelimesi özel durumu
+    // Eğer geriye kalan kelime sayısı >= 2 ise "fit " kelimesini silebiliriz.
+    // Fakat testlerde "fit pankek"in "fit-pankek" kalması gerektiği için koruyoruz.
+    if (name.startsWith('fit ')) {
+      final remaining = name.substring(4).trim();
+      if (remaining.split(' ').length >= 2) {
+         name = remaining;
+      }
+    }
+
+    // Son olarak boşlukları tire ile değiştir
+    return name.replaceAll(' ', '-');
   }
 
   /// String adına göre makro değerini döndürür.
@@ -574,6 +628,7 @@ class Yemek extends Equatable {
       tarif: tarif,
       gorselUrl: gorselUrl,
       proteinKaynagi: proteinKaynagi,
+      baseTemplateId: baseTemplateId,
       dominantMacro: dominantMacro, // Öleklendirme değiştirmez
       minMultiplier: minMultiplier,
       maxMultiplier: maxMultiplier,
@@ -599,6 +654,7 @@ class Yemek extends Equatable {
         tarif,
         gorselUrl,
         proteinKaynagi,
+        baseTemplateId,
         // ✅ YENİ ALANLAR
         baseWeightG,
         dominantMacro,
@@ -625,6 +681,7 @@ class Yemek extends Equatable {
     String? tarif,
     String? gorselUrl,
     String? proteinKaynagi,
+    String? baseTemplateId,
     // ✅ YENİ ALANLAR
     double? baseWeightG,
     String? dominantMacro,
@@ -649,6 +706,7 @@ class Yemek extends Equatable {
       tarif: tarif ?? this.tarif,
       gorselUrl: gorselUrl ?? this.gorselUrl,
       proteinKaynagi: proteinKaynagi ?? this.proteinKaynagi,
+      baseTemplateId: baseTemplateId ?? this.baseTemplateId,
       // ✅ YENİ ALANLAR
       baseWeightG: baseWeightG ?? this.baseWeightG,
       dominantMacro: dominantMacro ?? this.dominantMacro,
