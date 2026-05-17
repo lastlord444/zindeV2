@@ -24,7 +24,7 @@ void main() {
             protein: 20,
             karbonhidrat: 40,
             yag: 15,
-            malzemeler: ['Malzeme 1'],
+            malzemeler: const ['Malzeme 1'],
             hazirlamaSuresi: 10,
             zorluk: Zorluk.kolay,
             minMultiplier: 0.5,
@@ -33,7 +33,7 @@ void main() {
         }
       }
 
-      final hedefler = MakroHedefleri(
+      const hedefler = MakroHedefleri(
         gunlukKalori: 2000,
         gunlukProtein: 100,
         gunlukKarbonhidrat: 200,
@@ -78,7 +78,7 @@ void main() {
             protein: 20.0,
             karbonhidrat: 40.0,
             yag: 13.0,
-            malzemeler: ['Malzeme 1'],
+            malzemeler: const ['Malzeme 1'],
             hazirlamaSuresi: 10,
             zorluk: Zorluk.kolay,
             minMultiplier: 0.3,
@@ -88,7 +88,7 @@ void main() {
       }
 
       // 2000 hedeflersek kahvalti 500 olur (ratio = 4.0 gecerli)
-      final hedefler = MakroHedefleri(
+      const hedefler = MakroHedefleri(
         gunlukKalori: 2000,
         gunlukProtein: 100,
         gunlukKarbonhidrat: 200,
