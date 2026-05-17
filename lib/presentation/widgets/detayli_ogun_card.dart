@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/nutrition/yemek.dart';
 import '../../domain/entities/nutrition/yemek_onay_sistemi.dart';
 import '../pages/meal_detail_page.dart';
-// Hero tags i?in
 
-class DetayliOgunCard extends StatelessWidget {
+class DetayliOgunCard extends StatefulWidget {
   final Yemek yemek;
   final YemekDurumu yemekDurumu;
   final VoidCallback? onYedimPressed;
@@ -28,15 +27,92 @@ class DetayliOgunCard extends StatelessWidget {
   });
 
   @override
+  State<DetayliOgunCard> createState() => _DetayliOgunCardState();
+}
+
+class _DetayliOgunCardState extends State<DetayliOgunCard> {
+  Yemek? _secilenAlternatif;
+
+  @override
+  void didUpdateWidget(DetayliOgunCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.yemek.id != widget.yemek.id) {
+      _secilenAlternatif = null;
+    }
+  }
+
+  Yemek get _aktifYemek => _secilenAlternatif ?? widget.yemek;
+
+  void _showAlternatiflerBottomSheet(BuildContext context) {
+    final alternatifler = _aktifYemek.alternatifYemekler.take(2).toList();
+    
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Alternatif Yemekler',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              if (alternatifler.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text('Bu öğün için alternatif bulunamadı.'),
+                )
+              else
+                ...alternatifler.map((altYemek) => ListTile(
+                  title: Text(altYemek.ad, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text('${altYemek.kalori.toStringAsFixed(0)} kcal | P: ${altYemek.protein.toStringAsFixed(0)}g | K: ${altYemek.karbonhidrat.toStringAsFixed(0)}g | Y: ${altYemek.yag.toStringAsFixed(0)}g'),
+                  trailing: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _secilenAlternatif = altYemek;
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Seç'),
+                  ),
+                )),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showNedenBuDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Neden bu?'),
+        content: const Text('Bu öğün günlük hedeflerine yakın kaldığı, protein/kalori dengesini koruduğu ve aynı öğün türünde uygun alternatifler sunduğu için seçildi.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Tamam'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // GestureDetector ile tıklanabilir kart
     return GestureDetector(
       onTap: () {
-        // x?? Meal detail page'e navigate et
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MealDetailPage(yemek: yemek),
+            builder: (context) => MealDetailPage(yemek: _aktifYemek),
           ),
         );
       },
@@ -60,7 +136,6 @@ class DetayliOgunCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Başlık ve öğün tipi
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -81,7 +156,7 @@ class DetayliOgunCard extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            yemek.ogun.emoji,
+                            _aktifYemek.ogun.emoji,
                             style: const TextStyle(fontSize: 20),
                           ),
                         ),
@@ -92,7 +167,7 @@ class DetayliOgunCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              yemek.ogun.ad,
+                              _aktifYemek.ogun.ad,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -100,9 +175,8 @@ class DetayliOgunCard extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 2),
-                            // Yemek adı (Hero olmadan)
                             Text(
-                              yemek.ad,
+                              _aktifYemek.ad,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -143,11 +217,7 @@ class DetayliOgunCard extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                // Malzemeler
                 _buildMalzemeler(),
-
-                // Makro değerler
                 Container(
                   padding: const EdgeInsets.all(16),
                   child: Row(
@@ -155,49 +225,45 @@ class DetayliOgunCard extends StatelessWidget {
                     children: [
                       _buildMakroBadge(
                         '🔥',
-                        yemek.kalori.toStringAsFixed(0),
+                        _aktifYemek.kalori.toStringAsFixed(0),
                         'kcal',
                         Colors.orange,
                       ),
                       _buildMakroBadge(
                         '🥩',
-                        yemek.protein.toStringAsFixed(0),
+                        _aktifYemek.protein.toStringAsFixed(0),
                         'g P',
                         Colors.red,
                       ),
                       _buildMakroBadge(
                         '🥖',
-                        yemek.karbonhidrat.toStringAsFixed(0),
+                        _aktifYemek.karbonhidrat.toStringAsFixed(0),
                         'g K',
                         Colors.amber,
                       ),
                       _buildMakroBadge(
                         '🥑',
-                        yemek.yag.toStringAsFixed(0),
+                        _aktifYemek.yag.toStringAsFixed(0),
                         'g Y',
                         Colors.green,
                       ),
                     ],
                   ),
                 ),
-
-                // Butonlar - 4-State Onay Sistemi
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                   child: Column(
                     children: [
-                      // Ana durum butonları
-                      if (yemekDurumu == YemekDurumu.bekliyor) ...[
+                      if (widget.yemekDurumu == YemekDurumu.bekliyor) ...[
                         Row(
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: onYedimPressed,
+                                onPressed: widget.onYedimPressed,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
                                   foregroundColor: Colors.white,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 14),
+                                  padding: const EdgeInsets.symmetric(vertical: 14),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -222,12 +288,11 @@ class DetayliOgunCard extends StatelessWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: onYemedimPressed,
+                                onPressed: widget.onYemedimPressed,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orange,
                                   foregroundColor: Colors.white,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 14),
+                                  padding: const EdgeInsets.symmetric(vertical: 14),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -251,8 +316,7 @@ class DetayliOgunCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ] else if (yemekDurumu == YemekDurumu.yedi) ...[
-                        // Yendi, onay bekliyor
+                      ] else if (widget.yemekDurumu == YemekDurumu.yedi) ...[
                         Column(
                           children: [
                             Container(
@@ -277,20 +341,18 @@ class DetayliOgunCard extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: ElevatedButton(
-                                    onPressed: onOnayPressed,
+                                    onPressed: widget.onOnayPressed,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.blue,
                                       foregroundColor: Colors.white,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 14),
+                                      padding: const EdgeInsets.symmetric(vertical: 14),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       elevation: 2,
                                     ),
                                     child: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Icon(Icons.verified, size: 18),
                                         SizedBox(width: 8),
@@ -308,19 +370,17 @@ class DetayliOgunCard extends StatelessWidget {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: ElevatedButton(
-                                    onPressed: onSifirlaPressed,
+                                    onPressed: widget.onSifirlaPressed,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.grey.shade400,
                                       foregroundColor: Colors.white,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 14),
+                                      padding: const EdgeInsets.symmetric(vertical: 14),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                     ),
                                     child: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Icon(Icons.undo, size: 18),
                                         SizedBox(width: 8),
@@ -339,8 +399,7 @@ class DetayliOgunCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ] else if (yemekDurumu == YemekDurumu.onaylandi) ...[
-                        // Onaylandı ve kilitlendi
+                      ] else if (widget.yemekDurumu == YemekDurumu.onaylandi) ...[
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
@@ -354,8 +413,7 @@ class DetayliOgunCard extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.lock,
-                                      color: Colors.green, size: 20),
+                                  Icon(Icons.lock, color: Colors.green, size: 20),
                                   SizedBox(width: 8),
                                   Text(
                                     'KİLİTLENDİ',
@@ -379,8 +437,7 @@ class DetayliOgunCard extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ] else if (yemekDurumu == YemekDurumu.ataldi) ...[
-                        // Yemedim durumu
+                      ] else if (widget.yemekDurumu == YemekDurumu.ataldi) ...[
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
@@ -394,8 +451,7 @@ class DetayliOgunCard extends StatelessWidget {
                               const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.thumb_down,
-                                      color: Colors.orange, size: 20),
+                                  Icon(Icons.thumb_down, color: Colors.orange, size: 20),
                                   SizedBox(width: 8),
                                   Text(
                                     'YEMEDİM',
@@ -418,12 +474,11 @@ class DetayliOgunCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 12),
                               ElevatedButton(
-                                onPressed: onSifirlaPressed,
+                                onPressed: widget.onSifirlaPressed,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.grey,
                                   foregroundColor: Colors.white,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -437,34 +492,38 @@ class DetayliOgunCard extends StatelessWidget {
                           ),
                         ),
                       ],
-
-                      // Alternatif yemek butonu - Tüm yemeği değiştir
-                      if (onAlternatifPressed != null) ...[
-                        const SizedBox(height: 12),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton.icon(
-                            onPressed: onAlternatifPressed,
-                            icon: const Icon(Icons.restaurant_menu, size: 18),
-                            label: const Text(
-                              'Farklı Yemek Seç',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () => _showAlternatiflerBottomSheet(context),
+                              icon: const Icon(Icons.swap_horiz, size: 18),
+                              label: const Text('Değiştir', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.purple,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                               ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.purple,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              elevation: 2,
                             ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () => _showNedenBuDialog(context),
+                              icon: const Icon(Icons.help_outline, size: 18),
+                              label: const Text('Neden bu?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.teal,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -474,27 +533,21 @@ class DetayliOgunCard extends StatelessWidget {
     );
   }
 
-  /// Malzemeler bölümünü oluşturan ana widget.
-  /// Tarifte gramaj bilgisi varsa onu, yoksa standart malzeme listesini kullanır.
   Widget _buildMalzemeler() {
-    final bool hasTarifWithGrams = yemek.tarif != null &&
-        yemek.tarif!.contains('(') &&
-        yemek.tarif!.contains('g)');
+    final bool hasTarifWithGrams = _aktifYemek.tarif != null &&
+        _aktifYemek.tarif!.contains('(') &&
+        _aktifYemek.tarif!.contains('g)');
 
-    print('DEBUG: Meal ${yemek.ad} baseWeightG: ${yemek.baseWeightG}');
-    print('DEBUG: malzemeler: ${yemek.malzemeler}');
-
-    if (yemek.malzemeler.isNotEmpty) {
-      return _buildMalzemelerListesi(yemek.malzemeler);
+    if (_aktifYemek.malzemeler.isNotEmpty) {
+      return _buildMalzemelerListesi(_aktifYemek.malzemeler);
     } else if (hasTarifWithGrams) {
-      final parseMalzemeler = _parseMalzemelerFromTarif(yemek.tarif!);
+      final parseMalzemeler = _parseMalzemelerFromTarif(_aktifYemek.tarif!);
       return _buildMalzemelerListesi(parseMalzemeler);
     } else {
-      return const SizedBox.shrink(); // Malzeme yoksa bir şey gösterme
+      return const SizedBox.shrink();
     }
   }
 
-  /// Verilen bir malzeme listesini UI'da gösteren widget.
   Widget _buildMalzemelerListesi(List<String> malzemeler) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -539,17 +592,17 @@ class DetayliOgunCard extends StatelessWidget {
                   ),
                   if (malzemeler.isNotEmpty && !_malzemeMiktarIceriyorMu(malzeme))
                     Text(
-                      '~${(yemek.baseWeightG / malzemeler.length).toStringAsFixed(0)} g',
+                      '~${(_aktifYemek.baseWeightG / malzemeler.length).toStringAsFixed(0)} g',
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.black87,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                  if (onMalzemeAlternatifiPressed != null)
+                  if (widget.onMalzemeAlternatifiPressed != null)
                     InkWell(
-                      onTap: () => onMalzemeAlternatifiPressed!(
-                        yemek,
+                      onTap: () => widget.onMalzemeAlternatifiPressed!(
+                        _aktifYemek,
                         malzeme,
                         index,
                       ),
@@ -559,7 +612,7 @@ class DetayliOgunCard extends StatelessWidget {
                         child: Icon(
                           Icons.swap_horiz,
                           size: 16,
-                          color: _getOgunRengi().withAlpha(180),
+                          color: _getOgunRengi().withValues(alpha: 0.7),
                         ),
                       ),
                     ),
@@ -592,7 +645,7 @@ class DetayliOgunCard extends StatelessWidget {
         ),
         Text(
           birim,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 10,
             color: Colors.black54,
           ),
@@ -601,9 +654,7 @@ class DetayliOgunCard extends StatelessWidget {
     );
   }
 
-  /// Tarif field'ından malzemeleri parse et (gram bilgileriyle)
   List<String> _parseMalzemelerFromTarif(String tarif) {
-    // "lor peyniri (120 g), kinoa (80 g), roka (60 g)" formatın1 parse et
     final malzemeler = tarif
         .split(',')
         .map((m) => m.trim())
@@ -613,7 +664,7 @@ class DetayliOgunCard extends StatelessWidget {
   }
 
   Color _getOgunRengi() {
-    switch (yemek.ogun) {
+    switch (_aktifYemek.ogun) {
       case OgunTipi.kahvalti:
         return Colors.orange;
       case OgunTipi.araOgun1:
@@ -632,7 +683,7 @@ class DetayliOgunCard extends StatelessWidget {
   }
 
   Color _getDurumRengi() {
-    switch (yemekDurumu) {
+    switch (widget.yemekDurumu) {
       case YemekDurumu.bekliyor:
         return Colors.transparent;
       case YemekDurumu.yedi:
@@ -645,7 +696,7 @@ class DetayliOgunCard extends StatelessWidget {
   }
 
   IconData _getDurumIcon() {
-    switch (yemekDurumu) {
+    switch (widget.yemekDurumu) {
       case YemekDurumu.bekliyor:
         return Icons.schedule;
       case YemekDurumu.yedi:
@@ -658,7 +709,7 @@ class DetayliOgunCard extends StatelessWidget {
   }
 
   String _getDurumMetni() {
-    switch (yemekDurumu) {
+    switch (widget.yemekDurumu) {
       case YemekDurumu.bekliyor:
         return 'Bekliyor';
       case YemekDurumu.yedi:
@@ -670,20 +721,14 @@ class DetayliOgunCard extends StatelessWidget {
     }
   }
 
-  /// Malzeme metninde miktar bilgisi olup olmadığını kontrol eder.
-  /// "2 adet Yumurta", "80g Yulaf", "1/2 Avokado", "1 yemek kaşığı Zeytinyağı" gibi
-  /// metinlerde miktar bilgisi VARDIR ve ~Xg tahmini gösterilmemelidir.
   bool _malzemeMiktarIceriyorMu(String malzeme) {
     final lower = malzeme.toLowerCase().trim();
     
-    // Sayı ile başlıyorsa miktar var demektir (ör: "2 adet", "80g", "1/2 Avokado")
     if (RegExp(r'^\d').hasMatch(lower)) return true;
     
-    // Gram bilgisi (ör: "80g", "150 g", "100gr")
     if (RegExp(r'\d+\s*g\b').hasMatch(lower)) return true;
     if (RegExp(r'\d+\s*gr\b').hasMatch(lower)) return true;
     
-    // Türkçe miktar kalıpları
     final miktarKelimeleri = [
       'adet', 'dilim', 'porsiyon', 'bardak', 'kaşığı', 'kaşık',
       'kase', 'demet', 'tutam', 'çay kaşığı', 'yemek kaşığı',
@@ -699,4 +744,3 @@ class DetayliOgunCard extends StatelessWidget {
     return false;
   }
 }
-
