@@ -27,6 +27,41 @@ class GenerateDailyPlan {
     'YK', 'ÇK', 'TK',
   ];
 
+  // Base ID çıkartma fonksiyonu: Varyasyon takılarını uçurup ana yemeği bulur
+  static String getBaseId(String idStr) {
+    var base = idStr;
+    if (base.contains('_v7_')) base = base.split('_v7_').first;
+    if (base.contains('_alt_')) base = base.split('_alt_').first; // Alternatif ID'si
+    if (base.startsWith('v2_') && base.split('_').length >= 3) {
+      final p = base.split('_');
+      if (p.last.length >= 3) return base.substring(0, base.length - 2);
+    }
+    return base;
+  }
+
+  // Yemek objesi üzerinden deterministic base key üreten fonksiyon
+  static String getMealBaseKey(Yemek yemek) {
+    return '${yemek.ogun.canonicalName}:${yemek.normalizedBaseName}';
+  }
+
+  // Haftalık kullanımı base key'lere dönüştüren yardımcı fonksiyon (test edilebilirlik için)
+  static Map<String, int> buildBaseUsageMap(Map<String, int> haftalikKullanilanYemekler, List<Yemek> yemekHavuzu) {
+    final baseKullanimlari = <String, int>{};
+    haftalikKullanilanYemekler.forEach((key, value) {
+      try {
+        final y = yemekHavuzu.firstWhere(
+          (y) => y.id == key || getBaseId(y.id) == getBaseId(key)
+        );
+        final baseKey = getMealBaseKey(y);
+        baseKullanimlari[baseKey] = (baseKullanimlari[baseKey] ?? 0) + value;
+      } catch (_) {
+        // Bulunamazsa fallback olarak eski id formatını kullan
+        baseKullanimlari[getBaseId(key)] = (baseKullanimlari[getBaseId(key)] ?? 0) + value;
+      }
+    });
+    return baseKullanimlari;
+  }
+
   Future<Either<Failure, GunlukPlan>> call({
       required String planId,
       required String userId,
@@ -48,23 +83,8 @@ try {
     return const Left(PlanHatasi('Kısıtlamalarınıza uygun yemek bulunamadı.'));
   }
 
-  // Base ID çıkartma fonksiyonu: Varyasyon takılarını uçurup ana yemeği bulur
-  String getBaseId(String idStr) {
-    var base = idStr;
-    if (base.contains('_v7_')) base = base.split('_v7_').first;
-    if (base.contains('_alt_')) base = base.split('_alt_').first; // Alternatif ID'si
-    if (base.startsWith('v2_') && base.split('_').length >= 3) {
-      final p = base.split('_');
-      if (p.last.length >= 3) return base.substring(0, base.length - 2);
-    }
-    return base;
-  }
-
   // Haftalık kullanım takibini, gelen veriden doldurarak başlat
-  final baseKullanimlari = <String, int>{};
-  haftalikKullanilanYemekler.forEach((key, value) {
-    baseKullanimlari[getBaseId(key)] = (baseKullanimlari[getBaseId(key)] ?? 0) + value;
-  });
+  final baseKullanimlari = buildBaseUsageMap(haftalikKullanilanYemekler, yemekHavuzu);
   
   // Sadece aynı gün içinde tekrar kullanımı önlemek için minik bir takip
   final buPlanKullanimi = <String, int>{};
@@ -113,16 +133,16 @@ try {
         // 1. Önce bu hafta hiç kullanılmayanlar VE bugün kullanılmayanlar
         var adayYemekler = genisHavuz.where((y) =>
             y.ogun == _mapOgunTipi(ogunAdi) &&
-            (baseKullanimlari[getBaseId(y.id)] ?? 0) == 0 &&
-            (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
+            (baseKullanimlari[getMealBaseKey(y)] ?? 0) == 0 &&
+            (buPlanKullanimi[getMealBaseKey(y)] ?? 0) == 0
         ).toList();
 
         // 2. Eğer azsa, 1 kez kullanılanları da dahil et
         if (adayYemekler.length < 10) {
           final onceKullanilan = genisHavuz.where((y) =>
               y.ogun == _mapOgunTipi(ogunAdi) &&
-              (baseKullanimlari[getBaseId(y.id)] ?? 0) <= 1 &&
-              (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
+              (baseKullanimlari[getMealBaseKey(y)] ?? 0) <= 1 &&
+              (buPlanKullanimi[getMealBaseKey(y)] ?? 0) == 0
           ).toList();
           adayYemekler = [...adayYemekler, ...onceKullanilan];
         }
@@ -131,7 +151,7 @@ try {
         if (adayYemekler.length < 5) {
           adayYemekler = genisHavuz.where((y) => 
             y.ogun == _mapOgunTipi(ogunAdi) && 
-            (buPlanKullanimi[getBaseId(y.id)] ?? 0) == 0
+            (buPlanKullanimi[getMealBaseKey(y)] ?? 0) == 0
           ).toList();
         }
         
@@ -198,8 +218,9 @@ try {
         enIyiYemek ??= adayYemekler[random.nextInt(adayYemekler.length)];
 
         // Seçilen yemeği BU PLAN içinde ve HAFTALIK listede tekrar kullanmamak için kaydet
-        buPlanKullanimi[getBaseId(enIyiYemek.id)] = (buPlanKullanimi[getBaseId(enIyiYemek.id)] ?? 0) + 1;
-        baseKullanimlari[getBaseId(enIyiYemek.id)] = (baseKullanimlari[getBaseId(enIyiYemek.id)] ?? 0) + 1;
+        final secilenBaseKey = getMealBaseKey(enIyiYemek);
+        buPlanKullanimi[secilenBaseKey] = (buPlanKullanimi[secilenBaseKey] ?? 0) + 1;
+        baseKullanimlari[secilenBaseKey] = (baseKullanimlari[secilenBaseKey] ?? 0) + 1;
 
         // Ölçekleme oranı - Sabit tolerans yerine veritabanından gelen çarpanlara itaat et
         final ratio = enIyiYemek.kalori > 0 ? oKalori / enIyiYemek.kalori : 1.0;
