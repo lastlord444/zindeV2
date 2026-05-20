@@ -7,34 +7,33 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  analyze_and_test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '17'
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: 'stable'
-        channel: 'stable'
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
 
-    - name: Create dummy .env file
-      run: |
-        echo "SUPABASE_URL=https://dummy.supabase.co" > .env
-        echo "SUPABASE_ANON_KEY=dummy_key" >> .env
+      - name: Create dummy env file
+        run: echo "DUMMY=true" > .env
 
-    - name: Install dependencies
-      run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-    - name: Analyze code
-      run: flutter analyze
+      - name: Run static analysis
+        run: flutter analyze
 
-    - name: Run tests
-      run: flutter test
+      - name: Run unit tests
+        run: flutter test
