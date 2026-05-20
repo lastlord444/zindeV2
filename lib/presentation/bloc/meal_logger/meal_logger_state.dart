@@ -10,7 +10,9 @@ abstract class MealLoggerState extends Equatable {
   List<Object?> get props => [];
 }
 
-class MealLoggerInitial extends MealLoggerState {}
+class MealLoggerInitial extends MealLoggerState {
+  const MealLoggerInitial();
+}
 
 class MealLoggerLoading extends MealLoggerState {
   final String message;

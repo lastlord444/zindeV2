@@ -1,6 +1,5 @@
 // lib/presentation/bloc/meal_logger/meal_logger_event.dart
 
-import '../../domain/entities/nutrition/yemek.dart';
 
 /// Meal Logger BLoC Events
 abstract class MealLoggerEvent {}
