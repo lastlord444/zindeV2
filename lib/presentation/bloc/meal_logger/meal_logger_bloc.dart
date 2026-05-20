@@ -4,7 +4,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/utils/logger.dart';
-import '../../../domain/entities/user/kullanici_profili.dart';
 import '../../../domain/repositories/user_repository.dart';
 import 'meal_logger_event.dart';
 import 'meal_logger_state.dart';
@@ -160,7 +159,7 @@ class MealLoggerBloc extends Bloc<MealLoggerEvent, MealLoggerState> {
       final data = await _supabase
           .from('user_meal_logs')
           .select()
-          .eq('user_id', _currentUserId)
+          .eq('user_id', _currentUserId!)
           .gte('date', _dateToString(event.weekStart))
           .lte('date', _dateToString(weekEnd))
           .order('date', ascending: false);
@@ -168,7 +167,7 @@ class MealLoggerBloc extends Bloc<MealLoggerEvent, MealLoggerState> {
       final Map<String, Map<String, dynamic>> logs = {};
       for (final row in data) {
         final dateStr = row['date']?.toString() ?? '';
-        logs[dateStr] = row as Map<String, dynamic>;
+        logs[dateStr] = row;
       }
 
       emit(MealLoggerLoaded(logs));
