@@ -10,6 +10,7 @@ import '../entities/nutrition/yemek.dart';
 import '../entities/user/kullanici_profili.dart';
 import '../repositories/meal_plan_repository.dart';
 import '../repositories/meal_repository.dart';
+import '../../core/config/nutrition_constraints.dart';
 import '../../core/errors/failures.dart';
 import '../../core/utils/logger.dart';
 import 'meal_optimizer.dart';
@@ -73,7 +74,14 @@ class CircadianFeedbackService {
     );
 
     // 3. Tüm öğünleri yeniden optimize et
-    final Map<String, Yemek?> yenidenOgunler = {};
+    final Map<String, Yemek?> yenidenOgunler = {
+      'kahvalti': mevcutPlan.kahvalti,
+      'araOgun1': mevcutPlan.araOgun1,
+      'ogle': mevcutPlan.ogleYemegi,
+      'araOgun2': mevcutPlan.araOgun2,
+      'aksam': mevcutPlan.aksamYemegi,
+      'geceAtistirma': mevcutPlan.geceAtistirma,
+    };
 
     final ogunlerMap = {
       'kahvalti': mevcutPlan.kahvalti,
@@ -93,15 +101,18 @@ class CircadianFeedbackService {
 
     // Öğün dağılımı (NutritionConstraints'ten)
     final hedef = kullanici.hedef.name;
-    final dagilim = await _getOgunDagilimi(hedef);
+    final dagilim = NutritionConstraints.ogunDagilimGetir(hedef);
 
     for (final entry in ogunlerMap.entries) {
       final ogunAdi = entry.key;
       final mevcutYemek = entry.value;
       if (mevcutYemek == null) continue;
 
-      final yuzde = dagilim[ogunAdi] ?? 0.15;
-      final hedefKalori = ayarlanmisHedefler.gunlukKalori * yuzde;
+      final oran = dagilim[ogunAdi];
+      if (oran == null || oran <= 0) {
+        continue;
+      }
+      final hedefKalori = ayarlanmisHedefler.gunlukKalori * oran;
 
       try {
         final result = await _optimizer.optimize(
@@ -197,18 +208,7 @@ class CircadianFeedbackService {
     );
   }
 
-  /// Öğün dağılımını alır (geçici implementasyon, production'da NutritionConstraints kullan)
-  Future<Map<String, double>> _getOgunDagilimi(String hedef) async {
-    // Basit dağılım — production'da core/config/NutritionConstraints'ten al
-    return {
-      'kahvalti': 0.20,
-      'araOgun1': 0.10,
-      'ogle': 0.30,
-      'araOgun2': 0.10,
-      'aksam': 0.25,
-      'geceAtistirma': 0.05,
-    };
-  }
+
 
   /// Yeni günlük plan oluştur (yardımcı)
   Future<Either<Failure, GunlukPlan>> _createDailyPlan(
