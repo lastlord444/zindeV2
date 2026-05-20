@@ -54,7 +54,7 @@ class CircadianFeedbackService {
         final errorMsg = yeniPlanResult.fold((l) => l.mesaj, (r) => 'Bilinmeyen Hata');
         throw Exception('Plan oluşturulamadı: $errorMsg');
       }
-      mevcutPlan = yeniPlanResult.getOrElse(() => throw Exception('Yeni plan null'))!;
+      mevcutPlan = yeniPlanResult.getOrElse(() => throw Exception('Yeni plan null'));
     }
 
     // 2. Makro hedeflerini klonla ve ayarla
@@ -218,6 +218,6 @@ class CircadianFeedbackService {
   ) async {
     // Bu metod mevcut GenerateDailyPlan use case'ini çağırmalı
     // Şimdilik Left döndür, production'da dependency injection ile yap
-    return Left(BilinmeyenHata('_createDailyPlan implementasyonu için GenerateDailyPlan use case\'ini kullan'));
+    return const Left(BilinmeyenHata('_createDailyPlan implementasyonu için GenerateDailyPlan use case\'ini kullan'));
   }
 }
