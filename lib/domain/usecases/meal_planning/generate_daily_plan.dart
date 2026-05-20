@@ -190,12 +190,16 @@ try {
           final ratio = oKalori / aday.kalori;
           // Yemeğin kendi sınırı varsa ona uy, yoksa 0.3 - 4.0 arası esneklik sağla
           final strictMin = aday.minMultiplier > 0 ? aday.minMultiplier : 0.3;
-          final strictMax = aday.maxMultiplier > 0 ? aday.maxMultiplier : 4.0;
-          if (ratio < strictMin || ratio > strictMax) continue;
+          final strictMaxVal = aday.maxMultiplier > 0 ? aday.maxMultiplier : 4.0;
+          if (ratio < strictMin || ratio > 4.0) continue;
 
-          final tahminiP = aday.protein * ratio;
-          final tahminiK = aday.karbonhidrat * ratio;
-          final tahminiY = aday.yag * ratio;
+          final maxRatioByWeight = (aday.baseWeightG > 0) ? (600.0 / aday.baseWeightG) : strictMaxVal;
+          final strictMax = min(strictMaxVal, maxRatioByWeight);
+          final clampedRatio = ratio.clamp(strictMin, strictMax);
+
+          final tahminiP = aday.protein * clampedRatio;
+          final tahminiK = aday.karbonhidrat * clampedRatio;
+          final tahminiY = aday.yag * clampedRatio;
 
           final pFark = (tahminiP - oProtein).abs();
           final kFark = (tahminiK - oKarb).abs();
@@ -224,10 +228,11 @@ try {
 
         // Ölçekleme oranı - Sabit tolerans yerine veritabanından gelen çarpanlara itaat et
         final ratio = enIyiYemek.kalori > 0 ? oKalori / enIyiYemek.kalori : 1.0;
-        var clampedRatio = ratio.clamp(
-          enIyiYemek.minMultiplier > 0 ? enIyiYemek.minMultiplier : 0.3, 
-          enIyiYemek.maxMultiplier > 0 ? enIyiYemek.maxMultiplier : 4.0
-        );
+        final minR = enIyiYemek.minMultiplier > 0 ? enIyiYemek.minMultiplier : 0.3;
+        final maxRVal = enIyiYemek.maxMultiplier > 0 ? enIyiYemek.maxMultiplier : 4.0;
+        final maxRatioByWeight = (enIyiYemek.baseWeightG > 0) ? (600.0 / enIyiYemek.baseWeightG) : maxRVal;
+        final maxR = min(maxRVal, maxRatioByWeight);
+        var clampedRatio = ratio.clamp(minR, maxR);
 
         // ⭐ Diyetisyen Kuralı: Öğün başı protein yumuşak cap
         // KRİTİK: Protein cap kalori hedefini ASLA ezmemeli.
@@ -255,8 +260,11 @@ try {
 
         // 🔥 KRİTİK FIX: Malzeme yuvarlaması sonrası gerçek effective ratio hesapla
         // Malzeme miktarları yuvarlandığı için makrolar da buna uymalı (besin ↔ makro tutarlılığı)
-        final effectiveRatio = _computeEffectiveRatio(
+        var effectiveRatio = _computeEffectiveRatio(
             enIyiYemek.malzemeler, olceklenenMalzemeler, clampedRatio);
+        if (enIyiYemek.baseWeightG > 0 && enIyiYemek.baseWeightG * effectiveRatio > 600.0) {
+          effectiveRatio = 600.0 / enIyiYemek.baseWeightG;
+        }
 
         // Gerçek makroları EFFECTIVE RATIO ile hesapla (malzemelerle birebir uyumlu)
         final gercekKalori = enIyiYemek.kalori * effectiveRatio;
@@ -305,10 +313,18 @@ try {
         // Alternatif yemekleri oluştur
         final alternatifYemekler = alternatifler.map((alt) {
           final altRatio = oKalori / alt.kalori;
-          final altClamped = altRatio.clamp(0.3, 4.0);
+          final altMin = alt.minMultiplier > 0 ? alt.minMultiplier : 0.3;
+          final altMaxVal = alt.maxMultiplier > 0 ? alt.maxMultiplier : 4.0;
+          final maxRatioByWeight = (alt.baseWeightG > 0) ? (600.0 / alt.baseWeightG) : altMaxVal;
+          final altMax = min(altMaxVal, maxRatioByWeight);
+
+          final altClamped = altRatio.clamp(altMin, altMax);
           final altMalzemeler = _scaleMalzemeler(alt.malzemeler, altClamped);
-          final altEffective = _computeEffectiveRatio(
+          var altEffective = _computeEffectiveRatio(
               alt.malzemeler, altMalzemeler, altClamped);
+          if (alt.baseWeightG > 0 && alt.baseWeightG * altEffective > 600.0) {
+            altEffective = 600.0 / alt.baseWeightG;
+          }
           return Yemek(
             id: '${alt.id}_alt_${DateTime.now().millisecondsSinceEpoch}_${alternatifler.indexOf(alt)}',
             ad: alt.ad,
@@ -460,22 +476,29 @@ try {
             if (aday.kalori <= 0) continue;
             final ratio = yeniKalanKal / aday.kalori;
             final sMin = aday.minMultiplier > 0 ? aday.minMultiplier : 0.3;
-            final sMax = aday.maxMultiplier > 0 ? aday.maxMultiplier : 4.0;
-            if (ratio < sMin || ratio > sMax) continue;
-            final pF = (aday.protein * ratio - yeniKalanP).abs();
-            final kF = (aday.karbonhidrat * ratio - yeniKalanK).abs();
-            final yF = (aday.yag * ratio - yeniKalanY).abs();
+            final sMaxVal = aday.maxMultiplier > 0 ? aday.maxMultiplier : 4.0;
+            if (ratio < sMin || ratio > 4.0) continue;
+            final maxRatioByWeight = (aday.baseWeightG > 0) ? (600.0 / aday.baseWeightG) : sMaxVal;
+            final sMax = min(sMaxVal, maxRatioByWeight);
+            final clampedRatio = ratio.clamp(sMin, sMax);
+            final pF = (aday.protein * clampedRatio - yeniKalanP).abs();
+            final kF = (aday.karbonhidrat * clampedRatio - yeniKalanK).abs();
+            final yF = (aday.yag * clampedRatio - yeniKalanY).abs();
             final s = pF * 2.0 + kF * 1.0 + yF * 1.5;
             if (s < yeniEnIyiSkor) { yeniEnIyiSkor = s; yeniEnIyi = aday; }
           }
           if (yeniEnIyi != null) {
-            final r = (yeniKalanKal / yeniEnIyi.kalori).clamp(
-              yeniEnIyi.minMultiplier > 0 ? yeniEnIyi.minMultiplier : 0.3,
-              yeniEnIyi.maxMultiplier > 0 ? yeniEnIyi.maxMultiplier : 4.0,
-            );
+            final rMin = yeniEnIyi.minMultiplier > 0 ? yeniEnIyi.minMultiplier : 0.3;
+            final rMaxVal = yeniEnIyi.maxMultiplier > 0 ? yeniEnIyi.maxMultiplier : 4.0;
+            final maxRatioByWeight = (yeniEnIyi.baseWeightG > 0) ? (600.0 / yeniEnIyi.baseWeightG) : rMaxVal;
+            final rMax = min(rMaxVal, maxRatioByWeight);
+            final r = (yeniKalanKal / yeniEnIyi.kalori).clamp(rMin, rMax);
             final retryMalzemeler = _scaleMalzemeler(yeniEnIyi.malzemeler, r);
-            final retryEffective = _computeEffectiveRatio(
+            var retryEffective = _computeEffectiveRatio(
                 yeniEnIyi.malzemeler, retryMalzemeler, r);
+            if (yeniEnIyi.baseWeightG > 0 && yeniEnIyi.baseWeightG * retryEffective > 600.0) {
+              retryEffective = 600.0 / yeniEnIyi.baseWeightG;
+            }
 
             final yeniAlternatifler = _bulAlternatifler(
               adayYemekler: retryAdaylar,
@@ -494,10 +517,18 @@ try {
 
             final alternatifYemekler = yeniAlternatifler.map((alt) {
               final altRatio = yeniKalanKal / alt.kalori;
-              final altClamped = altRatio.clamp(0.3, 4.0);
+              final altMin = alt.minMultiplier > 0 ? alt.minMultiplier : 0.3;
+              final altMaxVal = alt.maxMultiplier > 0 ? alt.maxMultiplier : 4.0;
+              final maxRatioByWeight = (alt.baseWeightG > 0) ? (600.0 / alt.baseWeightG) : altMaxVal;
+              final altMax = min(altMaxVal, maxRatioByWeight);
+
+              final altClamped = altRatio.clamp(altMin, altMax);
               final altMalzemeler = _scaleMalzemeler(alt.malzemeler, altClamped);
-              final altEffective = _computeEffectiveRatio(
+              var altEffective = _computeEffectiveRatio(
                   alt.malzemeler, altMalzemeler, altClamped);
+              if (alt.baseWeightG > 0 && alt.baseWeightG * altEffective > 600.0) {
+                altEffective = 600.0 / alt.baseWeightG;
+              }
               return Yemek(
                 id: '${alt.id}_alt_${DateTime.now().millisecondsSinceEpoch}_${yeniAlternatifler.indexOf(alt)}',
                 ad: alt.ad,
@@ -1119,14 +1150,20 @@ try {
       if (aday.id == secilenYemek.id) continue;
       if (aday.kalori <= 0) continue;
       final ratio = hedefKalori / aday.kalori;
-      if (ratio < 0.3 || ratio > 4.0) continue;
+      final altMin = aday.minMultiplier > 0 ? aday.minMultiplier : 0.3;
+      final altMaxVal = aday.maxMultiplier > 0 ? aday.maxMultiplier : 4.0;
+      if (ratio < altMin || ratio > 4.0) continue;
+
+      final maxRatioByWeight = (aday.baseWeightG > 0) ? (600.0 / aday.baseWeightG) : altMaxVal;
+      final altMax = min(altMaxVal, maxRatioByWeight);
+      final clampedRatio = ratio.clamp(altMin, altMax);
 
       // Protein limiti kontrolü
-      final tahminiP = aday.protein * ratio;
-      var effectiveRatio = ratio;
+      final tahminiP = aday.protein * clampedRatio;
+      var effectiveRatio = clampedRatio;
       if (tahminiP > maxProtein && aday.protein > 0) {
         effectiveRatio = maxProtein / aday.protein;
-        if (effectiveRatio < 0.3) continue;
+        if (effectiveRatio < altMin) continue;
       }
 
       final tP = aday.protein * effectiveRatio;
