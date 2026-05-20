@@ -46,14 +46,15 @@ class CircadianFeedbackService {
     final GunlukPlan mevcutPlan;
 
     if (planResult.isRight() && planResult.getOrElse(() => null) != null) {
-      mevcutPlan = planResult.getOrElse(() => throw Exception('Plan null'));
+      mevcutPlan = planResult.getOrElse(() => throw Exception('Plan null'))!;
     } else {
       // Plan yoksa önce oluştur
       final yeniPlanResult = await _createDailyPlan(userId, tarih, kullanici);
       if (yeniPlanResult.isLeft()) {
-        throw Exception('Plan oluşturulamadı: ${yeniPlanResult.swap().mesaj}');
+        final errorMsg = yeniPlanResult.fold((l) => l.mesaj, (r) => 'Bilinmeyen Hata');
+        throw Exception('Plan oluşturulamadı: $errorMsg');
       }
-      mevcutPlan = yeniPlanResult.getOrElse(() => throw Exception('Yeni plan null'));
+      mevcutPlan = yeniPlanResult.getOrElse(() => throw Exception('Yeni plan null'))!;
     }
 
     // 2. Makro hedeflerini klonla ve ayarla
@@ -110,9 +111,9 @@ class CircadianFeedbackService {
           blacklistIds: blacklist,
         );
 
-        yenidenOgunler[ogunAdi] = result.scaledMainMeal;
+        yenidenOgunler[ogunAdi] = result.mainMeal;
         AppLogger.bilgi(
-          '🔄 $ogunAdi: ${mevcutYemek.ad} → ${result.scaledMainMeal.ad} '
+          '🔄 $ogunAdi: ${mevcutYemek.ad} → ${result.mainMeal.ad} '
           '(${result.scaledGrams.toStringAsFixed(1)}g)',
         );
       } catch (e) {
@@ -146,8 +147,8 @@ class CircadianFeedbackService {
 
     final kaydetResult = await _planRepo.gunlukPlanGuncelle(yeniPlan);
     if (kaydetResult.isLeft()) {
-      final hata = kaydetResult.swap();
-      throw Exception('Plan güncellenemedi: ${hata.mesaj}');
+      final errorMsg = kaydetResult.fold((l) => l.mesaj, (r) => 'Bilinmeyen Hata');
+      throw Exception('Plan güncellenemedi: $errorMsg');
     }
 
     AppLogger.bilgi('✅ Sirkadiyen feedback tamamlandı — plan yenilendi');
