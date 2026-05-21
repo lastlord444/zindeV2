@@ -10,11 +10,11 @@ void main() {
       // simulate generate_meals.dart
       final materials = ['1 Yumurta', '50g Yulaf Unu', '100ml Süt', '1 Tatlı Kaşığı Bal'];
       
-      final basePro = 20.0;
+      const basePro = 20.0;
 
       // Fake randomization parameters like in script
-      final pMult1 = 0.8;
-      final pMult2 = 1.4;
+      const pMult1 = 0.8;
+      const pMult2 = 1.4;
 
       final p1 = double.parse((basePro * pMult1).toStringAsFixed(1)); // 16.0
       final p2 = double.parse((basePro * pMult2).toStringAsFixed(1)); // 28.0
@@ -31,7 +31,7 @@ void main() {
     });
 
     test('Test 2: Aynı base yemeğin adjective ile çoğaltılması (Illusion of Variety)', () {
-      final baseTemplate = 'Fit Pankek';
+      const baseTemplate = 'Fit Pankek';
       final adjectives = ['Nefis ', 'Sağlıklı ', 'Pratik '];
 
       final dbEntries = adjectives.map((adj) => adj + baseTemplate).toList();
@@ -58,8 +58,8 @@ void main() {
       }
 
       // Supabase'e eklenen ID formatı
-      final id1 = 'meal_kahvalti_00001';
-      final id2 = 'meal_kahvalti_00002';
+      const id1 = 'meal_kahvalti_00001';
+      const id2 = 'meal_kahvalti_00002';
 
       final baseId1 = getBaseId(id1);
       final baseId2 = getBaseId(id2);
@@ -75,14 +75,14 @@ void main() {
 
     test('Test 4: Fit Pankek örnek yaklaşık hesap ve sapma asersiyonu (Nutritional Reality Check)', () {
       // Gerçek standartlar (Ortalama):
-      final realP = 6.0 + 9.0 + 4.0 + 0.0; // 19.0g
-      final realK = 0.6 + 44.0 + 6.0 + 12.0; // 62.6g
-      final realY = 5.0 + 4.5 + 4.0 + 0.0; // 13.5g
-      final realKcal = (realP * 4) + (realK * 4) + (realY * 9); // ~447 kcal
+      const realP = 6.0 + 9.0 + 4.0 + 0.0; // 19.0g
+      const realK = 0.6 + 44.0 + 6.0 + 12.0; // 62.6g
+      const realY = 5.0 + 4.5 + 4.0 + 0.0; // 13.5g
+      const realKcal = (realP * 4) + (realK * 4) + (realY * 9); // ~447 kcal
 
       // UI'da/Seed'te görünen sentetik değerler:
-      final uiKcal = 567.0;
-      final uiP = 31.0;
+      const uiKcal = 567.0;
+      const uiP = 31.0;
 
       // Farklılıkları assert et (örneğin protein farkı > 10g)
       expect((uiP - realP).abs(), greaterThan(10.0));

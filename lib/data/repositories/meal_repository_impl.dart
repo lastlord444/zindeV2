@@ -1,8 +1,6 @@
 // lib/data/repositories/meal_repository_impl.dart
 // Yemek havuzu - yerel mega_batch dosyalarından yükler
 
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import '../../../core/errors/failures.dart';
 import '../../../core/utils/logger.dart';
@@ -34,7 +32,7 @@ class MealRepositoryImpl implements MealRepository {
       } catch (e) {
         AppLogger.hata('Supabase Yemekleri Yüklenemedi', e);
         _yemekOnbellegi = []; // Fallback empty
-        return Left(SunucuHatasi());
+        return const Left(SunucuHatasi());
       }
       return Right(_yemekOnbellegi!);
     } catch (e) {
