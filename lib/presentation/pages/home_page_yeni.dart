@@ -8,7 +8,6 @@ import '../bloc/home/home_bloc.dart';
 import '../bloc/home/home_event.dart';
 import '../bloc/home/home_state.dart';
 import '../../core/di/injection_container.dart';
-import '../../domain/entities/nutrition/yemek_onay_sistemi.dart';
 import '../widgets/tarih_secici.dart';
 import '../widgets/haftalik_takvim.dart';
 import '../widgets/kompakt_makro_ozet.dart';
@@ -53,7 +52,6 @@ class YeniHomePageView extends StatefulWidget {
 class _YeniHomePageViewState extends State<YeniHomePageView>
     with TickerProviderStateMixin {
   NavigasyonSekme _aktifSekme = NavigasyonSekme.beslenme;
-  bool _isFABExtended = false;
 
   @override
   Widget build(BuildContext context) {
@@ -638,11 +636,6 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (scrollInfo) {
                         // FAB extend/collapse on scroll
-                        if (scrollInfo is ScrollUpdateNotification) {
-                          setState(() {
-                            _isFABExtended = scrollInfo.metrics.pixels < 100;
-                          });
-                        }
                         return false;
                       },
                       child: RefreshIndicator(
@@ -1057,4 +1050,5 @@ class _YeniHomePageViewState extends State<YeniHomePageView>
         .fold(0.0, (sum, y) => sum + y.yag);
   }
 }
+
 

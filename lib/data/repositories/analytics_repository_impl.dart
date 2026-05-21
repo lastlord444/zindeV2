@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import '../../core/errors/failures.dart';
 import '../../core/utils/logger.dart';
 import '../../domain/entities/nutrition/gunluk_plan.dart';
-import '../../domain/entities/nutrition/yemek.dart';
 import '../../domain/entities/analytics/haftalik_rapor.dart';
 import '../../domain/entities/analytics/alisveris_listesi.dart';
 import '../../domain/repositories/analytics_repository.dart';
@@ -269,7 +268,7 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
   List<String> _alisverisOnerileri(int malzemeSayisi) {
     final oneriler = <String>[];
     if (malzemeSayisi > 30) {
-      oneriler.add('📋 Bu hafta ${malzemeSayisi} farklı malzeme var. Toplu alım yapın!');
+      oneriler.add('📋 Bu hafta $malzemeSayisi farklı malzeme var. Toplu alım yapın!');
     }
     oneriler.add('🥬 Taze sebze ve meyveleri haftada 2 kez alın');
     oneriler.add('🥩 Et ürünlerini buzlukta saklayın');

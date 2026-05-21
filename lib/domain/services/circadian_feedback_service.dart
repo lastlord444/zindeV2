@@ -21,15 +21,13 @@ import 'meal_optimizer.dart';
 /// ve yemek planını yeniden optimize eder.
 class CircadianFeedbackService {
   final MealPlanRepository _planRepo;
-  final MealRepository _mealRepo;
   late final MealOptimizer _optimizer;
 
   CircadianFeedbackService({
     required MealPlanRepository planRepo,
     required MealRepository mealRepo,
     SupabaseClient? supabase,
-  }) : _planRepo = planRepo,
-       _mealRepo = mealRepo {
+  }) : _planRepo = planRepo {
     _optimizer = MealOptimizer(supabase: supabase);
   }
 
@@ -221,3 +219,5 @@ class CircadianFeedbackService {
     return const Left(BilinmeyenHata('_createDailyPlan implementasyonu için GenerateDailyPlan use case\'ini kullan'));
   }
 }
+
+

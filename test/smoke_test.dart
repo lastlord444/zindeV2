@@ -1,6 +1,6 @@
+// ignore_for_file: avoid_print
 import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zinde_ai/domain/entities/nutrition/gunluk_plan.dart';
 import 'package:zinde_ai/domain/entities/nutrition/makro_hedefleri.dart';
 import 'package:zinde_ai/domain/entities/nutrition/yemek.dart';
 import 'package:zinde_ai/domain/usecases/meal_planning/generate_daily_plan.dart';
@@ -32,7 +32,7 @@ void main() {
             protein: protein,
             karbonhidrat: carb,
             yag: fat > 0 ? fat : 5.0,
-            malzemeler: ['Ingredient A', 'Ingredient B'],
+            malzemeler: const ['Ingredient A', 'Ingredient B'],
             hazirlamaSuresi: 10,
             zorluk: Zorluk.kolay,
             minMultiplier: 0.5,

@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,11 +34,11 @@ void main() {
 
     log("Yemekler Supabase'den cekiliyor...");
     final meals = await fetchMeals();
-    log("Toplam " + meals.length.toString() + " yemek cekildi.");
+    log("Toplam ${meals.length} yemek cekildi.");
 
     final usecase = GenerateDailyPlan();
     
-    final hedefler = MakroHedefleri(
+    const hedefler = MakroHedefleri(
       gunlukKalori: 2800,
       gunlukProtein: 160,
       gunlukKarbonhidrat: 350,
@@ -62,7 +63,7 @@ void main() {
     );
 
     result.fold(
-      (failure) => log("Plan olusturulamadi: " + failure.mesaj),
+      (failure) => log("Plan olusturulamadi: ${failure.mesaj}"),
       (plan) {
         log("\n OLUstURULAN PLAN BAsARILI!");
         
@@ -78,21 +79,21 @@ void main() {
         for (var entry in ogunler.entries) {
           if (entry.value != null) {
             final ogun = entry.value!;
-            log("\n[" + entry.key + "]");
-            log("Ad: " + ogun.ad);
-            log("Makrolar: " + ogun.kalori.toStringAsFixed(1) + " kcal | P: " + ogun.protein.toStringAsFixed(1) + "g | C: " + ogun.karbonhidrat.toStringAsFixed(1) + "g | Y: " + ogun.yag.toStringAsFixed(1) + "g");
+            log("\n[${entry.key}]");
+            log("Ad: ${ogun.ad}");
+            log("Makrolar: ${ogun.kalori.toStringAsFixed(1)} kcal | P: ${ogun.protein.toStringAsFixed(1)}g | C: ${ogun.karbonhidrat.toStringAsFixed(1)}g | Y: ${ogun.yag.toStringAsFixed(1)}g");
             log("Malzemeler:");
             for (var m in ogun.malzemeler) {
-              log("  - " + m);
+              log("  - $m");
             }
           }
         }
 
         log("\n=== FINAL TEST SONUCU (TOTAL MAKROLAR) ===");
-        log("Kalori: " + plan.toplamKalori.toStringAsFixed(1) + " kcal");
-        log("Protein: " + plan.toplamProtein.toStringAsFixed(1) + " g");
-        log("Karbonhidrat: " + plan.toplamKarbonhidrat.toStringAsFixed(1) + " g");
-        log("Yag: " + plan.toplamYag.toStringAsFixed(1) + " g");
+        log("Kalori: ${plan.toplamKalori.toStringAsFixed(1)} kcal");
+        log("Protein: ${plan.toplamProtein.toStringAsFixed(1)} g");
+        log("Karbonhidrat: ${plan.toplamKarbonhidrat.toStringAsFixed(1)} g");
+        log("Yag: ${plan.toplamYag.toStringAsFixed(1)} g");
         
         log("\nSAPIc MIKTARLARI (TOLERANS):");
         final kaloriFark = (plan.toplamKalori - hedefler.gunlukKalori).abs();
@@ -100,10 +101,10 @@ void main() {
         final karbFark = (plan.toplamKarbonhidrat - hedefler.gunlukKarbonhidrat).abs();
         final yagFark = (plan.toplamYag - hedefler.gunlukYag).abs();
         
-        log("Kalori Fark: " + kaloriFark.toStringAsFixed(2));
-        log("Protein Fark: " + proteinFark.toStringAsFixed(2));
-        log("Karb Fark: " + karbFark.toStringAsFixed(2));
-        log("Yag Fark: " + yagFark.toStringAsFixed(2));
+        log("Kalori Fark: ${kaloriFark.toStringAsFixed(2)}");
+        log("Protein Fark: ${proteinFark.toStringAsFixed(2)}");
+        log("Karb Fark: ${karbFark.toStringAsFixed(2)}");
+        log("Yag Fark: ${yagFark.toStringAsFixed(2)}");
       }
     );
     await sink.flush();

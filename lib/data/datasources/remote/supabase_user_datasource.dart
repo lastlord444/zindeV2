@@ -3,7 +3,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/config/supabase_config.dart';
-import '../../../domain/entities/user/kullanici_profili.dart';
 import '../../../../core/utils/logger.dart';
 
 /// Supabase kullanıc1 profil veri kaynağı
