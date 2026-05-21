@@ -1,0 +1,42 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyze_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create dummy env file
+        run: echo "DUMMY=true" > .env
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run static analysis (Temporary Baseline Mode)
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Run unit tests (excluding local db integration tests)
+        run: |
+          # Exclude matrix_test.dart as it requires a local Supabase instance
+          flutter test $(find test -name "*_test.dart" ! -name "matrix_test.dart")
+
